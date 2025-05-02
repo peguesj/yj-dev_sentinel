@@ -66,6 +66,38 @@ Code generation, patching, or updates.
 $CODE TIER=BACKEND IMPL,TEST Stage F-1
 ```
 
+### Diagram Commands
+
+#### `$DIAGRAM [TYPE] [SOURCE] [FORMAT=<format>]`
+
+Generate diagrams for architecture, workflows, or component relationships.
+
+| Type Option | Description |
+|--------------|-------------|
+| `ARCH` | Generate architecture diagrams |
+| `FLOW` | Generate workflow or sequence diagrams |
+| `COMP` | Generate component relationship diagrams |
+| `TERM` | Generate terminal state diagrams |
+| `EXTRACT` | Extract diagrams from Markdown files |
+
+| Source Option | Description |
+|--------------|-------------|
+| `FILE=<filepath>` | Generate diagrams from specific file |
+| `FORCE` | Generate FORCE integration diagram |
+| `YUNG` | Generate YUNG command flow diagram |
+| `AGENT` | Generate agent relationship diagram |
+
+| Format Option | Description |
+|--------------|-------------|
+| `FORMAT=<png\|svg\|pdf>` | Output format for the diagram |
+
+**Examples:**
+```
+$DIAGRAM ARCH FORMAT=svg
+$DIAGRAM EXTRACT FILE=README.md
+$DIAGRAM FORCE FORMAT=png
+```
+
 ### Preprocessing Commands
 
 #### `$PP <PREPROCESSOR>`
@@ -143,6 +175,26 @@ Preprocessing (`$PP`) commands must:
 
 - Master architecture diagrams must be regenerated anytime application tiers, services, or logical structures are updated
 - Nested diagram composition recommended when applicable (e.g., PlantUML)
+- Diagrams can be embedded in Markdown documentation using PlantUML, Mermaid, or ASCII art code blocks:
+  ```markdown
+  ```plantuml
+  @startuml
+  Alice -> Bob: Hello
+  @enduml
+  ```
+  
+  ```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
+  ```
+  
+  ```ascii
+  +------+
+  | Node |
+  +------+
+  ```
+  ```
 
 ### Environment Variables
 
@@ -156,6 +208,7 @@ The YUNG instruction set integrates with Dev Sentinel's agent architecture:
 |---------|----------------------|------------------|
 | `$VIC` | Code Doc Inspector Agent (CDIA) | README Inspector Agent (RDIA) |
 | `$CODE` | Static Analysis Agent (SAA) | Version Control Master Agent (VCMA) |
+| `$DIAGRAM` | Master Agent | All specialized agents |
 | `$PP` | Task Coordinator | All specialized agents |
 | `$CLOG` | Agent Supervisor | All agents |
 
