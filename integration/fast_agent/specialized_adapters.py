@@ -1,16 +1,56 @@
 """
 Specialized adapters for specific Dev Sentinel agent types.
 """
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Type
+import asyncio
+import logging
 
 from integration.fast_agent.adapter import FastAgentAdapter
 from agents.vcma.vcma_agent import VersionControlMasterAgent
 from agents.vcla.vcla_agent import VersionControlListenerAgent
 from agents.cdia.cdia_agent import CodeDocumentationInspectorAgent
-from agents.rdia.rdia_agent import ReadmeDocumentationInspectorAgent
+from agents.rdia.rdia_agent import READMEInspectorAgent as ReadmeDocumentationInspectorAgent
 from agents.saa.saa_agent import StaticAnalysisAgent
+from core.agent import BaseAgent
 
-import fast_agent_mcp as fast
+import mcp as fast
+
+logger = logging.getLogger(__name__)
+
+# Dictionary mapping agent types to their specialized adapter classes
+ADAPTER_REGISTRY = {}
+
+
+def register_adapter(agent_cls: Type, adapter_cls: Type[FastAgentAdapter]):
+    """
+    Register an adapter class for a specific agent type.
+    
+    Args:
+        agent_cls: The agent class to register an adapter for
+        adapter_cls: The adapter class to use for the agent
+    """
+    ADAPTER_REGISTRY[agent_cls] = adapter_cls
+
+
+async def create_specialized_adapter(agent: BaseAgent, servers: Optional[List[str]] = None) -> FastAgentAdapter:
+    """
+    Create a specialized adapter for the given agent based on its type.
+    
+    Args:
+        agent: The agent to create an adapter for
+        servers: Optional list of MCP servers to use
+        
+    Returns:
+        A specialized adapter for the agent
+    """
+    agent_type = type(agent)
+    
+    # Get the appropriate adapter class
+    adapter_cls = ADAPTER_REGISTRY.get(agent_type, FastAgentAdapter)
+    
+    # Create and return the adapter
+    adapter = adapter_cls(agent, servers=servers)
+    return adapter
 
 
 class VCMAFastAdapter(FastAgentAdapter):
@@ -148,3 +188,36 @@ class SAAFastAdapter(FastAgentAdapter):
         - Identify performance issues
         """
         super().__init__(agent, name=name or "saa", instruction=instruction, servers=servers)
+
+
+# Register specialized adapters
+register_adapter(VersionControlMasterAgent, VCMAFastAdapter)
+register_adapter(VersionControlListenerAgent, VCLAFastAdapter)
+register_adapter(CodeDocumentationInspectorAgent, CDIAFastAdapter)
+register_adapter(ReadmeDocumentationInspectorAgent, RDIAFastAdapter)
+register_adapter(StaticAnalysisAgent, SAAFastAdapter)
+
+# Async initialization flag
+_INITIALIZED = False
+
+async def ensure_adapters_initialized() -> bool:
+    """
+    Ensure all adapter types are initialized and ready to use.
+    
+    Returns:
+        True if initialization was successful, False otherwise
+    """
+    global _INITIALIZED
+    
+    if _INITIALIZED:
+        return True
+    
+    try:
+        # This could include any setup that needs to happen before adapters are used
+        # For example, ensuring necessary MCP servers are running
+        
+        _INITIALIZED = True
+        return True
+    except Exception as e:
+        logger.error(f"Failed to initialize adapters: {e}")
+        return False

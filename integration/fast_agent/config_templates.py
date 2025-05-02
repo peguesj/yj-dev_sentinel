@@ -4,6 +4,23 @@ Configuration templates for fast-agent integration.
 import os
 import yaml
 from typing import Dict, Any, List, Optional
+import re
+import asyncio
+from integration.fast_agent.specialized_adapters import (
+    VCMAFastAdapter, VCLAFastAdapter, CDIAFastAdapter,
+    RDIAFastAdapter, SAAFastAdapter
+)
+
+import mcp_agent as fast
+
+async def main():
+    """
+    Main function to run the fast-agent integration.
+    
+    This function initializes the MCP server and creates a fast agent instance.
+    """   
+    # Create a fast agent instance
+    mcp = fast.create_fast_agent()
 
 
 # Base configuration template for fastagent.config.yaml
@@ -276,7 +293,7 @@ async def setup_agents():
     sequence=["rdia", "cdia", "saa"]
 )
 async def inspect_and_analyze_workflow():
-    """Inspect documentation and analyze code quality."""
+    \"\"\"Inspect documentation and analyze code quality.\"\"\"
     pass
 
 async def main():
@@ -284,7 +301,8 @@ async def main():
     agents = await setup_agents()
     
     # Start an interactive session
-    async with fast.run() as agent:
+    from fast_agent_mcp import run
+    async with run() as agent:
         # You can directly use specific agents
         await agent.vcma("Check if there are any changes to commit")
         
@@ -307,7 +325,7 @@ from integration.fast_agent.specialized_adapters import (
 # YUNG command processor for fast-agent
 @fast.agent(
     name="yung_processor",
-    instruction="""
+    instruction=\"\"\"
     You are the YUNG command processor agent, responsible for parsing and executing
     commands in the YUNG (YES Ultimate Net Good) universal instruction set.
     
@@ -322,8 +340,9 @@ from integration.fast_agent.specialized_adapters import (
     - $man - Display command manual
     
     For more details, refer to the YUNG specification documentation.
+    \"\"\"
     """
-)
+    }
 async def yung_processor():
     """YUNG command processor agent."""
     pass
@@ -422,56 +441,44 @@ async def parse_yung_command(command: str):
     
     return parsed_commands
 
-# Example usage
-async def process_yung_commands():
-    """Process YUNG commands using fast-agent."""
-    async with fast.run() as agent:
-        while True:
-            command = input("Enter YUNG command (or 'exit' to quit): ")
-            if command.lower() == 'exit':
-                break
+# # Example usage
+# async def process_yung_commands():
+#     """Process YUNG commands using fast-agent."""
+#     async with fast.run() as agent:
+#         while True:
+#             command = input("Enter YUNG command (or 'exit' to quit): ")
+#             if command.lower() == 'exit':
+#                 break
                 
-            # Parse the command
-            parsed_commands = await parse_yung_command(command)
+#             # Parse the command
+#             parsed_commands = await parse_yung_command(command)
             
-            # Process each command
-            for cmd in parsed_commands:
-                if cmd['command'] == 'VIC':
-                    if cmd.get('scope') == 'DOCS':
-                        await agent.rdia(f"Validate documentation integrity")
-                    elif cmd.get('scope') == 'FILE' and cmd.get('file_path'):
-                        await agent.cdia(f"Validate integrity of file {cmd.get('file_path')}")
-                    else:
-                        await agent.cdia(f"Validate code integrity with scope {cmd.get('scope', 'ALL')}")
+#             # Process each command
+#             for cmd in parsed_commands:
+#                 if cmd['command'] == 'VIC':
+#                     if cmd.get('scope') == 'DOCS':
+#                         await agent.rdia(f"Validate documentation integrity")
+#                     elif cmd.get('scope') == 'FILE' and cmd.get('file_path'):
+#                         await agent.cdia(f"Validate integrity of file {cmd.get('file_path')}")
+#                     else:
+#                         await agent.cdia(f"Validate code integrity with scope {cmd.get('scope', 'ALL')}")
                 
-                elif cmd['command'] == 'CODE':
-                    action_types = [a['type'] for a in cmd.get('actions', [])]
-                    action_str = ', '.join(action_types) if action_types else "all actions"
-                    await agent.saa(f"Generate or modify code in tier {cmd.get('tier')} with actions: {action_str}")
+#                 elif cmd['command'] == 'CODE':
+#                     action_types = [a['type'] for a in cmd.get('actions', [])]
+#                     action_str = ', '.join(action_types) if action_types else "all actions"
+#                     await agent.saa(f"Generate or modify code in tier {cmd.get('tier')} with actions: {action_str}")
                 
-                elif cmd['command'] == 'PP':
-                    preprocessor = cmd.get('preprocessor')
-                    await agent.yung_processor(f"Preprocess using {preprocessor}")
+#                 elif cmd['command'] == 'PP':
+#                     preprocessor = cmd.get('preprocessor')
+#                     await agent.yung_processor(f"Preprocess using {preprocessor}")
                 
-                elif cmd['command'] == 'CLOG':
-                    print("Retrieving logs...")
-                    # This would be implemented to fetch actual logs
+#                 elif cmd['command'] == 'CLOG':
+#                     print("Retrieving logs...")
+#                     # This would be implemented to fetch actual logs
                     
-                elif cmd['command'] == 'man':
-                    with open("YUNG_spec.md", "r") as f:
-                        print(f.read())
+#                 elif cmd['command'] == 'man':
+#                     with open("YUNG_spec.md", "r") as f:
+#                         print(f.read())
 
 if __name__ == "__main__":
-    asyncio.run(process_yung_commands())
-"""
-    }
-    
-    # Write examples to files
-    example_paths = {}
-    for example_name, content in examples.items():
-        example_path = os.path.join(output_dir, example_name)
-        with open(example_path, "w") as f:
-            f.write(content.strip())
-        example_paths[example_name] = example_path
-    
-    return example_paths
+    asyncio.run(main())

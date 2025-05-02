@@ -2,6 +2,15 @@
 Base adapter for integrating Dev Sentinel agents with fast-agent framework.
 """
 import asyncio
+import sys
+import os
+
+# Ensure proper path handling for imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, "../.."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 from typing import Any, Dict, List, Optional, Callable, Union
 
 # Import Dev Sentinel core components
@@ -10,9 +19,9 @@ from core.message_bus import MessageBus
 
 # These will need to be installed as dependencies
 try:
-    import fast_agent_mcp as fast
+    import mcp as fast
 except ImportError:
-    raise ImportError("fast-agent-mcp is not installed. Install with 'uv pip install fast-agent-mcp'")
+    raise ImportError("mcp is not installed. Install with 'pip install mcp'")
 
 class FastAgentAdapter:
     """Base adapter for converting Dev Sentinel agents to fast-agent compatible agents."""
