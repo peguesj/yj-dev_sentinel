@@ -2,3 +2,4 @@
 **/recovery/**/*.json
 __pycache__
 **/uv/
+venv
