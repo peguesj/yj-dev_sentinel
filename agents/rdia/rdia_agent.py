@@ -14,10 +14,10 @@ from typing import Dict, List, Any, Optional
 
 import markdown # Assuming markdown library for parsing
 
-from ...core.agent import BaseAgent, AgentStatus
-from ...core.message_bus import get_message_bus
-from ...core.task_manager import get_task_manager, Task
-from ...utils.file_operations import read_file_content # Assuming a utility function
+from core.agent import BaseAgent, AgentStatus
+from core.message_bus import get_message_bus
+from core.task_manager import get_task_manager, Task
+from utils.file_utils import read_file_content # Assuming a utility function
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +25,22 @@ class READMEInspectorAgent(BaseAgent):
     """
     README Inspector Agent implementation.
 
-    Analyzes README files for consistency, accuracy, and completeness
-    based on recent project changes communicated via the message bus.
+    The RDIA monitors repository README files to ensure they stay accurate, consistent, 
+    and complete as the project evolves. It verifies that documentation reflects the
+    current state of the project, particularly in response to code changes.
+    
+    Features:
+    - Automatic README analysis triggered by repository events
+    - Detection of missing essential sections (Installation, Usage, etc.)
+    - Identification of TODO/FIXME markers and placeholders
+    - Verification that new features and changes are properly documented
+    - Markdown parsing and structure analysis
+    - Integration with version control events
+    - Task-based API for on-demand inspection
+    
+    This agent helps maintain high-quality documentation by ensuring READMEs
+    remain up-to-date with the evolving codebase, providing actionable
+    feedback on documentation gaps and inconsistencies.
     """
 
     def __init__(self, agent_id: Optional[str] = None, config: Optional[Dict[str, Any]] = None):

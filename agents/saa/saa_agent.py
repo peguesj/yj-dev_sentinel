@@ -13,9 +13,9 @@ import json
 import subprocess
 from typing import Dict, List, Any, Optional, Set, Tuple
 
-from ...core.agent import BaseAgent, AgentStatus
-from ...core.message_bus import get_message_bus
-from ...core.task_manager import get_task_manager, Task
+from core.agent import BaseAgent, AgentStatus
+from core.message_bus import get_message_bus
+from core.task_manager import get_task_manager, Task
 
 logger = logging.getLogger(__name__)
 
@@ -112,8 +112,25 @@ class StaticAnalysisAgent(BaseAgent):
     """
     Static Analysis Agent implementation.
 
-    Performs static code analysis on files in the repository to identify
-    code quality issues, potential bugs, and violations of style guidelines.
+    The SAA performs comprehensive static code analysis across multiple programming
+    languages to identify potential issues, bugs, and code quality concerns before
+    they impact application stability or performance. It serves as a critical early
+    detection system in the development workflow.
+    
+    Features:
+    - Multi-language support (Python, JavaScript/TypeScript, Ruby, Elixir, PHP, Swift, Go, Shell)
+    - Integration with numerous industry-standard analysis tools
+    - Tool-specific result processing and normalization
+    - Configurable severity thresholds and issue reporting
+    - Path exclusion for avoiding analysis of third-party code
+    - Event-driven analysis triggered by repository changes
+    - Selective file analysis based on extensions and paths
+    - Standardized issue reporting format across languages and tools
+    - Task-based API for on-demand analysis
+    
+    The SAA helps maintain code quality by providing automated feedback on
+    coding standards, potential bugs, type issues, and other code quality concerns
+    throughout the development lifecycle.
     """
 
     def __init__(self, agent_id: Optional[str] = None, config: Optional[Dict[str, Any]] = None):

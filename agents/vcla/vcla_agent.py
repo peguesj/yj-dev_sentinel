@@ -11,9 +11,9 @@ import logging
 import os
 from typing import Dict, List, Any, Optional, Set
 
-from ...core.agent import BaseAgent, AgentStatus
-from ...core.message_bus import get_message_bus
-from ...core.task_manager import get_task_manager, Task
+from core.agent import BaseAgent, AgentStatus
+from core.message_bus import get_message_bus
+from core.task_manager import get_task_manager, Task
 
 logger = logging.getLogger(__name__)
 
@@ -21,9 +21,22 @@ class VersionControlListenerAgent(BaseAgent):
     """
     Version Control Listener Agent implementation.
 
-    VCLAs monitor specific parts or aspects of the version control system,
-    reacting to events or performing focused analysis as directed by the VCMA
-    or based on their configuration.
+    The VCLA is responsible for monitoring specific aspects of a version control system,
+    acting as specialized observers that report changes to other components of the Dev Sentinel
+    system. Each VCLA instance can focus on particular paths, file types, or behaviors
+    within the repository.
+    
+    Features:
+    - Path-specific monitoring for targeted observation
+    - Integration with the Version Control Master Agent (VCMA) for coordination
+    - Event-driven architecture via message bus subscription
+    - Task-based API for on-demand monitoring
+    - Configurable monitoring targets and behaviors
+    - Real-time change detection and notification
+    - Specialized analysis of repository components
+    
+    VCLAs typically operate as part of a hierarchy with the VCMA as coordinator,
+    enabling distributed and focused monitoring of repository activities.
     """
 
     def __init__(self, agent_id: Optional[str] = None, config: Optional[Dict[str, Any]] = None):
