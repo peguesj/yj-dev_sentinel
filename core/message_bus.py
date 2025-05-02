@@ -4,6 +4,19 @@ Message Bus Implementation
 This module provides a message bus system for inter-agent communication
 in the Dev Sentinel ecosystem. It implements a publish-subscribe pattern
 that allows agents to communicate asynchronously.
+
+The MessageBus serves as the central nervous system of Dev Sentinel, enabling
+decoupled communication between specialized agents. It supports:
+
+- Direct and broadcast messaging patterns
+- Topic-based message routing
+- Message prioritization and expiration (TTL)
+- Asynchronous delivery with non-blocking operations
+- Message history tracking for debugging and auditing
+- Strong typing of messages with metadata
+
+This implementation is designed for in-memory operation but can be extended
+to support persistent messaging through Redis or other message brokers.
 """
 
 import asyncio
@@ -19,7 +32,18 @@ class Message:
     A message that can be sent between agents.
     
     Messages contain metadata about the sender, recipient, message type,
-    and a payload of data.
+    and a payload of data. They serve as the primary communication mechanism
+    in the Dev Sentinel agent ecosystem, enabling both direct and broadcast
+    communication patterns.
+    
+    Features:
+    - Unique message identification with UUIDs
+    - Support for correlation IDs to track related messages
+    - Prioritization to ensure critical messages are processed first
+    - Time-to-live (TTL) for automatic expiration of stale messages
+    - Flexible payload to carry any serializable data
+    - Support for both targeted and broadcast delivery
+    - Built-in serialization/deserialization via to_dict/from_dict
     """
     
     def __init__(
@@ -113,6 +137,23 @@ class MessageBus:
     
     This implementation uses an in-memory pub/sub model with support for
     direct messaging and topic-based subscriptions.
+    
+    The MessageBus is a critical component of the Dev Sentinel architecture
+    that enables loosely coupled communication between specialized agents.
+    It maintains subscription registries, manages message delivery,
+    and handles error conditions during message processing.
+    
+    Features:
+    - Support for direct (point-to-point) messaging
+    - Topic-based publish/subscribe pattern
+    - Asynchronous non-blocking message delivery
+    - Message history for debugging and monitoring
+    - Automatic handling of expired messages via TTL
+    - Prioritized message processing
+    - Fault tolerance with error handling and recovery
+    
+    The MessageBus allows agents to communicate without direct dependencies
+    on each other, supporting a modular and extensible architecture.
     """
     
     def __init__(self):

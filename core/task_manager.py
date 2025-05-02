@@ -3,6 +3,17 @@ Task Manager for Dev Sentinel Agents
 
 This module defines the task management system used by the Dev Sentinel agent ecosystem
 for creating, tracking, and processing tasks.
+
+The Task Manager provides:
+- Task creation with priorities and metadata
+- Task status tracking throughout the lifecycle
+- Handler registration for different task types
+- Concurrent task execution with controlled parallelism
+- Task cancellation and error handling
+- Queue statistics and monitoring
+
+It serves as a central coordinator for work distribution within the
+Dev Sentinel autonomous agent architecture.
 """
 
 import asyncio
@@ -27,6 +38,14 @@ class TaskStatus(Enum):
 class Task:
     """
     Representation of a task in the Dev Sentinel ecosystem
+    
+    A Task is a unit of work that needs to be performed by an agent in the system.
+    It contains all the information needed to execute the work, track its progress,
+    and store the results. Tasks move through different states from creation to
+    completion and maintain a complete audit trail of their execution.
+    
+    Tasks have priorities to determine execution order and support
+    detailed logging for monitoring and debugging.
     """
     
     def __init__(self, 
@@ -103,6 +122,25 @@ class Task:
 class TaskManager:
     """
     Manages tasks across the Dev Sentinel ecosystem
+    
+    The TaskManager is a central coordinator for the execution of tasks within
+    the agent ecosystem. It maintains queues of pending tasks, matches them with
+    appropriate handlers, and ensures they are executed efficiently.
+    
+    Features:
+    - Priority-based task scheduling
+    - Task type-specific handler registration
+    - Concurrent task execution with controlled parallelism
+    - Task lifecycle tracking and status management
+    - Comprehensive logging and error handling
+    - Task cancellation support
+    - Queue monitoring and statistics
+    
+    Tasks flow through the system in the following lifecycle:
+    1. Creation (CREATED status)
+    2. Queueing (QUEUED status) 
+    3. Processing (RUNNING status)
+    4. Completion (COMPLETED, FAILED, or CANCELLED status)
     """
     
     def __init__(self):
