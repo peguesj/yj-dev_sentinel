@@ -12,13 +12,16 @@ import logging
 import asyncio
 import copy
 from typing import Dict, List, Any, Optional, Union, Callable, AsyncIterator
-import uvicorn
 
 # Ensure proper path handling for imports
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, "../.."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
+
+# Import or define the `tool` decorator
+from mcp.types import Tool as tool
+
     
 # Also add parent directory to handle imports from sibling modules
 parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
@@ -65,7 +68,7 @@ class DevSentinelCommandServer:
     def register_tools(self):
         """Register all tools with the MCP instance."""
         
-        @self.mcp.tool()
+        @tool()
         async def execute_command(command: str, args: Dict[str, Any]) -> Result:
             """
             Execute a Dev Sentinel command.
@@ -79,7 +82,7 @@ class DevSentinelCommandServer:
             """
             return await self._execute_command(command, args)
         
-        @self.mcp.tool()
+        @tool()
         async def stream_command(command: str, args: Dict[str, Any]) -> AsyncIterator[Dict[str, Any]]:
             """
             Execute a Dev Sentinel command and stream the results.
@@ -94,7 +97,7 @@ class DevSentinelCommandServer:
             async for frame in self._stream_command(command, args):
                 yield frame
         
-        @self.mcp.tool()
+        @tool()
         async def get_commands() -> Result:
             """
             Get the list of available Dev Sentinel commands.
@@ -327,14 +330,7 @@ class DevSentinelCommandServer:
 
     async def start(self, host: str = "0.0.0.0", port: int = 8090):
         """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
+        await self.mcp.run(host=host, port=port)
 
 class FileSystemMCPServer:
     """File system operations MCP server implementation."""
@@ -342,17 +338,6 @@ class FileSystemMCPServer:
         """Initialize the File System MCP server."""
         self.mcp = FastMCP(name="filesystem")
         # Register tools here
-        
-    async def start(self, host: str = "0.0.0.0", port: int = 8091):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
 
 class VersionControlMCPServer:
     """Version control operations MCP server implementation."""
@@ -360,17 +345,6 @@ class VersionControlMCPServer:
         """Initialize the Version Control MCP server."""
         self.mcp = FastMCP(name="vcs")
         # Register tools here
-        
-    async def start(self, host: str = "0.0.0.0", port: int = 8092):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
 
 class DocumentationInspectorMCPServer:
     """Documentation inspection operations MCP server implementation."""
@@ -378,17 +352,6 @@ class DocumentationInspectorMCPServer:
         """Initialize the Documentation Inspector MCP server."""
         self.mcp = FastMCP(name="documentation")
         # Register tools here
-        
-    async def start(self, host: str = "0.0.0.0", port: int = 8093):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
 
 class CodeAnalysisMCPServer:
     """Code analysis operations MCP server implementation."""
@@ -396,17 +359,6 @@ class CodeAnalysisMCPServer:
         """Initialize the Code Analysis MCP server."""
         self.mcp = FastMCP(name="code_analysis")
         # Register tools here
-        
-    async def start(self, host: str = "0.0.0.0", port: int = 8094):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
 
 # Register all MCP server classes
 MCP_SERVER_CLASSES = {

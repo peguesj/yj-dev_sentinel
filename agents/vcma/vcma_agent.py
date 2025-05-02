@@ -9,14 +9,22 @@ operations and maintaining a high-level understanding of the repository structur
 import asyncio
 import logging
 import os
+import sys
 from typing import Dict, List, Any, Optional, Set
 import json
 import subprocess
 from datetime import datetime, timedelta
 
-from ...core.agent import BaseAgent, AgentStatus
-from ...core.message_bus import get_message_bus
-from ...core.task_manager import get_task_manager, Task
+# Ensure proper path handling for imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, "../.."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+# Use absolute imports instead of relative ones
+from core.agent import BaseAgent, AgentStatus
+from core.message_bus import get_message_bus
+from core.task_manager import get_task_manager, Task
 
 logger = logging.getLogger(__name__)
 
@@ -24,11 +32,24 @@ class VersionControlMasterAgent(BaseAgent):
     """
     Version Control Master Agent implementation.
     
-    The VCMA is responsible for:
-    - Tracking the repository structure
-    - Coordinating version control operations
-    - Delegating specific monitoring tasks to VCLAs
-    - Maintaining high-level understanding of the codebase
+    The VCMA serves as the central coordinator for version control monitoring
+    and analysis within the Dev Sentinel system. It maintains a comprehensive
+    view of the repository state and orchestrates specialized listener agents (VCLAs)
+    to perform targeted monitoring of repository components.
+    
+    Features:
+    - Repository state tracking and change detection
+    - Commit history analysis and monitoring
+    - Coordination of Version Control Listener Agents (VCLAs)
+    - File change tracking and history maintenance
+    - Periodic repository scanning for changes
+    - Event-driven architecture via message bus integration
+    - Task-based API for on-demand repository operations
+    - Git integration for repository operations
+    
+    The VCMA acts as the primary interface between the version control system
+    and other Dev Sentinel components, providing consistent and reliable
+    information about repository state and changes.
     """
     
     def __init__(self, agent_id: Optional[str] = None, config: Optional[Dict[str, Any]] = None):

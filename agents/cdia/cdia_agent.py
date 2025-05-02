@@ -12,10 +12,10 @@ import os
 import re
 from typing import Dict, List, Any, Optional, Set, Tuple
 
-from ...core.agent import BaseAgent, AgentStatus
-from ...core.message_bus import get_message_bus
-from ...core.task_manager import get_task_manager, Task
-from ...utils.file_operations import read_file_content # Assuming a utility function
+from core.agent import BaseAgent, AgentStatus
+from core.message_bus import get_message_bus
+from core.task_manager import get_task_manager, Task
+from utils.file_utils import read_file_content # Assuming a utility function
 
 logger = logging.getLogger(__name__)
 
@@ -140,8 +140,21 @@ class CodeDocumentationInspectorAgent(BaseAgent):
     """
     Code Documentation Inspector Agent implementation.
 
-    Analyzes code files for proper documentation according to language-specific
-    best practices and standards.
+    The CDIA monitors code repositories to ensure documentation quality and completeness.
+    It analyzes source code files against language-specific documentation standards,
+    reports issues, and calculates documentation coverage metrics.
+    
+    Features:
+    - Language-specific documentation pattern detection
+    - Documentation coverage calculation
+    - Automatic inspection triggered by repository events
+    - Task-based API for on-demand inspection
+    - Integration with version control events for change detection
+    - Cross-reference with README inspector results
+    
+    This agent helps maintain high documentation standards across projects by
+    continuously monitoring changes and providing actionable feedback on
+    documentation issues.
     """
 
     def __init__(self, agent_id: Optional[str] = None, config: Optional[Dict[str, Any]] = None):

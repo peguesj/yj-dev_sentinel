@@ -3,6 +3,19 @@ Base Agent Implementation
 
 This module provides the base agent class that all specialized agents inherit from.
 It defines the common functionality and interface for all agents in the Dev Sentinel ecosystem.
+
+The BaseAgent class serves as the foundation for Dev Sentinel's autonomous agent architecture,
+providing standardized mechanisms for:
+
+- Agent lifecycle management (initialization, startup, shutdown)
+- Status tracking and state management
+- Task processing capabilities
+- Activity logging and metrics collection
+- Error handling and reporting
+- Configuration management
+
+Each specialized agent in the system inherits from this base class and extends
+its functionality to perform specific roles within the Dev Sentinel ecosystem.
 """
 
 import asyncio

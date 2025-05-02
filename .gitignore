@@ -1,2 +1,52 @@
 .DS_Store
 **/recovery/**/*.json
+__pycache__
+**/uv/
+venv
+
+# Environment-specific files
+.vscode/
+.idea/
+.python-version
+.env
+
+# Fast-agent runtime directory
+.fast_agent/
+
+# Python virtual environments
+.venv/
+.virtualenv/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Build artifacts
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
