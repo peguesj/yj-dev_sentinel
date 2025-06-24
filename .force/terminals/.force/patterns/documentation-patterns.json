@@ -1,0 +1,275 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "title": "Development Patterns for Agentic Workflows",
+  "description": "Proven patterns for efficient agentic development workflows, documentation management, and project structure organization",
+  "version": "1.0.0",
+  "patterns": [
+    {
+      "id": "modular_documentation_structure",
+      "name": "Modular Documentation Structure Pattern",
+      "description": "Organizes project documentation into logical, numbered sections with centralized assets and backward compatibility mechanisms for scalable knowledge management.",
+      "context": {
+        "when_to_use": "When project documentation grows beyond simple README files and requires professional organization for team collaboration and stakeholder communication",
+        "benefits": [
+          "Clear navigation and discoverability",
+          "Scalable organization as project grows",
+          "Professional appearance for stakeholders",
+          "Backward compatibility during transitions",
+          "Logical separation of concerns"
+        ],
+        "trade_offs": [
+          "Initial setup overhead",
+          "More complex file structure",
+          "Requires discipline to maintain organization",
+          "Potential for over-documentation"
+        ],
+        "anti_patterns": [
+          "Single massive README file",
+          "Scattered documentation across multiple repositories",
+          "No clear ownership or update schedule",
+          "Missing cross-references between documents"
+        ]
+      },
+      "implementation": {
+        "steps": [
+          "Create numbered section directories (01-overview, 02-requirements, etc.)",
+          "Establish centralized assets directory with subdirectories",
+          "Implement backward compatibility through symlinks",
+          "Create section README files with navigation",
+          "Update all internal links to new structure",
+          "Establish documentation maintenance workflow"
+        ],
+        "examples": [
+          {
+            "name": "Standard Documentation Structure",
+            "structure": {
+              "docs/": {
+                "01-overview/": ["README.md", "project-overview.md"],
+                "02-requirements/": ["README.md", "requirements.md"],
+                "03-architecture/": ["README.md", "system-design.md"],
+                "assets/": {
+                  "diagrams/": ["*.puml", "*.mermaid"],
+                  "images/": ["*.png", "*.svg"],
+                  "schemas/": ["*.json", "*.yaml"]
+                },
+                "legacy-symlinks/": ["old-file.md -> ../02-requirements/new-file.md"]
+              }
+            }
+          }
+        ],
+        "code_templates": [
+          {
+            "name": "Section README Template",
+            "template": "# {Section Name}\\n\\n## Overview\\n\\n## Contents\\n\\n## See Also"
+          }
+        ]
+      }
+    },
+    {
+      "id": "continuous_changelog_pattern",
+      "name": "Continuous Changelog Pattern",
+      "description": "Maintains real-time project progress tracking through timestamped changelog entries with implementation anchors and cross-references for transparent development visibility.",
+      "context": {
+        "when_to_use": "For projects requiring transparent progress tracking, stakeholder updates, or knowledge transfer documentation",
+        "benefits": [
+          "Real-time progress visibility",
+          "Historical development context",
+          "Improved stakeholder communication",
+          "Knowledge transfer facilitation",
+          "Development velocity tracking"
+        ],
+        "trade_offs": [
+          "Requires discipline to maintain",
+          "Can become verbose if not managed",
+          "Time investment for documentation",
+          "Potential for inconsistent formatting"
+        ],
+        "anti_patterns": [
+          "Only updating changelog at release time",
+          "Vague or uninformative entries",
+          "Missing timestamps or context",
+          "No cross-references to related work"
+        ]
+      },
+      "implementation": {
+        "steps": [
+          "Establish changelog format with timestamp standards",
+          "Create implementation anchor reference system",
+          "Set up automated timestamp generation",
+          "Implement cross-reference linking",
+          "Create status tracking conventions",
+          "Establish update frequency guidelines"
+        ],
+        "examples": [
+          {
+            "name": "Changelog Entry Format",
+            "format": {
+              "timestamp": "HH:MM PST - Entry Title",
+              "phase": "**Phase:** [Phase Name] `#phase-anchor`",
+              "type": "**Type:** [Category] | [Subcategory]",
+              "impact": "**Impact:** [High|Medium|Low]",
+              "changes": "**Changes Made:** - ✅ Completed items",
+              "references": "**Implementation References:** - [Links]"
+            }
+          }
+        ],
+        "code_templates": [
+          {
+            "name": "Changelog Entry Template",
+            "template": "### {timestamp} - {title}\\n**Phase:** {phase} `#{anchor}`\\n**Type:** {type}\\n**Impact:** {impact}\\n\\n**Changes Made:**\\n- ✅ {completed_items}\\n\\n**Implementation References:**\\n- [{ref_title}]({ref_link})"
+          }
+        ]
+      }
+    },
+    {
+      "id": "versioned_project_management",
+      "name": "Versioned Project Management Pattern",
+      "description": "Organizes project management documentation by semantic version with namespaced directories for scalable project evolution and historical tracking.",
+      "context": {
+        "when_to_use": "For projects with multiple versions, long development cycles, or requiring historical project management context",
+        "benefits": [
+          "Clear version-specific context",
+          "Historical project management tracking",
+          "Scalable organization for long projects",
+          "Isolated version-specific planning",
+          "Easy rollback to previous project states"
+        ],
+        "trade_offs": [
+          "More complex directory structure",
+          "Potential for version proliferation",
+          "Requires version discipline",
+          "May create confusion without clear versioning strategy"
+        ],
+        "anti_patterns": [
+          "Single flat project management structure",
+          "Inconsistent version naming",
+          "Missing version transition documentation",
+          "No clear version ownership"
+        ]
+      },
+      "implementation": {
+        "steps": [
+          "Establish semantic versioning strategy",
+          "Create version-specific directories",
+          "Implement version transition documentation",
+          "Set up cross-version reference system",
+          "Create version-specific README files",
+          "Establish version maintenance policies"
+        ],
+        "examples": [
+          {
+            "name": "Versioned Project Management Structure",
+            "structure": {
+              "09-project-management/": {
+                "v3.1.0/": {
+                  "implementation/": ["master-plan.md", "phases/", "tasks/"],
+                  "changelog/": ["CHANGELOG.md", "daily/", "weekly/"],
+                  "handoff/": ["current-status.md", "checkpoints/"]
+                },
+                "README.md": "Version index and navigation"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "anchor_based_cross_referencing",
+      "name": "Anchor-Based Cross-Referencing Pattern",
+      "description": "Uses consistent anchor naming and cross-reference linking to create a navigable web of interconnected documentation that maintains context across multiple documents.",
+      "context": {
+        "when_to_use": "When documentation spans multiple files and maintaining context relationships is crucial for understanding",
+        "benefits": [
+          "Improved documentation navigation",
+          "Maintained context across documents",
+          "Reduced documentation duplication",
+          "Enhanced user experience",
+          "Better information architecture"
+        ],
+        "trade_offs": [
+          "Requires consistent anchor naming",
+          "Link maintenance overhead",
+          "Potential for broken links",
+          "Additional complexity in documentation"
+        ],
+        "anti_patterns": [
+          "Duplicating information across documents",
+          "Vague or inconsistent anchor names",
+          "Missing or broken cross-references",
+          "No anchor naming conventions"
+        ]
+      },
+      "implementation": {
+        "steps": [
+          "Establish anchor naming conventions",
+          "Create cross-reference mapping",
+          "Implement link validation system",
+          "Set up anchor maintenance workflow",
+          "Create navigation aids",
+          "Establish link update procedures"
+        ],
+        "examples": [
+          {
+            "name": "Anchor Naming Convention",
+            "convention": {
+              "phase_anchors": "#phase-{number}-{name}",
+              "section_anchors": "#section-{category}-{topic}",
+              "implementation_anchors": "#impl-{feature}-{component}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff_documentation_pattern",
+      "name": "Handoff Documentation Pattern",
+      "description": "Creates comprehensive knowledge transfer documentation that preserves technical and business context for seamless team transitions and stakeholder communication.",
+      "context": {
+        "when_to_use": "For projects with team transitions, stakeholder handoffs, or requiring comprehensive status communication",
+        "benefits": [
+          "Reduced knowledge transfer time",
+          "Comprehensive context preservation",
+          "Improved stakeholder communication",
+          "Risk mitigation for team changes",
+          "Professional project management"
+        ],
+        "trade_offs": [
+          "Significant documentation effort",
+          "Requires regular updates",
+          "Can become outdated quickly",
+          "May be overly detailed for simple projects"
+        ],
+        "anti_patterns": [
+          "Informal knowledge transfer only",
+          "Missing technical context",
+          "No stakeholder communication plan",
+          "Outdated handoff documentation"
+        ]
+      },
+      "implementation": {
+        "steps": [
+          "Define handoff documentation structure",
+          "Create comprehensive status templates",
+          "Implement regular update schedule",
+          "Establish stakeholder communication plan",
+          "Create technical context preservation",
+          "Set up handoff validation checklists"
+        ],
+        "examples": [
+          {
+            "name": "Handoff Document Structure",
+            "sections": [
+              "Executive Summary",
+              "Technical Context",
+              "Current Implementation Status",
+              "Critical Dependencies & Blockers",
+              "Next Steps & Recommendations",
+              "Knowledge Transfer Assets",
+              "Handoff Checklist"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@ This module provides specialized MCP and fast-agent adapters for each type of
 Dev Sentinel agent, offering tailored interfaces that expose agent-specific
 capabilities and commands.
 """
-from typing import List, Optional, Dict, Any, Type, Union
+from typing import List, Optional, Dict, Any, Type
 import asyncio
 import logging
 
@@ -17,18 +17,18 @@ try:
     from agents.vcma.vcma_agent import VersionControlMasterAgent
     from agents.vcla.vcla_agent import VersionControlListenerAgent
     from agents.cdia.cdia_agent import CodeDocumentationInspectorAgent
-    from agents.rdia.rdia_agent import READMEInspectorAgent as ReadmeDocumentationInspectorAgent
+    from agents.rdia.rdia_agent import ReadmeInspectorAgent as ReadmeDocumentationInspectorAgent
     from agents.saa.saa_agent import StaticAnalysisAgent
     AGENTS_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Some agent types not available: {e}")
     AGENTS_AVAILABLE = False
     # Create stub classes for development
-    VersionControlMasterAgent = type('VersionControlMasterAgent', (BaseAgent,), {})
-    VersionControlListenerAgent = type('VersionControlListenerAgent', (BaseAgent,), {})
-    CodeDocumentationInspectorAgent = type('CodeDocumentationInspectorAgent', (BaseAgent,), {})
-    ReadmeDocumentationInspectorAgent = type('ReadmeDocumentationInspectorAgent', (BaseAgent,), {})
-    StaticAnalysisAgent = type('StaticAnalysisAgent', (BaseAgent,), {})
+    class VersionControlMasterAgent: pass
+    class VersionControlListenerAgent: pass
+    class CodeDocumentationInspectorAgent: pass
+    class ReadmeDocumentationInspectorAgent: pass
+    class StaticAnalysisAgent: pass
 
 logger = logging.getLogger(__name__)
 
@@ -69,8 +69,7 @@ async def create_specialized_adapter(agent: BaseAgent, adapter_type: str = "mcp"
         if adapter_type == "mcp":
             adapter = MCPAgentAdapter(agent)
         else:
-            # Use MCPAgentAdapter as the default since BaseAgentAdapter is abstract
-            adapter = MCPAgentAdapter(agent)
+            adapter = BaseAgentAdapter(agent)
     
     await adapter.initialize()
     return adapter
@@ -78,23 +77,13 @@ async def create_specialized_adapter(agent: BaseAgent, adapter_type: str = "mcp"
 class VCMAAdapter(MCPAgentAdapter):
     """Specialized MCP adapter for Version Control Master Agent."""
     
-    def __init__(self, agent: BaseAgent):
+    def __init__(self, agent: VersionControlMasterAgent):
         """Initialize the VCMA adapter."""
         super().__init__(
             agent=agent,
             name="vcma_adapter",
             description="Version Control Master Agent - proactively manages version control operations"
         )
-    
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
     
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process VCMA-specific commands."""
@@ -117,24 +106,24 @@ class VCMAAdapter(MCPAgentAdapter):
     
     async def _get_repo_status(self) -> Dict[str, Any]:
         """Get repository status from VCMA."""
-        result = await self._safe_call_agent_method('get_repo_status')
-        if result is not None:
-            return {"status": "success", "repo_status": result}
+        if hasattr(self.agent, 'get_repo_status'):
+            status = await self.agent.get_repo_status()
+            return {"status": "success", "repo_status": status}
         else:
             return {"status": "error", "message": "Repository status not available"}
     
     async def _analyze_commits(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze commits using VCMA."""
-        result = await self._safe_call_agent_method('analyze_commits', context)
-        if result is not None:
+        if hasattr(self.agent, 'analyze_commits'):
+            result = await self.agent.analyze_commits(context)
             return {"status": "success", "analysis": result}
         else:
             return {"status": "error", "message": "Commit analysis not available"}
     
     async def _refresh_repo(self) -> Dict[str, Any]:
         """Refresh repository state."""
-        result = await self._safe_call_agent_method('_refresh_repo_state')
-        if result is not None:
+        if hasattr(self.agent, '_refresh_repo_state'):
+            await self.agent._refresh_repo_state()
             return {"status": "success", "message": "Repository state refreshed"}
         else:
             return {"status": "error", "message": "Repository refresh not available"}
@@ -148,7 +137,7 @@ class VCMAAdapter(MCPAgentAdapter):
 class VCLAAdapter(MCPAgentAdapter):
     """Specialized MCP adapter for Version Control Listener Agent."""
     
-    def __init__(self, agent: BaseAgent):
+    def __init__(self, agent: VersionControlListenerAgent):
         """Initialize the VCLA adapter."""
         super().__init__(
             agent=agent,
@@ -156,83 +145,57 @@ class VCLAAdapter(MCPAgentAdapter):
             description="Version Control Listener Agent - monitors specific repository aspects"
         )
     
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
-    
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process VCLA-specific commands."""
         try:
             context = context or {}
             
-            if command.lower() in ["monitor", "start_monitoring"]:
-                return await self._start_monitoring(context)
-            elif command.lower() in ["stop_monitoring", "stop"]:
-                return await self._stop_monitoring()
-            elif command.lower() in ["get_listening_status", "listening_status"]:
-                return await self._get_listening_status()
+            if command.lower() in ["monitor_path", "monitor"]:
+                path = context.get("path")
+                return await self._monitor_path(path)
+            elif command.lower() in ["detect_changes", "changes"]:
+                return await self._detect_changes(context)
             else:
                 return await super().process_command(command, context)
                 
         except Exception as e:
             return await self.handle_error(e, command, context or {})
     
-    async def _start_monitoring(self, context: Dict[str, Any]) -> Dict[str, Any]:
-        """Start monitoring with VCLA."""
-        result = await self._safe_call_agent_method('start_monitoring', context)
-        if result is not None:
-            return {"status": "success", "monitoring": result}
+    async def _monitor_path(self, path: Optional[str]) -> Dict[str, Any]:
+        """Monitor a specific path."""
+        if not path:
+            return {"status": "error", "message": "Path required for monitoring"}
+        
+        if hasattr(self.agent, 'add_monitored_path'):
+            self.agent.add_monitored_path(path)
+            return {"status": "success", "message": f"Monitoring path: {path}"}
         else:
-            return {"status": "error", "message": "Monitoring not available"}
+            return {"status": "error", "message": "Path monitoring not available"}
     
-    async def _stop_monitoring(self) -> Dict[str, Any]:
-        """Stop monitoring."""
-        result = await self._safe_call_agent_method('stop_monitoring')
-        if result is not None:
-            return {"status": "success", "message": "Monitoring stopped"}
+    async def _detect_changes(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """Detect changes in monitored paths."""
+        if hasattr(self.agent, 'detect_changes'):
+            changes = await self.agent.detect_changes()
+            return {"status": "success", "changes": changes}
         else:
-            return {"status": "error", "message": "Stop monitoring not available"}
-    
-    async def _get_listening_status(self) -> Dict[str, Any]:
-        """Get current listening status."""
-        result = await self._safe_call_agent_method('get_listening_status')
-        if result is not None:
-            return {"status": "success", "listening_status": result}
-        else:
-            return {"status": "error", "message": "Listening status not available"}
+            return {"status": "error", "message": "Change detection not available"}
     
     async def _get_supported_commands(self) -> List[str]:
         """Get VCLA-specific supported commands."""
         base_commands = await super()._get_supported_commands()
-        vcla_commands = ["monitor", "start_monitoring", "stop_monitoring", "stop", "get_listening_status", "listening_status"]
+        vcla_commands = ["monitor_path", "monitor", "detect_changes", "changes"]
         return base_commands + vcla_commands
 
 class CDIAAdapter(MCPAgentAdapter):
     """Specialized MCP adapter for Code Documentation Inspector Agent."""
     
-    def __init__(self, agent: BaseAgent):
+    def __init__(self, agent: CodeDocumentationInspectorAgent):
         """Initialize the CDIA adapter."""
         super().__init__(
             agent=agent,
             name="cdia_adapter",
-            description="Code Documentation Inspector Agent - analyzes and improves code documentation"
+            description="Code Documentation Inspector Agent - analyzes code documentation quality"
         )
-    
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
     
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process CDIA-specific commands."""
@@ -240,71 +203,48 @@ class CDIAAdapter(MCPAgentAdapter):
             context = context or {}
             
             if command.lower() in ["inspect_code", "inspect"]:
-                file_path = context.get("file_path")
-                return await self._inspect_code(file_path)
+                files = context.get("files", [])
+                return await self._inspect_code(files)
             elif command.lower() in ["analyze_documentation", "analyze_docs"]:
                 return await self._analyze_documentation(context)
-            elif command.lower() in ["generate_docs", "generate_documentation"]:
-                return await self._generate_documentation(context)
             else:
                 return await super().process_command(command, context)
                 
         except Exception as e:
             return await self.handle_error(e, command, context or {})
     
-    async def _inspect_code(self, file_path: Optional[str]) -> Dict[str, Any]:
+    async def _inspect_code(self, files: List[str]) -> Dict[str, Any]:
         """Inspect code documentation."""
-        if not file_path:
-            return {"status": "error", "message": "File path required for inspection"}
-        
-        result = await self._safe_call_agent_method('inspect_code', file_path)
-        if result is not None:
+        if hasattr(self.agent, 'inspect_files'):
+            result = await self.agent.inspect_files(files)
             return {"status": "success", "inspection": result}
         else:
             return {"status": "error", "message": "Code inspection not available"}
     
     async def _analyze_documentation(self, context: Dict[str, Any]) -> Dict[str, Any]:
-        """Analyze documentation quality."""
-        result = await self._safe_call_agent_method('analyze_documentation', context)
-        if result is not None:
+        """Analyze documentation coverage and quality."""
+        if hasattr(self.agent, 'analyze_documentation'):
+            result = await self.agent.analyze_documentation(context)
             return {"status": "success", "analysis": result}
         else:
             return {"status": "error", "message": "Documentation analysis not available"}
     
-    async def _generate_documentation(self, context: Dict[str, Any]) -> Dict[str, Any]:
-        """Generate documentation."""
-        result = await self._safe_call_agent_method('generate_documentation', context)
-        if result is not None:
-            return {"status": "success", "documentation": result}
-        else:
-            return {"status": "error", "message": "Documentation generation not available"}
-    
     async def _get_supported_commands(self) -> List[str]:
         """Get CDIA-specific supported commands."""
         base_commands = await super()._get_supported_commands()
-        cdia_commands = ["inspect_code", "inspect", "analyze_documentation", "analyze_docs", "generate_docs", "generate_documentation"]
+        cdia_commands = ["inspect_code", "inspect", "analyze_documentation", "analyze_docs"]
         return base_commands + cdia_commands
 
 class RDIAAdapter(MCPAgentAdapter):
-    """Specialized MCP adapter for README Documentation Inspector Agent."""
+    """Specialized MCP adapter for README Inspector Agent."""
     
-    def __init__(self, agent: BaseAgent):
+    def __init__(self, agent: ReadmeDocumentationInspectorAgent):
         """Initialize the RDIA adapter."""
         super().__init__(
             agent=agent,
             name="rdia_adapter",
-            description="README Documentation Inspector Agent - ensures project documentation quality"
+            description="README Inspector Agent - validates and improves README files"
         )
-    
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
     
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process RDIA-specific commands."""
@@ -312,67 +252,48 @@ class RDIAAdapter(MCPAgentAdapter):
             context = context or {}
             
             if command.lower() in ["inspect_readme", "inspect"]:
-                return await self._inspect_readme(context)
-            elif command.lower() in ["validate_docs", "validate"]:
-                return await self._validate_documentation(context)
-            elif command.lower() in ["improve_readme", "improve"]:
-                return await self._improve_readme(context)
+                file_path = context.get("file_path", "README.md")
+                return await self._inspect_readme(file_path)
+            elif command.lower() in ["validate_structure", "validate"]:
+                return await self._validate_structure(context)
             else:
                 return await super().process_command(command, context)
                 
         except Exception as e:
             return await self.handle_error(e, command, context or {})
     
-    async def _inspect_readme(self, context: Dict[str, Any]) -> Dict[str, Any]:
-        """Inspect README files."""
-        result = await self._safe_call_agent_method('inspect_readme', context)
-        if result is not None:
+    async def _inspect_readme(self, file_path: str) -> Dict[str, Any]:
+        """Inspect README file."""
+        if hasattr(self.agent, 'inspect_readme'):
+            result = await self.agent.inspect_readme(file_path)
             return {"status": "success", "inspection": result}
         else:
             return {"status": "error", "message": "README inspection not available"}
     
-    async def _validate_documentation(self, context: Dict[str, Any]) -> Dict[str, Any]:
-        """Validate documentation consistency."""
-        result = await self._safe_call_agent_method('validate_documentation', context)
-        if result is not None:
+    async def _validate_structure(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """Validate README structure."""
+        if hasattr(self.agent, 'validate_structure'):
+            result = await self.agent.validate_structure(context)
             return {"status": "success", "validation": result}
         else:
-            return {"status": "error", "message": "Documentation validation not available"}
-    
-    async def _improve_readme(self, context: Dict[str, Any]) -> Dict[str, Any]:
-        """Generate README improvements."""
-        result = await self._safe_call_agent_method('improve_readme', context)
-        if result is not None:
-            return {"status": "success", "improvements": result}
-        else:
-            return {"status": "error", "message": "README improvement not available"}
+            return {"status": "error", "message": "Structure validation not available"}
     
     async def _get_supported_commands(self) -> List[str]:
         """Get RDIA-specific supported commands."""
         base_commands = await super()._get_supported_commands()
-        rdia_commands = ["inspect_readme", "inspect", "validate_docs", "validate", "improve_readme", "improve"]
+        rdia_commands = ["inspect_readme", "inspect", "validate_structure", "validate"]
         return base_commands + rdia_commands
 
 class SAAAdapter(MCPAgentAdapter):
     """Specialized MCP adapter for Static Analysis Agent."""
     
-    def __init__(self, agent: BaseAgent):
+    def __init__(self, agent: StaticAnalysisAgent):
         """Initialize the SAA adapter."""
         super().__init__(
             agent=agent,
             name="saa_adapter",
-            description="Static Analysis Agent - performs comprehensive code quality analysis"
+            description="Static Analysis Agent - performs code quality analysis"
         )
-    
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
     
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process SAA-specific commands."""
@@ -395,16 +316,16 @@ class SAAAdapter(MCPAgentAdapter):
         if not file_path:
             return {"status": "error", "message": "File path required for analysis"}
         
-        result = await self._safe_call_agent_method('analyze_code', file_path)
-        if result is not None:
+        if hasattr(self.agent, 'analyze_code'):
+            result = await self.agent.analyze_code(file_path)
             return {"status": "success", "analysis": result}
         else:
             return {"status": "error", "message": "Code analysis not available"}
     
     async def _run_static_analysis(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Run comprehensive static analysis."""
-        result = await self._safe_call_agent_method('run_static_analysis', context)
-        if result is not None:
+        if hasattr(self.agent, 'run_static_analysis'):
+            result = await self.agent.run_static_analysis(context)
             return {"status": "success", "analysis": result}
         else:
             return {"status": "error", "message": "Static analysis not available"}
@@ -422,6 +343,54 @@ if AGENTS_AVAILABLE:
     register_adapter(CodeDocumentationInspectorAgent, CDIAAdapter)
     register_adapter(ReadmeDocumentationInspectorAgent, RDIAAdapter)
     register_adapter(StaticAnalysisAgent, SAAAdapter)
+        """
+        instruction = """
+        You are the README Inspector Agent, responsible for ensuring that project documentation is 
+        comprehensive, accurate, up-to-date, and follows best practices.
+        
+        You can:
+        - Parse README and related documentation files
+        - Extract and validate structured sections
+        - Compare documentation against actual project capabilities
+        - Identify gaps, inconsistencies, and outdated information
+        - Generate documentation improvement recommendations
+        """
+        super().__init__(agent, name=name or "rdia", instruction=instruction, servers=servers)
+
+
+class SAAFastAdapter(FastAgentAdapter):
+    """Adapter for Static Analysis Agent."""
+    
+    def __init__(self, agent: StaticAnalysisAgent, name: Optional[str] = None, 
+                 servers: Optional[List[str]] = None):
+        """
+        Initialize the SAA adapter.
+        
+        Args:
+            agent: The SAA agent to adapt
+            name: Optional name for the fast-agent (defaults to 'saa')
+            servers: Optional list of MCP servers to use
+        """
+        instruction = """
+        You are the Static Analysis Agent, responsible for applying static analysis techniques to identify 
+        code quality issues, potential bugs, and anti-patterns.
+        
+        You can:
+        - Perform linting against configurable rule sets
+        - Analyze code complexity
+        - Check types and infer types
+        - Detect security vulnerabilities
+        - Identify performance issues
+        """
+        super().__init__(agent, name=name or "saa", instruction=instruction, servers=servers)
+
+
+# Register specialized adapters
+register_adapter(VersionControlMasterAgent, VCMAFastAdapter)
+register_adapter(VersionControlListenerAgent, VCLAFastAdapter)
+register_adapter(CodeDocumentationInspectorAgent, CDIAFastAdapter)
+register_adapter(ReadmeDocumentationInspectorAgent, RDIAFastAdapter)
+register_adapter(StaticAnalysisAgent, SAAFastAdapter)
 
 # Async initialization flag
 _INITIALIZED = False
@@ -443,32 +412,7 @@ async def ensure_adapters_initialized() -> bool:
         # For example, ensuring necessary MCP servers are running
         
         _INITIALIZED = True
-        logger.info("Specialized adapters initialized successfully")
         return True
     except Exception as e:
         logger.error(f"Failed to initialize adapters: {e}")
         return False
-
-def get_adapter_for_agent_type(agent_cls: Type) -> Optional[Type[BaseAgentAdapter]]:
-    """
-    Get the registered adapter class for a specific agent type.
-    
-    Args:
-        agent_cls: The agent class to get an adapter for
-        
-    Returns:
-        The adapter class if registered, None otherwise
-    """
-    return ADAPTER_REGISTRY.get(agent_cls)
-
-def list_registered_adapters() -> Dict[str, str]:
-    """
-    Get a list of all registered adapters.
-    
-    Returns:
-        Dictionary mapping agent class names to adapter class names
-    """
-    return {
-        agent_cls.__name__: adapter_cls.__name__
-        for agent_cls, adapter_cls in ADAPTER_REGISTRY.items()
-    }

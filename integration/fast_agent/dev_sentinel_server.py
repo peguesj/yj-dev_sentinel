@@ -321,7 +321,11 @@ class ServerManager:
         try:
             # Start MCP server
             logger.debug("Starting MCP server...")
-            await start_mcp_server("dev_sentinel", self.host, self.mcp_port)
+            # Import the correct start_server function
+            from integration.fast_agent.mcp_servers import start_server
+            
+            # Use the run_async method to avoid creating a new event loop
+            await start_server("dev_sentinel", self.host, self.mcp_port)
             
         except ImportError as e:
             logger.error(f"Failed to import MCP server components: {e}")

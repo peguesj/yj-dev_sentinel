@@ -1,8 +1,9 @@
 """
-MCP Server implementations for Dev Sentinel.
+Modern MCP Server implementations for Dev Sentinel.
 
 This module provides Model Context Protocol (MCP) server implementations
-that can be used with fast-agent to execute Dev Sentinel commands.
+that follow the latest MCP standards and best practices for integration
+with VS Code and other MCP-compatible tools.
 """
 
 import os
@@ -10,31 +11,47 @@ import sys
 import json
 import logging
 import asyncio
-import copy
-from typing import Dict, List, Any, Optional, Union, Callable, AsyncIterator
-import uvicorn
+import traceback
+from typing import Dict, List, Any, Optional, Sequence
+from contextlib import asynccontextmanager
 
 # Ensure proper path handling for imports
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, "../.."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
-    
-# Also add parent directory to handle imports from sibling modules
-parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
-if parent_dir not in sys.path:
-    sys.path.insert(0, parent_dir)
 
+# MCP imports - graceful fallback if not available
 try:
-    # Use the correct imports from the current MCP SDK
-    from mcp.server.fastmcp import FastMCP
-    from mcp.types import Result
-except ImportError:
-    raise ImportError("mcp package is not installed. Run 'pip install mcp'")
+    from mcp import types
+    from mcp.server import Server
+    from mcp.server.models import InitializationOptions
+    import mcp.server.stdio
+    MCP_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"MCP not available: {e}")
+    MCP_AVAILABLE = False
+    # Create minimal type stubs for development
+    class types:
+        class Tool:
+            def __init__(self, name, description, inputSchema): pass
+        class TextContent:
+            def __init__(self, type, text): pass
+    class Server:
+        def __init__(self, name): pass
+        def list_tools(self): pass
+        def call_tool(self): pass
 
-# Import Dev Sentinel components
-from integration.force.master_agent import ForceCommandProcessor
-from integration.fast_agent.async_initialization import get_async_initializer
+# Dev Sentinel imports - graceful fallback
+try:
+    from integration.force.master_agent import ForceCommandProcessor
+    from integration.fast_agent.async_initialization import get_async_initializer
+    FORCE_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"FORCE components not available: {e}")
+    FORCE_AVAILABLE = False
+    ForceCommandProcessor = None
+    get_async_initializer = None
 
 # Configure logging
 logging.basicConfig(
@@ -44,68 +61,200 @@ logging.basicConfig(
 )
 logger = logging.getLogger("dev_sentinel_mcp")
 
-class DevSentinelCommandServer:
+class DevSentinelMCPServer:
     """
-    MCP server implementation for executing Dev Sentinel commands.
+    Modern MCP server implementation for Dev Sentinel.
     
-    This server exposes a command execution capability that takes JSON
-    commands and executes them using Dev Sentinel's FORCE architecture.
+    Provides a comprehensive interface to Dev Sentinel functionality through
+    the Model Context Protocol, enabling integration with VS Code and other
+    MCP-compatible tools.
     """
 
     def __init__(self):
-        """Initialize the Dev Sentinel command server."""
-        self.mcp = FastMCP(name="dev_sentinel_command")
+        """Initialize the Dev Sentinel MCP server."""
+        if not MCP_AVAILABLE:
+            raise RuntimeError("MCP package not available - install with 'pip install mcp'")
+            
+        self.server = Server("dev-sentinel")
         self.force_processor = None
         self._initialized = False
         self._initialization_lock = asyncio.Lock()
         
-        # Register tools with the MCP instance
-        self.register_tools()
+        # Set up server capabilities and handlers
+        self._setup_server()
         
-    def register_tools(self):
-        """Register all tools with the MCP instance."""
+    def _setup_server(self):
+        """Set up server capabilities and tool handlers."""
         
-        @self.mcp.tool()
-        async def execute_command(command: str, args: Dict[str, Any]) -> Result:
-            """
-            Execute a Dev Sentinel command.
-            
-            Args:
-                command: Command type to execute (e.g., VIC, CODE, VCS)
-                args: Command arguments as a JSON object
+        @self.server.list_tools()
+        async def handle_list_tools() -> list[types.Tool]:
+            """List available tools."""
+            return [
+                types.Tool(
+                    name="execute_yung_command",
+                    description="Execute a Dev Sentinel YUNG command",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "command": {
+                                "type": "string",
+                                "description": "YUNG command to execute (e.g., '$VIC DOCS', '$CODE TIER=BACKEND IMPL')"
+                            }
+                        },
+                        "required": ["command"]
+                    }
+                ),
+                types.Tool(
+                    name="validate_documentation",
+                    description="Validate project documentation integrity using VIC command",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "scope": {
+                                "type": "string",
+                                "enum": ["ALL", "LAST", "DOCS"],
+                                "description": "Validation scope",
+                                "default": "DOCS"
+                            },
+                            "file_path": {
+                                "type": "string",
+                                "description": "Specific file path for FILE scope"
+                            }
+                        }
+                    }
+                ),
+                types.Tool(
+                    name="analyze_code",
+                    description="Analyze code using CODE command",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "tier": {
+                                "type": "string",
+                                "enum": ["FRONTEND", "BACKEND", "ALL"],
+                                "description": "Code tier to analyze",
+                                "default": "ALL"
+                            },
+                            "action": {
+                                "type": "string",
+                                "enum": ["IMPL", "COMMENT", "DOCS", "TEST"],
+                                "description": "Analysis action to perform",
+                                "default": "IMPL"
+                            }
+                        }
+                    }
+                ),
+                types.Tool(
+                    name="get_repository_status",
+                    description="Get version control repository status using VCS command",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {}
+                    }
+                ),
+                types.Tool(
+                    name="commit_changes",
+                    description="Commit changes to version control",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string",
+                                "description": "Commit message"
+                            }
+                        },
+                        "required": ["message"]
+                    }
+                ),
+                types.Tool(
+                    name="generate_diagram",
+                    description="Generate system diagrams using DIAGRAM command",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": ["ARCH", "FLOW", "COMP", "FORCE"],
+                                "description": "Diagram type to generate",
+                                "default": "ARCH"
+                            },
+                            "format": {
+                                "type": "string",
+                                "enum": ["png", "svg", "pdf"],
+                                "description": "Output format",
+                                "default": "svg"
+                            }
+                        }
+                    }
+                ),
+                types.Tool(
+                    name="get_yung_manual",
+                    description="Get the YUNG command manual",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {}
+                    }
+                )
+            ]
+        
+        @self.server.call_tool()
+        async def handle_call_tool(name: str, arguments: dict) -> list[types.TextContent]:
+            """Handle tool calls."""
+            try:
+                await self.ensure_initialized()
                 
-            Returns:
-                Result object containing command execution results
-            """
-            return await self._execute_command(command, args)
-        
-        @self.mcp.tool()
-        async def stream_command(command: str, args: Dict[str, Any]) -> AsyncIterator[Dict[str, Any]]:
-            """
-            Execute a Dev Sentinel command and stream the results.
-            
-            Args:
-                command: Command type to execute (e.g., VIC, CODE, VCS)
-                args: Command arguments as a JSON object
+                if name == "execute_yung_command":
+                    command = arguments.get("command", "")
+                    result = await self._execute_yung_command(command)
+                    return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
                 
-            Returns:
-                Stream of command execution results as they become available
-            """
-            async for frame in self._stream_command(command, args):
-                yield frame
-        
-        @self.mcp.tool()
-        async def get_commands() -> Result:
-            """
-            Get the list of available Dev Sentinel commands.
-            
-            Returns:
-                Result object containing list of available commands and their descriptions
-            """
-            return await self._get_commands()
-        
+                elif name == "validate_documentation":
+                    scope = arguments.get("scope", "DOCS")
+                    file_path = arguments.get("file_path")
+                    result = await self._validate_documentation(scope, file_path)
+                    return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+                
+                elif name == "analyze_code":
+                    tier = arguments.get("tier", "ALL")
+                    action = arguments.get("action", "IMPL")
+                    result = await self._analyze_code(tier, action)
+                    return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+                
+                elif name == "get_repository_status":
+                    result = await self._get_repository_status()
+                    return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+                
+                elif name == "commit_changes":
+                    message = arguments.get("message", "")
+                    result = await self._commit_changes(message)
+                    return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+                
+                elif name == "generate_diagram":
+                    diagram_type = arguments.get("type", "ARCH")
+                    format_type = arguments.get("format", "svg")
+                    result = await self._generate_diagram(diagram_type, format_type)
+                    return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+                
+                elif name == "get_yung_manual":
+                    result = await self._get_yung_manual()
+                    return [types.TextContent(type="text", text=result)]
+                
+                else:
+                    return [types.TextContent(
+                        type="text", 
+                        text=f"Unknown tool: {name}"
+                    )]
+                    
+            except Exception as e:
+                logger.error(f"Tool call error: {e}")
+                traceback.print_exc()
+                return [types.TextContent(
+                    type="text", 
+                    text=f"Error: {str(e)}"
+                )]
+    
     async def ensure_initialized(self) -> None:
-        """Ensure the FORCE command processor is initialized."""
+        """Ensure the server is properly initialized."""
         if self._initialized:
             return
             
@@ -114,370 +263,194 @@ class DevSentinelCommandServer:
                 return
                 
             try:
-                # Initialize fast-agent
-                initializer = get_async_initializer()
-                await initializer.initialize()
-                
-                # Initialize FORCE command processor
-                from integration.force.master_agent import ForceCommandProcessor
-                
-                self.force_processor = ForceCommandProcessor()
-                await self.force_processor.initialize()
-                
-                # Also ensure fast-agent is initialized
-                await self.force_processor.ensure_fast_agent_initialized()
+                # Initialize FORCE command processor if available
+                if FORCE_AVAILABLE and ForceCommandProcessor:
+                    self.force_processor = ForceCommandProcessor()
+                    if hasattr(self.force_processor, 'initialize'):
+                        await self.force_processor.initialize()
+                    logger.info("FORCE processor initialized")
+                else:
+                    logger.warning("FORCE processor not available - using fallback processing")
                 
                 self._initialized = True
-                logger.info("Dev Sentinel Command Server initialized successfully")
+                logger.info("Dev Sentinel MCP Server initialized successfully")
             except Exception as e:
-                logger.error(f"Failed to initialize Dev Sentinel Command Server: {e}")
+                logger.error(f"Failed to initialize Dev Sentinel MCP Server: {e}")
                 raise
 
-    async def _map_command(self, command: Dict[str, Any]) -> str:
-        """
-        Map a JSON command to YUNG command syntax.
-        
-        Args:
-            command: Command dictionary with 'command' and 'args' fields
-            
-        Returns:
-            YUNG command string
-        """
-        # Import command mapper
-        from integration.fast_agent.mcp_command_server import CommandMapperService
-        
-        # Map the command
-        cmd_type = command.get("command", "").upper()
-        cmd_args = command.get("args", {})
-        
-        return CommandMapperService.map_to_yung(cmd_type, cmd_args)
-        
-    async def _map_result(self, yung_result: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Map YUNG command result to API response format.
-        
-        Args:
-            yung_result: Result from FORCE command execution
-            
-        Returns:
-            Mapped result in API format
-        """
-        # Import command mapper
-        from integration.fast_agent.mcp_command_server import CommandMapperService
-        
-        # Map the result
-        return CommandMapperService.map_from_yung_result(yung_result)
-
-    async def _execute_command(self, command: str, args: Dict[str, Any]) -> Result:
-        """
-        Execute a Dev Sentinel command.
-        
-        Args:
-            command: Command type to execute (e.g., VIC, CODE, VCS)
-            args: Command arguments as a JSON object
-            
-        Returns:
-            Result object containing command execution results
-        """
+    async def _execute_yung_command(self, command: str) -> Dict[str, Any]:
+        """Execute a YUNG command through the FORCE processor."""
         try:
-            # Ensure initialization
-            await self.ensure_initialized()
+            if not command.startswith('$'):
+                command = f"${command}"
             
-            # Map to YUNG command
-            yung_command = await self._map_command({"command": command, "args": args})
+            if self.force_processor and hasattr(self.force_processor, 'process_command'):
+                result = await self.force_processor.process_command(command)
+            else:
+                # Fallback processing
+                result = await self._fallback_command_processing(command)
             
-            # Execute command
-            result = await self.force_processor.process_command(yung_command)
-            
-            # Map result to API format
-            mapped_result = await self._map_result(result)
-            
-            return Result(status="success", result=mapped_result)
-            
-        except Exception as e:
-            logger.exception(f"Error executing command: {e}")
-            return Result(status="error", result={"error": str(e)})
-
-    async def _stream_command(self, command: str, args: Dict[str, Any]) -> AsyncIterator[Dict[str, Any]]:
-        """
-        Execute a Dev Sentinel command and stream the results.
-        
-        Args:
-            command: Command type to execute (e.g., VIC, CODE, VCS)
-            args: Command arguments as a JSON object
-            
-        Returns:
-            Stream of command execution results
-        """
-        try:
-            # Ensure initialization
-            await self.ensure_initialized()
-            
-            # Map to YUNG command
-            yung_command = await self._map_command({"command": command, "args": args})
-            
-            # Yield initial response
-            yield {
-                "is_final": False,
-                "content": {"status": "started", "command": yung_command}
-            }
-            
-            # Execute command
-            result = await self.force_processor.process_command(yung_command)
-            
-            # Map result to API format
-            mapped_result = await self._map_result(result)
-            
-            # Yield final result
-            yield {
-                "is_final": True,
-                "content": mapped_result
+            return {
+                "status": "success",
+                "command": command,
+                "result": result,
+                "timestamp": asyncio.get_event_loop().time()
             }
             
         except Exception as e:
-            logger.exception(f"Error streaming command: {e}")
-            yield {
-                "is_final": True,
-                "content": {"error": str(e), "status": "error"}
+            logger.error(f"Error executing YUNG command '{command}': {e}")
+            return {
+                "status": "error",
+                "command": command,
+                "error": str(e),
+                "timestamp": asyncio.get_event_loop().time()
             }
 
-    async def _get_commands(self) -> Result:
-        """
-        Get the list of available Dev Sentinel commands.
+    async def _validate_documentation(self, scope: str, file_path: Optional[str] = None) -> Dict[str, Any]:
+        """Validate documentation using VIC command."""
+        if file_path:
+            command = f"$VIC FILE={file_path}"
+        else:
+            command = f"$VIC {scope}"
         
-        Returns:
-            Result object containing list of available commands
-        """
-        try:
-            commands = [
-                {
-                    "command": "VIC",
-                    "description": "Validate Integrity of Code/Documentation",
-                    "args": {
-                        "scope": "Validation scope (ALL, LAST, DOCS, FILE)",
-                        "file": "Optional file path when scope is FILE"
-                    }
-                },
-                {
-                    "command": "CODE",
-                    "description": "Perform code operations",
-                    "args": {
-                        "tier": "Code tier (BACKEND, FRONTEND, ALL)",
-                        "actions": "Actions to perform (IMPL, TEST, REVIEW)",
-                        "stage": "Optional stage identifier"
-                    }
-                },
-                {
-                    "command": "VCS",
-                    "description": "Perform version control operations",
-                    "args": {
-                        "action": "VCS action (COMMIT, BRANCH, MERGE, etc.)",
-                        "target": "Target for the operation",
-                        "options": "Additional options for the operation"
-                    }
-                },
-                {
-                    "command": "INFRA",
-                    "description": "Manage infrastructure",
-                    "args": {
-                        "action": "Infrastructure action",
-                        "target": "Target resource",
-                        "options": "Additional options"
-                    }
-                },
-                {
-                    "command": "TEST",
-                    "description": "Run tests",
-                    "args": {
-                        "action": "Test action (RUN, REVIEW, COVERAGE)",
-                        "target": "Target tests",
-                        "options": "Additional options"
-                    }
-                },
-                {
-                    "command": "FAST",
-                    "description": "Fast-agent operations",
-                    "args": {
-                        "action": "Fast-agent action (WORKFLOW, SERVER, MODEL)",
-                        "target": "Target for action (RUN, RESTART, SWITCH)",
-                        "options": "Name of workflow, server, or model"
-                    }
-                },
-                {
-                    "command": "DIAGRAM",
-                    "description": "Generate diagrams",
-                    "args": {
-                        "type": "Diagram type (ARCH, FLOW, COMP, TERM, EXTRACT)",
-                        "source": "Source data (FILE=path, FORCE, YUNG, AGENT)",
-                        "format": "Output format (svg, png, pdf)"
-                    }
-                },
-                {
-                    "command": "MAN",
-                    "description": "Display YUNG command manual",
-                    "args": {}
-                }
-            ]
+        return await self._execute_yung_command(command)
+
+    async def _analyze_code(self, tier: str, action: str) -> Dict[str, Any]:
+        """Analyze code using CODE command."""
+        command = f"$CODE TIER={tier} {action}"
+        return await self._execute_yung_command(command)
+
+    async def _get_repository_status(self) -> Dict[str, Any]:
+        """Get repository status using VCS command."""
+        command = "$VCS STATUS"
+        return await self._execute_yung_command(command)
+
+    async def _commit_changes(self, message: str) -> Dict[str, Any]:
+        """Commit changes using VCS command."""
+        command = f'$VCS COMMIT "{message}"'
+        return await self._execute_yung_command(command)
+
+    async def _generate_diagram(self, diagram_type: str, format_type: str) -> Dict[str, Any]:
+        """Generate diagrams using DIAGRAM command."""
+        command = f"$DIAGRAM {diagram_type} FORMAT={format_type}"
+        return await self._execute_yung_command(command)
+
+    async def _get_yung_manual(self) -> str:
+        """Get the YUNG command manual."""
+        manual = """
+# YUNG: YES Ultimate Net Good - Command Reference
+
+## Primary Commands
+
+### $VIC [SCOPE]
+Validate integrity of codebase or documentation.
+- ALL: Validate full project structure
+- LAST: Validate last affected components  
+- DOCS: Validate only documentation assets
+- FILE=<filepath>: Validate a specific file
+
+### $CODE [SCOPE] [ACTIONS] [STAGE]
+Code generation, patching, or updates.
+- TIER=FRONTEND/BACKEND/ALL: Target application tier
+- Actions: IMPL, COMMENT, DOCS, TEST, PKG=<format>
+- Stage: Branch or patch label (e.g., Stage F-1)
+
+### $VCS [ACTION] [OPTIONS]
+Version control operations.
+- STATUS: Get repository status
+- COMMIT "message": Commit changes
+- BRANCH <name>: Create branch
+- MERGE <source> <target>: Merge branches
+
+### $DIAGRAM [TYPE] [SOURCE] [FORMAT=<format>]
+Generate diagrams.
+- Types: ARCH, FLOW, COMP, TERM, EXTRACT
+- Sources: FILE=<path>, FORCE, YUNG, AGENT
+- Formats: png, svg, pdf
+
+### $INFRA [SERVICE] [ACTION] [OPTIONS]
+Infrastructure operations.
+
+### $TEST [TYPE] [SCOPE] [OPTIONS]  
+Testing operations.
+
+### $FAST [ACTION] [OPTIONS] [MODEL]
+Fast-agent integration operations.
+
+## Examples
+$VIC DOCS
+$CODE TIER=BACKEND IMPL
+$VCS COMMIT "fix: update documentation"
+$DIAGRAM ARCH FORMAT=svg
+"""
+        return manual
+
+    async def _fallback_command_processing(self, command: str) -> Dict[str, Any]:
+        """Fallback command processing when FORCE processor is not available."""
+        logger.warning(f"Using fallback processing for command: {command}")
+        
+        # Parse basic command structure
+        if command.startswith("$"):
+            parts = command[1:].split()
+            cmd_type = parts[0] if parts else "UNKNOWN"
             
-            return Result(status="success", result=commands)
-            
-        except Exception as e:
-            logger.exception(f"Error getting commands: {e}")
-            return Result(status="error", result={"error": str(e)})
-
-    async def start(self, host: str = "0.0.0.0", port: int = 8090):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
-
-class FileSystemMCPServer:
-    """File system operations MCP server implementation."""
-    def __init__(self):
-        """Initialize the File System MCP server."""
-        self.mcp = FastMCP(name="filesystem")
-        # Register tools here
-        
-    async def start(self, host: str = "0.0.0.0", port: int = 8091):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
-
-class VersionControlMCPServer:
-    """Version control operations MCP server implementation."""
-    def __init__(self):
-        """Initialize the Version Control MCP server."""
-        self.mcp = FastMCP(name="vcs")
-        # Register tools here
-        
-    async def start(self, host: str = "0.0.0.0", port: int = 8092):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
-
-class DocumentationInspectorMCPServer:
-    """Documentation inspection operations MCP server implementation."""
-    def __init__(self):
-        """Initialize the Documentation Inspector MCP server."""
-        self.mcp = FastMCP(name="documentation")
-        # Register tools here
-        
-    async def start(self, host: str = "0.0.0.0", port: int = 8093):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
-
-class CodeAnalysisMCPServer:
-    """Code analysis operations MCP server implementation."""
-    def __init__(self):
-        """Initialize the Code Analysis MCP server."""
-        self.mcp = FastMCP(name="code_analysis")
-        # Register tools here
-        
-    async def start(self, host: str = "0.0.0.0", port: int = 8094):
-        """Start the MCP server."""
-        config = uvicorn.Config(
-            app=self.mcp,
-            host=host,
-            port=port,
-            log_level="info"
-        )
-        server = uvicorn.Server(config)
-        await server.serve()
-
-# Register all MCP server classes
-MCP_SERVER_CLASSES = {
-    "dev_sentinel": DevSentinelCommandServer,
-    "filesystem": FileSystemMCPServer,
-    "vcs": VersionControlMCPServer,
-    "documentation": DocumentationInspectorMCPServer,
-    "code_analysis": CodeAnalysisMCPServer,
-}
-
-def get_server(server_type: str):
-    """
-    Get an instance of an MCP server by type.
-    
-    Args:
-        server_type: Type of MCP server to get
-        
-    Returns:
-        MCP server instance
-    
-    Raises:
-        ValueError: If server_type is not supported
-    """
-    server_class = MCP_SERVER_CLASSES.get(server_type.lower())
-    if server_class is None:
-        raise ValueError(f"Unsupported MCP server type: {server_type}")
-        
-    return server_class()
-
-async def start_server(server_type: str, host: str = "0.0.0.0", port: int = None) -> None:
-    """
-    Start an MCP server.
-    
-    Args:
-        server_type: Type of MCP server to start
-        host: Host to bind to
-        port: Port to listen on (default is based on server type)
-    """
-    try:
-        # Get server instance
-        server = get_server(server_type)
-        
-        # Determine port if not provided
-        if port is None:
-            # Default port mappings
-            port_mappings = {
-                "dev_sentinel": 8090,
-                "filesystem": 8091,
-                "vcs": 8092,
-                "documentation": 8093,
-                "code_analysis": 8094
+            return {
+                "command_type": cmd_type,
+                "command": command,
+                "status": "processed_fallback",
+                "message": f"Command {cmd_type} processed using fallback method - full functionality requires FORCE processor",
+                "available_commands": ["VIC", "CODE", "VCS", "DIAGRAM", "INFRA", "TEST", "FAST"]
             }
-            port = port_mappings.get(server_type.lower(), 8090)
         
-        # Start server
-        logger.info(f"Starting {server_type} MCP server on {host}:{port}")
-        await server.start(host=host, port=port)
+        return {
+            "command": command,
+            "status": "unprocessed",
+            "message": "Command format not recognized - commands should start with $"
+        }
+
+async def create_server() -> DevSentinelMCPServer:
+    """Create and return a new Dev Sentinel MCP server instance."""
+    server = DevSentinelMCPServer()
+    await server.ensure_initialized()
+    return server
+
+async def run_stdio_server():
+    """Run the MCP server using stdio transport."""
+    if not MCP_AVAILABLE:
+        logger.error("MCP package not available - install with 'pip install mcp'")
+        return
         
-    except Exception as e:
-        logger.exception(f"Failed to start {server_type} MCP server: {e}")
-        raise
+    server = DevSentinelMCPServer()
+    
+    async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
+        await server.server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="dev-sentinel",
+                server_version="0.2.0",
+                capabilities=server.server.get_capabilities(
+                    notification_options=None,
+                    experimental_capabilities={}
+                )
+            )
+        )
+
+# Legacy compatibility functions
+async def start_server(host: str = "localhost", port: int = 8090):
+    """Start the Dev Sentinel MCP server (legacy compatibility)."""
+    await run_stdio_server()
+
+async def run_async():
+    """Run the MCP server (legacy compatibility)."""
+    await run_stdio_server()
 
 if __name__ == "__main__":
-    import argparse
-    
-    # Parse command line arguments
-    parser = argparse.ArgumentParser(description="Start an MCP server for Dev Sentinel")
-    parser.add_argument("server_type", help="Type of MCP server to start")
-    parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")
-    parser.add_argument("--port", type=int, help="Port to listen on")
-    args = parser.parse_args()
-    
-    # Start server
-    asyncio.run(start_server(args.server_type, args.host, args.port))
+    logger.info("Starting Dev Sentinel MCP Server...")
+    try:
+        asyncio.run(run_stdio_server())
+    except KeyboardInterrupt:
+        logger.info("Server stopped by user")
+    except Exception as e:
+        logger.error(f"Server error: {e}")
+        traceback.print_exc()

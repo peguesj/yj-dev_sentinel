@@ -86,16 +86,6 @@ class VCMAAdapter(MCPAgentAdapter):
             description="Version Control Master Agent - proactively manages version control operations"
         )
     
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
-    
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process VCMA-specific commands."""
         try:
@@ -117,24 +107,27 @@ class VCMAAdapter(MCPAgentAdapter):
     
     async def _get_repo_status(self) -> Dict[str, Any]:
         """Get repository status from VCMA."""
-        result = await self._safe_call_agent_method('get_repo_status')
-        if result is not None:
-            return {"status": "success", "repo_status": result}
+        if hasattr(self.agent, 'get_repo_status'):
+            get_repo_status = getattr(self.agent, 'get_repo_status')
+            status = await get_repo_status()
+            return {"status": "success", "repo_status": status}
         else:
             return {"status": "error", "message": "Repository status not available"}
     
     async def _analyze_commits(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze commits using VCMA."""
-        result = await self._safe_call_agent_method('analyze_commits', context)
-        if result is not None:
+        if hasattr(self.agent, 'analyze_commits'):
+            analyze_commits = getattr(self.agent, 'analyze_commits')
+            result = await analyze_commits(context)
             return {"status": "success", "analysis": result}
         else:
             return {"status": "error", "message": "Commit analysis not available"}
     
     async def _refresh_repo(self) -> Dict[str, Any]:
         """Refresh repository state."""
-        result = await self._safe_call_agent_method('_refresh_repo_state')
-        if result is not None:
+        if hasattr(self.agent, '_refresh_repo_state'):
+            refresh_repo_state = getattr(self.agent, '_refresh_repo_state')
+            await refresh_repo_state()
             return {"status": "success", "message": "Repository state refreshed"}
         else:
             return {"status": "error", "message": "Repository refresh not available"}
@@ -160,10 +153,7 @@ class VCLAAdapter(MCPAgentAdapter):
         """Safely call an agent method if it exists."""
         if hasattr(self.agent, method_name):
             method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
+            return await method(*args, **kwargs)
         return None
     
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
@@ -224,16 +214,6 @@ class CDIAAdapter(MCPAgentAdapter):
             description="Code Documentation Inspector Agent - analyzes and improves code documentation"
         )
     
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
-    
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process CDIA-specific commands."""
         try:
@@ -257,24 +237,24 @@ class CDIAAdapter(MCPAgentAdapter):
         if not file_path:
             return {"status": "error", "message": "File path required for inspection"}
         
-        result = await self._safe_call_agent_method('inspect_code', file_path)
-        if result is not None:
+        if hasattr(self.agent, 'inspect_code'):
+            result = await self.agent.inspect_code(file_path)
             return {"status": "success", "inspection": result}
         else:
             return {"status": "error", "message": "Code inspection not available"}
     
     async def _analyze_documentation(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze documentation quality."""
-        result = await self._safe_call_agent_method('analyze_documentation', context)
-        if result is not None:
+        if hasattr(self.agent, 'analyze_documentation'):
+            result = await self.agent.analyze_documentation(context)
             return {"status": "success", "analysis": result}
         else:
             return {"status": "error", "message": "Documentation analysis not available"}
     
     async def _generate_documentation(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Generate documentation."""
-        result = await self._safe_call_agent_method('generate_documentation', context)
-        if result is not None:
+        if hasattr(self.agent, 'generate_documentation'):
+            result = await self.agent.generate_documentation(context)
             return {"status": "success", "documentation": result}
         else:
             return {"status": "error", "message": "Documentation generation not available"}
@@ -296,16 +276,6 @@ class RDIAAdapter(MCPAgentAdapter):
             description="README Documentation Inspector Agent - ensures project documentation quality"
         )
     
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
-    
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process RDIA-specific commands."""
         try:
@@ -325,24 +295,24 @@ class RDIAAdapter(MCPAgentAdapter):
     
     async def _inspect_readme(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Inspect README files."""
-        result = await self._safe_call_agent_method('inspect_readme', context)
-        if result is not None:
+        if hasattr(self.agent, 'inspect_readme'):
+            result = await self.agent.inspect_readme(context)
             return {"status": "success", "inspection": result}
         else:
             return {"status": "error", "message": "README inspection not available"}
     
     async def _validate_documentation(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Validate documentation consistency."""
-        result = await self._safe_call_agent_method('validate_documentation', context)
-        if result is not None:
+        if hasattr(self.agent, 'validate_documentation'):
+            result = await self.agent.validate_documentation(context)
             return {"status": "success", "validation": result}
         else:
             return {"status": "error", "message": "Documentation validation not available"}
     
     async def _improve_readme(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Generate README improvements."""
-        result = await self._safe_call_agent_method('improve_readme', context)
-        if result is not None:
+        if hasattr(self.agent, 'improve_readme'):
+            result = await self.agent.improve_readme(context)
             return {"status": "success", "improvements": result}
         else:
             return {"status": "error", "message": "README improvement not available"}
@@ -363,16 +333,6 @@ class SAAAdapter(MCPAgentAdapter):
             name="saa_adapter",
             description="Static Analysis Agent - performs comprehensive code quality analysis"
         )
-    
-    async def _safe_call_agent_method(self, method_name: str, *args, **kwargs) -> Any:
-        """Safely call an agent method if it exists."""
-        if hasattr(self.agent, method_name):
-            method = getattr(self.agent, method_name)
-            if asyncio.iscoroutinefunction(method):
-                return await method(*args, **kwargs)
-            else:
-                return method(*args, **kwargs)
-        return None
     
     async def process_command(self, command: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Process SAA-specific commands."""
@@ -395,16 +355,16 @@ class SAAAdapter(MCPAgentAdapter):
         if not file_path:
             return {"status": "error", "message": "File path required for analysis"}
         
-        result = await self._safe_call_agent_method('analyze_code', file_path)
-        if result is not None:
+        if hasattr(self.agent, 'analyze_code'):
+            result = await self.agent.analyze_code(file_path)
             return {"status": "success", "analysis": result}
         else:
             return {"status": "error", "message": "Code analysis not available"}
     
     async def _run_static_analysis(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Run comprehensive static analysis."""
-        result = await self._safe_call_agent_method('run_static_analysis', context)
-        if result is not None:
+        if hasattr(self.agent, 'run_static_analysis'):
+            result = await self.agent.run_static_analysis(context)
             return {"status": "success", "analysis": result}
         else:
             return {"status": "error", "message": "Static analysis not available"}

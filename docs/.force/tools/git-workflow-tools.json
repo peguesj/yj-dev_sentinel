@@ -1,0 +1,344 @@
+{
+  "tools": [
+    {
+      "id": "git_workflow_commit",
+      "name": "Git Workflow Commit",
+      "description": "Intelligent git commit workflow with analysis and grouping of related changes",
+      "version": "1.0.0",
+      "category": "git",
+      "parameters": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "description": "Scope of the commit (feature, fix, docs, etc.)",
+              "enum": ["feature", "fix", "docs", "style", "refactor", "test", "chore"]
+            },
+            "message": {
+              "type": "string",
+              "description": "Optional custom commit message. If not provided, will be auto-generated",
+              "minLength": 1,
+              "maxLength": 72
+            },
+            "semanticVersionIncrement": {
+              "type": "string",
+              "description": "Semantic version increment type",
+              "enum": ["major", "minor", "patch"],
+              "default": "patch"
+            },
+            "includeFiles": {
+              "type": "array",
+              "description": "Specific files to include in commit. If empty, includes all staged changes",
+              "items": {
+                "type": "string"
+              }
+            },
+            "excludeFiles": {
+              "type": "array",
+              "description": "Files to exclude from commit",
+              "items": {
+                "type": "string"
+              }
+            },
+            "dryRun": {
+              "type": "boolean",
+              "description": "Perform a dry run without actually committing",
+              "default": false
+            }
+          },
+          "required": ["scope"]
+        },
+        "required": ["scope"]
+      },
+      "execution": {
+        "command": "force_git_commit",
+        "timeout": 60,
+        "retryCount": 1,
+        "errorHandling": "fail"
+      },
+      "validation": {
+        "preConditions": [
+          {
+            "type": "command",
+            "rule": "git status --porcelain",
+            "errorMessage": "No changes to commit",
+            "severity": "error"
+          },
+          {
+            "type": "command",
+            "rule": "git diff --check",
+            "errorMessage": "Whitespace errors detected",
+            "severity": "warning"
+          }
+        ],
+        "postConditions": [
+          {
+            "type": "command",
+            "rule": "git log -1 --oneline",
+            "errorMessage": "Commit was not created successfully",
+            "severity": "error"
+          }
+        ]
+      },
+      "metadata": {
+        "author": "Dev Sentinel Team",
+        "created": "2025-01-01T00:00:00Z",
+        "modified": "2025-01-01T00:00:00Z",
+        "tags": ["git", "workflow", "automation", "version-control"],
+        "dependencies": ["git"]
+      }
+    },
+    {
+      "id": "git_branch_create",
+      "name": "Git Branch Creation",
+      "description": "Create and switch to a new git branch with naming conventions",
+      "version": "1.0.0",
+      "category": "git",
+      "parameters": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "branchName": {
+              "type": "string",
+              "description": "Name of the new branch",
+              "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_/-]*[a-zA-Z0-9]$",
+              "minLength": 3,
+              "maxLength": 50
+            },
+            "branchType": {
+              "type": "string",
+              "description": "Type of branch",
+              "enum": ["feature", "hotfix", "release", "bugfix", "experiment"],
+              "default": "feature"
+            },
+            "baseBranch": {
+              "type": "string",
+              "description": "Base branch to create from",
+              "default": "main"
+            },
+            "switchToBranch": {
+              "type": "boolean",
+              "description": "Switch to the new branch after creation",
+              "default": true
+            }
+          },
+          "required": ["branchName"]
+        },
+        "required": ["branchName"]
+      },
+      "execution": {
+        "command": "force_git_branch",
+        "timeout": 30,
+        "retryCount": 0,
+        "errorHandling": "fail"
+      },
+      "validation": {
+        "preConditions": [
+          {
+            "type": "command",
+            "rule": "git status --porcelain",
+            "errorMessage": "Working directory must be clean",
+            "severity": "error"
+          }
+        ],
+        "postConditions": [
+          {
+            "type": "command",
+            "rule": "git branch --show-current",
+            "errorMessage": "Branch creation failed",
+            "severity": "error"
+          }
+        ]
+      },
+      "metadata": {
+        "author": "Dev Sentinel Team",
+        "created": "2025-01-01T00:00:00Z",
+        "modified": "2025-01-01T00:00:00Z",
+        "tags": ["git", "branch", "workflow"],
+        "dependencies": ["git"]
+      }
+    },
+    {
+      "id": "documentation_analysis",
+      "name": "Documentation Analysis",
+      "description": "Analyze documentation files for accuracy, completeness, and consistency",
+      "version": "1.0.0",
+      "category": "documentation",
+      "parameters": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "targetFiles": {
+              "type": "array",
+              "description": "Documentation files to analyze",
+              "items": {
+                "type": "string"
+              },
+              "default": ["README.md", "docs/**/*.md"]
+            },
+            "checkLinks": {
+              "type": "boolean",
+              "description": "Check for broken internal links",
+              "default": true
+            },
+            "checkCodeExamples": {
+              "type": "boolean",
+              "description": "Validate code examples against actual implementation",
+              "default": true
+            },
+            "checkSpelling": {
+              "type": "boolean",
+              "description": "Perform spell checking",
+              "default": false
+            },
+            "generateReport": {
+              "type": "boolean",
+              "description": "Generate detailed analysis report",
+              "default": true
+            }
+          }
+        }
+      },
+      "execution": {
+        "command": "force_doc_analysis",
+        "timeout": 120,
+        "retryCount": 1,
+        "errorHandling": "warn"
+      },
+      "validation": {
+        "preConditions": [
+          {
+            "type": "function",
+            "rule": "check_file_exists",
+            "errorMessage": "Documentation files not found",
+            "severity": "warning"
+          }
+        ]
+      },
+      "metadata": {
+        "author": "Dev Sentinel Team",
+        "created": "2025-01-01T00:00:00Z",
+        "modified": "2025-01-01T00:00:00Z",
+        "tags": ["documentation", "analysis", "quality"],
+        "dependencies": ["markdown", "pygments"]
+      }
+    },
+    {
+      "id": "code_quality_check",
+      "name": "Code Quality Analysis",
+      "description": "Comprehensive code quality analysis including linting, type checking, and complexity analysis",
+      "version": "1.0.0",
+      "category": "code-quality",
+      "parameters": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "targetFiles": {
+              "type": "array",
+              "description": "Files or directories to analyze",
+              "items": {
+                "type": "string"
+              },
+              "default": ["**/*.py"]
+            },
+            "linters": {
+              "type": "array",
+              "description": "Linters to run",
+              "items": {
+                "type": "string",
+                "enum": ["flake8", "pylint", "mypy", "black", "isort"]
+              },
+              "default": ["flake8", "mypy"]
+            },
+            "failOnError": {
+              "type": "boolean",
+              "description": "Fail the check if errors are found",
+              "default": false
+            },
+            "autoFix": {
+              "type": "boolean",
+              "description": "Automatically fix issues where possible",
+              "default": false
+            },
+            "generateReport": {
+              "type": "boolean",
+              "description": "Generate detailed quality report",
+              "default": true
+            }
+          }
+        }
+      },
+      "execution": {
+        "command": "force_code_quality",
+        "timeout": 300,
+        "retryCount": 1,
+        "errorHandling": "warn"
+      },
+      "validation": {
+        "preConditions": [
+          {
+            "type": "function",
+            "rule": "check_python_files_exist",
+            "errorMessage": "No Python files found for analysis",
+            "severity": "warning"
+          }
+        ]
+      },
+      "metadata": {
+        "author": "Dev Sentinel Team",
+        "created": "2025-01-01T00:00:00Z",
+        "modified": "2025-01-01T00:00:00Z",
+        "tags": ["code-quality", "linting", "static-analysis"],
+        "dependencies": ["flake8", "pylint", "mypy"]
+      }
+    },
+    {
+      "id": "project_structure_analysis",
+      "name": "Project Structure Analysis",
+      "description": "Analyze project structure and suggest improvements based on best practices",
+      "version": "1.0.0",
+      "category": "analysis",
+      "parameters": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "projectType": {
+              "type": "string",
+              "description": "Type of project",
+              "enum": ["python-package", "web-app", "cli-tool", "library", "service"],
+              "default": "python-package"
+            },
+            "checkNaming": {
+              "type": "boolean",
+              "description": "Check file and directory naming conventions",
+              "default": true
+            },
+            "checkStructure": {
+              "type": "boolean",
+              "description": "Check overall project structure",
+              "default": true
+            },
+            "suggestImprovements": {
+              "type": "boolean",
+              "description": "Suggest structural improvements",
+              "default": true
+            }
+          }
+        }
+      },
+      "execution": {
+        "command": "force_project_analysis",
+        "timeout": 60,
+        "retryCount": 1,
+        "errorHandling": "warn"
+      },
+      "metadata": {
+        "author": "Dev Sentinel Team",
+        "created": "2025-01-01T00:00:00Z",
+        "modified": "2025-01-01T00:00:00Z",
+        "tags": ["project", "structure", "analysis", "best-practices"]
+      }
+    }
+  ]
+}

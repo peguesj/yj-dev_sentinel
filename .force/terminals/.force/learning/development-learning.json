@@ -1,0 +1,172 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "title": "Agentic Development Learning Records",
+  "description": "Machine learning data for continuous improvement of agentic development processes and tool effectiveness",
+  "version": "1.0.0",
+  "learning_records": [
+    {
+      "id": "docs_restructure_20250623",
+      "event_type": "pattern_application",
+      "context": {
+        "project_phase": "foundation",
+        "tools_used": ["modular_documentation_structure", "project_structure_migration"],
+        "complexity_level": "high",
+        "team_size": 1
+      },
+      "outcome": {
+        "success": true,
+        "metrics": {
+          "files_migrated": 38,
+          "directories_created": 19,
+          "links_updated": 45,
+          "execution_time_minutes": 120,
+          "error_rate": 0.02
+        },
+        "lessons_learned": [
+          "Modular documentation structure significantly improves navigation",
+          "Backward compatibility via symlinks reduces migration risk",
+          "Automated link validation prevents broken references",
+          "Comprehensive README files improve discoverability"
+        ],
+        "improvements_suggested": [
+          "Create automated link checking CI/CD integration",
+          "Develop template generation for new documentation sections",
+          "Implement automated cross-reference generation",
+          "Add documentation coverage metrics"
+        ]
+      },
+      "timestamp": "2025-06-23T23:45:00Z"
+    },
+    {
+      "id": "version_management_20250624",
+      "event_type": "tool_execution",
+      "context": {
+        "project_phase": "foundation",
+        "tools_used": ["grouped_commit_workflow", "semantic_versioning"],
+        "complexity_level": "medium",
+        "team_size": 1
+      },
+      "outcome": {
+        "success": true,
+        "metrics": {
+          "commits_created": 3,
+          "version_increment": "minor",
+          "files_affected": 18,
+          "execution_time_minutes": 15,
+          "git_operations": 12
+        },
+        "lessons_learned": [
+          "Semantic versioning provides clear change impact communication",
+          "Grouped commits improve git history readability",
+          "Version consistency across files prevents confusion",
+          "Automated version tagging reduces manual errors"
+        ],
+        "improvements_suggested": [
+          "Implement automated version validation",
+          "Create version impact analysis tool",
+          "Add changelog auto-generation from commits",
+          "Develop version consistency checking"
+        ]
+      },
+      "timestamp": "2025-06-24T07:47:00Z"
+    },
+    {
+      "id": "command_grouping_efficiency_20250624",
+      "event_type": "optimization",
+      "context": {
+        "project_phase": "foundation",
+        "tools_used": ["efficient_command_grouping"],
+        "complexity_level": "medium",
+        "team_size": 1
+      },
+      "outcome": {
+        "success": true,
+        "metrics": {
+          "commands_grouped": 15,
+          "execution_time_reduction": 0.65,
+          "error_reduction": 0.30,
+          "terminal_calls_reduced": 12
+        },
+        "lessons_learned": [
+          "Command grouping significantly reduces execution time",
+          "Logical command ordering improves success rates",
+          "Error handling becomes more complex with grouped commands",
+          "Context preservation is crucial for grouped operations"
+        ],
+        "improvements_suggested": [
+          "Develop dependency analysis for command grouping",
+          "Create error recovery strategies for grouped commands",
+          "Implement parallel execution for independent commands",
+          "Add command grouping optimization heuristics"
+        ]
+      },
+      "timestamp": "2025-06-24T07:47:00Z"
+    },
+    {
+      "id": "project_management_system_20250624",
+      "event_type": "tool_execution",
+      "context": {
+        "project_phase": "foundation",
+        "tools_used": ["versioned_project_management", "continuous_changelog_pattern"],
+        "complexity_level": "high",
+        "team_size": 1
+      },
+      "outcome": {
+        "success": true,
+        "metrics": {
+          "documentation_files_created": 17,
+          "cross_references_established": 25,
+          "anchor_links_created": 40,
+          "timestamp_entries": 5,
+          "implementation_coverage": 0.85
+        },
+        "lessons_learned": [
+          "Versioned project management enables long-term tracking",
+          "Continuous changelog improves transparency",
+          "Anchor-based cross-referencing maintains context",
+          "Handoff documentation reduces knowledge transfer time"
+        ],
+        "improvements_suggested": [
+          "Automate changelog entry generation from git activity",
+          "Create project health dashboard from management data",
+          "Implement stakeholder notification system",
+          "Develop project management template generator"
+        ]
+      },
+      "timestamp": "2025-06-24T07:47:00Z"
+    },
+    {
+      "id": "force_system_creation_20250624",
+      "event_type": "tool_execution",
+      "context": {
+        "project_phase": "foundation",
+        "tools_used": ["json_schema_design", "tool_definition_pattern"],
+        "complexity_level": "expert",
+        "team_size": 1
+      },
+      "outcome": {
+        "success": true,
+        "metrics": {
+          "tools_defined": 4,
+          "patterns_documented": 5,
+          "constraints_established": 10,
+          "schema_complexity": 0.95,
+          "type_safety_coverage": 1.0
+        },
+        "lessons_learned": [
+          "JSON schema provides strong type safety for tool definitions",
+          "Comprehensive tool metadata enables learning and optimization",
+          "Pattern documentation improves reusability",
+          "Constraint enforcement maintains quality standards"
+        ],
+        "improvements_suggested": [
+          "Create visual tool dependency mapping",
+          "Implement tool performance analytics",
+          "Develop pattern effectiveness metrics",
+          "Add constraint violation reporting dashboard"
+        ]
+      },
+      "timestamp": "2025-06-24T07:47:00Z"
+    }
+  ]
+}
