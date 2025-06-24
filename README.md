@@ -1,32 +1,45 @@
-# Dev Sentinel: Autonomous Development Agent Architecture
+# Dev Sentinel: Force-Enabled Autonomous Development Platform
 
 <div align="center">
   <img src="docs/diagrams/dev_sentinel_logo.svg" alt="Dev Sentinel Logo" width="200"/>
   
-  **Version: 0.2.0**  
-  **Date: May 2, 2025**  
+  **Version: 2.0.0**  
+  **Date: June 24, 2025**  
   **Author: Jeremiah Pegues <jeremiah@pegues.io>**  
   **Organization: Pegues OPSCORP LLC**  
   **License: [MIT](LICENSE-MIT.md)**
   
   [![Built with: Python](https://img.shields.io/badge/Built%20with-Python-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-  [![Architecture: Agent-Based](https://img.shields.io/badge/Architecture-Agent%20Based-009688?logo=blueprint&logoColor=white)](docs/markdown/architecture.md)
+  [![Architecture: Force-Enabled](https://img.shields.io/badge/Architecture-Force%20Enabled-009688?logo=blueprint&logoColor=white)](docs/.force/README.md)
   [![Documentation: PlantUML](https://img.shields.io/badge/Documentation-PlantUML-orange?logo=diagram&logoColor=white)](docs/diagrams/)
+  [![Force System: Active](https://img.shields.io/badge/Force%20System-Active-brightgreen?logo=star&logoColor=white)](docs/.force/)
 </div>
 
 ## 📋 Overview
 
-Dev Sentinel is a comprehensive framework for autonomous development agents that collaborate to streamline software development, enforce best practices, and ensure high-quality documentation. The system consists of specialized intelligent agents that work together through a shared message bus to manage version control, inspect documentation, analyze code quality, and integrate with external systems.
+Dev Sentinel is a modernized, schema-driven autonomous development platform that combines proven agent-based architecture with the sophisticated Force agentic framework. The system provides comprehensive development assistance through intelligent tools, proven patterns, automated constraints, continuous learning, and governance enforcement.
+
+### 🚀 What's New in Version 2.0
+
+- **Force System Integration**: Complete schema-driven development framework
+- **Enhanced MCP Support**: Advanced Model Context Protocol integration for VS Code
+- **Self-Learning Capabilities**: System learns and optimizes from usage patterns
+- **Governance Framework**: Automated quality gates and compliance enforcement
+- **Pattern-Driven Development**: Codified best practices with measurable outcomes
+- **Advanced Tool System**: Parameterized, validated tools with comprehensive error handling
 
 ### Key Features
 
-- **Autonomous Version Control Management**: Intelligent commit, branch, and merge operations
-- **Documentation Quality Assurance**: Automated inspection and improvement of READMEs and code documentation
-- **Code Quality Analysis**: Static analysis integration with multi-language support
-- **Agent Collaboration Framework**: Event-driven architecture with message bus communication
-- **Terminal State Persistence**: Context-aware management of development environments
-- **Extensible Architecture**: Plug-in model for adding new agent capabilities
-- **Visualization Capabilities**: Automated generation of system diagrams and documentation
+- **🛠️ Schema-Driven Tools**: Validated, parameterized development tools with comprehensive monitoring
+- **📋 Pattern Management**: Proven development workflows with context-aware application
+- **🔒 Constraint Enforcement**: Automated quality gates with auto-fix capabilities
+- **🧠 Learning System**: Continuous optimization through execution analytics and pattern recognition
+- **🏛️ Governance Framework**: Policy enforcement with configurable quality gates
+- **🤖 Autonomous Agents**: Legacy agent compatibility with modern Force integration
+- **📊 Real-time Analytics**: Performance monitoring and optimization insights
+- **🔌 MCP Integration**: Full Model Context Protocol support with Force capabilities
+- **🔄 Version Control Intelligence**: Advanced git workflow management with semantic versioning
+- **📚 Documentation Quality**: Automated analysis, validation, and synchronization
 
 ## 🏛️ System Architecture
 
@@ -1400,7 +1413,82 @@ classDiagram
 ```
 </details>
 
-## 🚀 Getting Started
+## � MCP Integration
+
+Dev Sentinel provides modern integration with the Model Context Protocol (MCP), enabling seamless integration with VS Code and other MCP-compatible development tools. The MCP integration allows you to interact with Dev Sentinel agents directly from your development environment.
+
+### Features
+
+- **Direct Tool Integration**: Access Dev Sentinel capabilities as VS Code tools
+- **Async Command Processing**: Full async/await support for responsive interactions
+- **Agent-Specific Adapters**: Specialized adapters for each agent type with tailored command vocabularies
+- **Dynamic Capability Discovery**: Runtime discovery of agent capabilities and supported commands
+- **Error Recovery**: Graceful handling of errors with informative feedback
+
+### Architecture
+
+The MCP integration consists of three main components:
+
+1. **MCP Server** (`integration/fast_agent/mcp_servers.py`)
+   - Implements the MCP protocol for tool integration
+   - Provides standardized tool schemas for external systems
+   - Handles command routing and response formatting
+
+2. **Adapter Framework** (`integration/fast_agent/adapter.py`)
+   - Abstract base classes for extensible adapter patterns
+   - MCP-specific adapters with async initialization
+   - Dynamic capability reporting and error handling
+
+3. **Specialized Adapters** (`integration/fast_agent/specialized_adapters.py`)
+   - Agent-specific adapters for each Dev Sentinel agent:
+     - `VCMAAdapter` - Version Control Master Agent operations
+     - `VCLAAdapter` - Version Control Listener Agent monitoring
+     - `CDIAAdapter` - Code Documentation Inspector operations
+     - `RDIAAdapter` - README Documentation Inspector operations
+     - `SAAAdapter` - Static Analysis Agent operations
+
+### Usage
+
+#### Basic Agent Interaction
+```python
+from integration.fast_agent.specialized_adapters import create_specialized_adapter
+
+# Create specialized adapter for any agent
+adapter = await create_specialized_adapter(agent, adapter_type="mcp")
+
+# Execute agent-specific commands
+result = await adapter.process_command("analyze_commits", {
+    "repository_path": "/path/to/repo",
+    "branch": "main"
+})
+```
+
+#### Running the MCP Server
+```python
+from integration.fast_agent.mcp_servers import DevSentinelMCPServer
+
+# Initialize and run MCP server
+server = DevSentinelMCPServer()
+await server.run()
+```
+
+### Installation
+
+To use MCP integration, install the MCP package:
+
+```bash
+pip install mcp
+```
+
+### VS Code Integration
+
+1. Install a compatible MCP client for VS Code
+2. Configure the client to connect to Dev Sentinel's MCP server
+3. Access Dev Sentinel tools directly from the VS Code command palette
+
+The MCP integration provides a modern, standards-compliant way to integrate Dev Sentinel with contemporary development workflows and tools.
+
+## �🚀 Getting Started
 
 Dev Sentinel requires Python 3.12 and several dependencies to run its agent-based architecture. Follow these steps to set up and start using the system:
 

@@ -1,0 +1,216 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "title": "Force System Governance and Management",
+  "description": "Governance policies, quality gates, and management procedures for the Force agentic development assistance system",
+  "version": "1.0.0",
+  "governance": {
+    "system_metadata": {
+      "name": "Force Agentic Development Assistant",
+      "version": "1.0.0",
+      "description": "Comprehensive system for recording, analyzing, and improving agentic development processes through tools, patterns, constraints, and machine learning",
+      "maintainers": ["development-team"],
+      "last_updated": "2025-06-24T07:47:00Z",
+      "status": "active_development"
+    },
+    "quality_gates": [
+      {
+        "id": "tool_definition_validation",
+        "name": "Tool Definition Quality Gate",
+        "description": "Validates new tool definitions against schema and quality standards",
+        "criteria": [
+          "Tool must validate against force-schema.json",
+          "All required properties must be present",
+          "Tool complexity must be justified",
+          "Performance metrics must be initialized",
+          "Error handling must be comprehensive"
+        ],
+        "automated": true,
+        "enforcement_level": "blocking"
+      },
+      {
+        "id": "pattern_effectiveness_review",
+        "name": "Pattern Effectiveness Review",
+        "description": "Reviews pattern effectiveness based on usage data and outcomes",
+        "criteria": [
+          "Pattern must have documented implementation examples",
+          "Success rate must be >70% for patterns marked as stable",
+          "Pattern must show measurable benefits over alternatives",
+          "Trade-offs must be clearly documented"
+        ],
+        "automated": false,
+        "enforcement_level": "advisory",
+        "review_frequency": "monthly"
+      },
+      {
+        "id": "constraint_compliance_audit",
+        "name": "Constraint Compliance Audit",
+        "description": "Audits system compliance with defined development constraints",
+        "criteria": [
+          "All error-level constraints must have 100% compliance",
+          "Warning-level constraints must have >90% compliance",
+          "Auto-fix mechanisms must be functional",
+          "Constraint violations must be tracked and analyzed"
+        ],
+        "automated": true,
+        "enforcement_level": "monitoring",
+        "audit_frequency": "weekly"
+      }
+    ],
+    "learning_policies": [
+      {
+        "id": "data_collection_policy",
+        "name": "Learning Data Collection Policy",
+        "description": "Defines what data is collected for machine learning and continuous improvement",
+        "data_types": [
+          "tool_execution_metrics",
+          "pattern_application_outcomes",
+          "constraint_violation_patterns",
+          "error_resolution_strategies",
+          "performance_optimization_results"
+        ],
+        "retention_period": "2_years",
+        "anonymization": true,
+        "sensitive_data_handling": "exclude"
+      },
+      {
+        "id": "model_update_policy",
+        "name": "Learning Model Update Policy",
+        "description": "Defines how learning models are updated and validated",
+        "update_triggers": [
+          "significant_performance_change",
+          "new_pattern_emergence",
+          "constraint_effectiveness_change",
+          "manual_review_request"
+        ],
+        "validation_requirements": [
+          "A/B testing with control group",
+          "Performance regression testing",
+          "Quality metrics validation",
+          "Stakeholder review and approval"
+        ],
+        "rollback_criteria": [
+          "performance_degradation > 10%",
+          "error_rate_increase > 5%",
+          "user_satisfaction_decrease > 15%"
+        ]
+      }
+    ],
+    "usage_guidelines": [
+      {
+        "id": "tool_selection_guidelines",
+        "name": "Tool Selection and Usage Guidelines",
+        "principles": [
+          "Select tools based on complexity appropriateness",
+          "Prefer established tools over experimental ones for critical operations",
+          "Consider tool dependencies and resource requirements",
+          "Validate tool compatibility with current project context"
+        ],
+        "decision_matrix": {
+          "complexity_mapping": {
+            "low": "simple_operations",
+            "medium": "standard_workflows",
+            "high": "complex_integrations",
+            "expert": "system_critical_operations"
+          },
+          "success_rate_thresholds": {
+            "production_use": 0.95,
+            "development_use": 0.85,
+            "experimental_use": 0.70
+          }
+        }
+      },
+      {
+        "id": "pattern_application_guidelines",
+        "name": "Pattern Application Guidelines",
+        "principles": [
+          "Apply patterns consistently across similar contexts",
+          "Document deviations from standard patterns with justification",
+          "Evaluate pattern effectiveness regularly",
+          "Adapt patterns to specific project needs when necessary"
+        ],
+        "application_process": [
+          "Identify applicable patterns for current context",
+          "Evaluate pattern fit and potential benefits",
+          "Plan implementation with consideration of trade-offs",
+          "Execute pattern implementation",
+          "Monitor and evaluate outcomes",
+          "Document lessons learned and improvements"
+        ]
+      }
+    ],
+    "maintenance_procedures": [
+      {
+        "id": "schema_evolution",
+        "name": "Schema Evolution Procedure",
+        "description": "Process for evolving the Force schema while maintaining backward compatibility",
+        "steps": [
+          "Propose schema changes with justification",
+          "Create migration strategy for existing data",
+          "Implement backward compatibility mechanisms",
+          "Test schema changes with existing tools",
+          "Update all tool definitions to new schema",
+          "Deploy schema changes with versioning"
+        ],
+        "approval_required": true,
+        "backward_compatibility": "required"
+      },
+      {
+        "id": "tool_lifecycle_management",
+        "name": "Tool Lifecycle Management",
+        "description": "Process for managing tools from creation to deprecation",
+        "lifecycle_stages": {
+          "experimental": {
+            "criteria": "new_tool_under_development",
+            "validation_required": false,
+            "usage_restrictions": "development_only"
+          },
+          "stable": {
+            "criteria": "success_rate > 85% and usage_count > 10",
+            "validation_required": true,
+            "usage_restrictions": "none"
+          },
+          "deprecated": {
+            "criteria": "better_alternative_available or low_usage",
+            "validation_required": false,
+            "usage_restrictions": "discouraged_with_warnings"
+          },
+          "retired": {
+            "criteria": "deprecated_for > 6_months and usage_count < 5",
+            "validation_required": false,
+            "usage_restrictions": "removed_from_system"
+          }
+        }
+      }
+    ],
+    "reporting": [
+      {
+        "id": "system_health_report",
+        "name": "Force System Health Report",
+        "description": "Regular report on system performance, tool effectiveness, and learning progress",
+        "frequency": "weekly",
+        "metrics": [
+          "tool_usage_statistics",
+          "pattern_application_success_rates",
+          "constraint_compliance_levels",
+          "learning_model_performance",
+          "system_error_rates"
+        ],
+        "distribution": ["development_team", "project_stakeholders"]
+      },
+      {
+        "id": "learning_insights_report",
+        "name": "Learning Insights Report",
+        "description": "Monthly analysis of learning data to identify improvement opportunities",
+        "frequency": "monthly",
+        "analysis_areas": [
+          "tool_performance_trends",
+          "pattern_effectiveness_changes",
+          "common_error_patterns",
+          "optimization_opportunities",
+          "emerging_best_practices"
+        ],
+        "actionable_recommendations": true
+      }
+    ]
+  }
+}

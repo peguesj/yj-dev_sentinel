@@ -1,0 +1,114 @@
+# fastagent.config.yaml - Configuration for fast-agent MCP servers
+# This file configures the MCP servers for Dev Sentinel
+
+# Model configuration
+model:
+  default: "o3-mini.high"  # Default model to use with fast-agent
+  # List of allowed models
+  allowed:
+    - "o3-mini.high"
+    - "o3-mini.low"
+    - "o3-preview.high"
+    - "o1.high"
+    - "haiku"
+    - "sonnet"
+    - "opus"
+
+# MCP servers configuration
+mcp:
+  servers:
+    # Dev Sentinel command server - Main server for executing Dev Sentinel commands
+    dev_sentinel:
+      command: "python"
+      args: ["-m", "integration.fast_agent.mcp_servers", "dev_sentinel"]
+      env:
+        PYTHONPATH: "${PYTHONPATH}:${workspaceRoot}"
+      port: 8090
+      
+    # File system operations server
+    filesystem:
+      command: "python"
+      args: ["-m", "integration.fast_agent.mcp_servers", "filesystem"]
+      env:
+        PYTHONPATH: "${PYTHONPATH}:${workspaceRoot}"
+      port: 8091
+      
+    # Version control operations server
+    vcs:
+      command: "python"
+      args: ["-m", "integration.fast_agent.mcp_servers", "vcs"]
+      env:
+        PYTHONPATH: "${PYTHONPATH}:${workspaceRoot}"
+      port: 8092
+      
+    # Documentation inspection operations server
+    documentation:
+      command: "python" 
+      args: ["-m", "integration.fast_agent.mcp_servers", "documentation"]
+      env:
+        PYTHONPATH: "${PYTHONPATH}:${workspaceRoot}"
+      port: 8093
+      
+    # Code analysis operations server
+    code_analysis:
+      command: "python"
+      args: ["-m", "integration.fast_agent.mcp_servers", "code_analysis"]
+      env:
+        PYTHONPATH": "${PYTHONPATH}:${workspaceRoot}"
+      port: 8094
+
+# Workflow configuration - These define common agent workflows
+workflows:
+  # Documentation validation workflow
+  doc_validation:
+    # Chain of agents to inspect documentation
+    chain:
+      - documentation
+      - code_analysis
+    description: "Inspect documentation and code quality in the repository"
+    
+  # Code improvement workflow 
+  code_improvement:
+    # Chain of agents to analyze and improve code
+    chain: 
+      - code_analysis
+      - documentation
+      - vcs
+    description: "Analyze code quality, improve documentation, and commit changes"
+
+# Agent configuration
+agents:
+  # Version Control Master Agent
+  vcma:
+    servers:
+      - vcs
+      - filesystem
+    instruction: "You are a version control expert that helps manage git repositories, commits, branches and merges."
+    model: "${model.default}"
+    
+  # Documentation Inspector Agent
+  doc_inspector:
+    servers:
+      - documentation
+      - filesystem
+    instruction: "You are a documentation expert that inspects code documentation for quality and completeness."
+    model: "${model.default}"
+  
+  # Code Analysis Agent
+  code_analyzer:
+    servers:
+      - code_analysis
+      - filesystem
+    instruction: "You are a code quality expert that analyzes code for issues, bugs, and best practices."
+    model: "${model.default}"
+    
+  # YUNG Command Processor Agent
+  yung_processor:
+    servers:
+      - dev_sentinel
+      - filesystem
+      - vcs
+      - documentation
+      - code_analysis
+    instruction: "You are a command processor that interprets and executes YUNG commands for Dev Sentinel."
+    model: "${model.default}"

@@ -1,0 +1,173 @@
+{
+  "id": "implementation-status-auditor",
+  "name": "Implementation Status Auditor",
+  "description": "Tool for comparing documented project status against actual codebase implementation to identify misalignments",
+  "type": "audit",
+  "category": "project-management",
+  "version": "1.0.0",
+  "purpose": {
+    "primary": "Ensure documentation accurately reflects actual implementation progress",
+    "secondary": "Prevent status reporting errors and improve handoff accuracy"
+  },
+  "when": {
+    "required": [
+      "Before major handoffs or phase transitions",
+      "Weekly during active development periods",
+      "Before status reports to stakeholders",
+      "When implementation vs documentation discrepancies are suspected"
+    ],
+    "optional": [
+      "Before releases or deployments",
+      "During project health checks",
+      "As part of retrospective processes"
+    ]
+  },
+  "inputs": {
+    "required": [
+      {
+        "name": "documentationSources",
+        "type": "array",
+        "description": "List of documentation files containing implementation status",
+        "examples": ["implementation-master-plan.md", "current-status.md", "CHANGELOG.md"]
+      },
+      {
+        "name": "codebaseRoot",
+        "type": "string",
+        "description": "Root directory of the codebase to audit",
+        "examples": ["./", "/project/root"]
+      }
+    ],
+    "optional": [
+      {
+        "name": "auditScope",
+        "type": "array",
+        "description": "Specific areas to focus audit on",
+        "examples": ["database", "authentication", "frontend", "backend"]
+      }
+    ]
+  },
+  "process": {
+    "steps": [
+      {
+        "id": "1",
+        "name": "Parse Documentation Status",
+        "description": "Extract implementation status claims from documentation",
+        "actions": [
+          "Read implementation plans and status documents",
+          "Extract completion percentages and status indicators",
+          "Identify specific deliverables marked as complete or in progress"
+        ]
+      },
+      {
+        "id": "2", 
+        "name": "Scan Codebase Implementation",
+        "description": "Analyze actual codebase for evidence of implementation",
+        "actions": [
+          "Check for database migrations and schema files",
+          "Verify API endpoints and function implementations",
+          "Examine frontend components and application structure",
+          "Validate configuration files and environment setup"
+        ]
+      },
+      {
+        "id": "3",
+        "name": "Compare and Identify Discrepancies",
+        "description": "Cross-reference documentation claims with code evidence",
+        "actions": [
+          "Match documented deliverables with code implementations",
+          "Identify completed work not reflected in documentation",
+          "Flag documented completions without code evidence",
+          "Calculate actual vs documented completion percentages"
+        ]
+      },
+      {
+        "id": "4",
+        "name": "Generate Audit Report",
+        "description": "Produce comprehensive report of findings and recommendations",
+        "actions": [
+          "List all discrepancies with evidence",
+          "Provide corrected status assessments",
+          "Recommend documentation updates",
+          "Suggest process improvements"
+        ]
+      }
+    ]
+  },
+  "outputs": {
+    "primary": {
+      "name": "auditReport",
+      "type": "object",
+      "description": "Comprehensive audit findings and recommendations",
+      "structure": {
+        "discrepancies": "array of misalignments found",
+        "corrections": "recommended status updates",
+        "evidence": "code-based proof of implementations",
+        "actionItems": "specific update tasks needed"
+      }
+    },
+    "secondary": [
+      {
+        "name": "updatedDocumentation",
+        "type": "array",
+        "description": "Corrected documentation files"
+      },
+      {
+        "name": "processImprovements",
+        "type": "array", 
+        "description": "Recommended workflow enhancements"
+      }
+    ]
+  },
+  "success": {
+    "criteria": [
+      "All documentation accurately reflects codebase implementation",
+      "No major discrepancies between status and evidence",
+      "Stakeholders have accurate project status information",
+      "Handoff documentation matches technical reality"
+    ],
+    "metrics": [
+      "Percentage of accurate status claims",
+      "Number of discrepancies identified and resolved",
+      "Time to complete audit and corrections",
+      "Stakeholder confidence in status reporting"
+    ]
+  },
+  "examples": [
+    {
+      "scenario": "Phase transition audit",
+      "context": "Before moving from Phase 1 to Phase 2, verify Phase 1 completeness",
+      "process": "Audit all Phase 1 deliverables against actual implementations",
+      "outcome": "Accurate phase completion status and realistic Phase 2 planning"
+    },
+    {
+      "scenario": "Weekly development audit",
+      "context": "Regular check during active development to prevent drift",
+      "process": "Quick scan of recent implementations vs documentation updates",
+      "outcome": "Early detection and correction of documentation lag"
+    }
+  ],
+  "integration": {
+    "triggeredBy": ["status-updates", "handoff-preparation", "project-reviews"],
+    "triggers": ["documentation-updates", "status-corrections", "process-improvements"],
+    "dependencies": ["project-structure-scan", "documentation-parsing", "evidence-collection"]
+  },
+  "validation": {
+    "checklist": [
+      "All major system components audited",
+      "Evidence verified for completion claims", 
+      "Discrepancies documented with corrective actions",
+      "Updated documentation reflects technical reality",
+      "Process improvements identified and recorded"
+    ]
+  },
+  "metadata": {
+    "createdBy": "Implementation audit discovery process",
+    "createdDate": "2025-06-24T14:20:00-08:00",
+    "lastUpdated": "2025-06-24T14:20:00-08:00",
+    "relatedLearning": ["documentation-implementation-sync"],
+    "relatedPatterns": ["documentation-sync", "project-management", "handoff-documentation"],
+    "relatedConstraints": ["documentation-accuracy", "status-verification"],
+    "maturity": "initial",
+    "confidence": "high"
+  }
+}
