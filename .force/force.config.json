@@ -1,0 +1,74 @@
+{
+  "$schema": "schemas/force-schema.json",
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Force System Configuration",
+    "description": "Global configuration for the Force agentic development system",
+    "created": "2025-06-28T00:00:00Z",
+    "updated": "2025-06-28T00:00:00Z"
+  },
+  "configuration": {
+    "system": {
+      "version": "1.0.0",
+      "schema_version": "1.0.0",
+      "force_directory": ".force",
+      "auto_create_directories": true,
+      "verbose_logging": true
+    },
+    "directories": {
+      "schemas": "schemas",
+      "tools": "tools", 
+      "patterns": "patterns",
+      "constraints": "constraints",
+      "learning": "learning",
+      "governance": "governance",
+      "reports": "reports",
+      "terminals": "terminals",
+      "milestones": "milestones"
+    },
+    "reports": {
+      "default_directory": "reports",
+      "filename_template": "FORCE_{report_type}_REPORT_{timestamp}.md",
+      "include_timestamps": true,
+      "auto_archive": false,
+      "max_reports_per_type": 10,
+      "supported_types": [
+        "completion",
+        "git_task", 
+        "doc_vcs",
+        "execution",
+        "migration",
+        "implementation", 
+        "success",
+        "analysis",
+        "security",
+        "performance"
+      ]
+    },
+    "execution": {
+      "default_timeout": 300,
+      "max_retries": 3,
+      "parallel_execution": true,
+      "track_metrics": true,
+      "auto_learning": true
+    },
+    "validation": {
+      "strict_schema_validation": true,
+      "enforce_constraints": true,
+      "validate_pre_conditions": true,
+      "validate_post_conditions": true
+    },
+    "learning": {
+      "collect_execution_data": true,
+      "collect_performance_metrics": true,
+      "collect_error_patterns": true,
+      "auto_optimization": false
+    },
+    "governance": {
+      "enforce_policies": true,
+      "require_approval": false,
+      "audit_logging": true,
+      "quality_gates": true
+    }
+  }
+}

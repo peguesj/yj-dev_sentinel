@@ -141,10 +141,14 @@
           "name": "generate_report",
           "description": "Generate comprehensive analysis report",
           "type": "tool",
-          "tool": "generate-analysis-report",
+          "tool": "force-report-generator",
           "parameters": {
-            "analysis_results": "${all_results}",
-            "project_path": "${project_path}"
+            "report_type": "completion",
+            "report_content": "${analysis_results}",
+            "project_context": {
+              "project_name": "analysis-workflow",
+              "phase": "analysis"
+            }
           },
           "continue_on_error": false
         }
@@ -539,7 +543,13 @@
           "tool": "security-analysis",
           "parameters": {
             "source_path": "${project_path}",
-            "scan_types": ["injection", "authentication", "authorization", "encryption", "input_validation"],
+            "scan_types": [
+              "injection",
+              "authentication",
+              "authorization",
+              "encryption",
+              "input_validation"
+            ],
             "severity_levels": ["low", "medium", "high", "critical"]
           },
           "continue_on_error": false
@@ -615,10 +625,14 @@
           },
           "then": {
             "type": "tool",
-            "tool": "generate-security-report",
+            "tool": "force-report-generator",
             "parameters": {
-              "audit_results": "${all_results}",
-              "project_path": "${project_path}"
+              "report_type": "execution",
+              "report_content": "${audit_results}",
+              "project_context": {
+                "project_name": "security-audit",
+                "phase": "security_analysis"
+              }
             }
           }
         }

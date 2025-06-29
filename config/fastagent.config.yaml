@@ -3,7 +3,7 @@
 
 # Model configuration
 model:
-  default: "o3-mini.high"  # Default model to use with fast-agent
+  default: "o3-mini.high" # Default model to use with fast-agent
   # List of allowed models
   allowed:
     - "o3-mini.high"
@@ -24,7 +24,7 @@ mcp:
       env:
         PYTHONPATH: "${PYTHONPATH}:${workspaceRoot}"
       port: 8090
-      
+
     # File system operations server
     filesystem:
       command: "python"
@@ -32,7 +32,7 @@ mcp:
       env:
         PYTHONPATH: "${PYTHONPATH}:${workspaceRoot}"
       port: 8091
-      
+
     # Version control operations server
     vcs:
       command: "python"
@@ -40,15 +40,15 @@ mcp:
       env:
         PYTHONPATH: "${PYTHONPATH}:${workspaceRoot}"
       port: 8092
-      
+
     # Documentation inspection operations server
     documentation:
-      command: "python" 
+      command: "python"
       args: ["-m", "integration.fast_agent.mcp_servers", "documentation"]
       env:
         PYTHONPATH: "${PYTHONPATH}:${workspaceRoot}"
       port: 8093
-      
+
     # Code analysis operations server
     code_analysis:
       command: "python"
@@ -66,11 +66,11 @@ workflows:
       - documentation
       - code_analysis
     description: "Inspect documentation and code quality in the repository"
-    
-  # Code improvement workflow 
+
+  # Code improvement workflow
   code_improvement:
     # Chain of agents to analyze and improve code
-    chain: 
+    chain:
       - code_analysis
       - documentation
       - vcs
@@ -85,7 +85,7 @@ agents:
       - filesystem
     instruction: "You are a version control expert that helps manage git repositories, commits, branches and merges."
     model: "${model.default}"
-    
+
   # Documentation Inspector Agent
   doc_inspector:
     servers:
@@ -93,7 +93,7 @@ agents:
       - filesystem
     instruction: "You are a documentation expert that inspects code documentation for quality and completeness."
     model: "${model.default}"
-  
+
   # Code Analysis Agent
   code_analyzer:
     servers:
@@ -101,7 +101,7 @@ agents:
       - filesystem
     instruction: "You are a code quality expert that analyzes code for issues, bugs, and best practices."
     model: "${model.default}"
-    
+
   # YUNG Command Processor Agent
   yung_processor:
     servers:
