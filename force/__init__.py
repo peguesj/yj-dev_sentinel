@@ -11,6 +11,7 @@ import json
 import logging
 import asyncio
 import traceback
+import subprocess
 from typing import Dict, List, Any, Optional, Union, Tuple
 from datetime import datetime, timezone
 from pathlib import Path
@@ -56,6 +57,13 @@ class ForceEngine:
     policy enforcement.
     """
     
+    # Module import flags to prevent circular imports
+    _tools_module_imported = False
+    _patterns_module_imported = False
+    _constraints_module_imported = False
+    _learning_module_imported = False
+    _governance_module_imported = False
+    
     def __init__(self, force_directory: Optional[str] = None):
         """
         Initialize the Force engine.
@@ -86,6 +94,9 @@ class ForceEngine:
         # Initialize tool executor
         from .tool_executor import ToolExecutor
         self.tool_executor = ToolExecutor(self)
+        
+        # Initialize modular components
+        self._initialize_modular_components()
         
     def _find_force_directory(self, force_directory: Optional[str]) -> Path:
         """Find the Force directory in standard locations."""
@@ -559,3 +570,319 @@ class ForceEngine:
         """Cleanup and persist any pending data."""
         await self._persist_learning_data()
         logger.info("Force engine cleanup completed")
+    
+    def _initialize_modular_components(self):
+        """Initialize the modular components system."""
+        try:
+            # Initialize the tools module if not already done
+            if not ForceEngine._tools_module_imported:
+                from . import tools
+                ForceEngine._tools_module_imported = True
+                logger.info("Imported tools module")
+                
+            # Initialize the patterns module if not already done
+            if not ForceEngine._patterns_module_imported:
+                from . import patterns
+                ForceEngine._patterns_module_imported = True
+                logger.info("Imported patterns module")
+                
+            # Initialize the constraints module if not already done
+            if not ForceEngine._constraints_module_imported:
+                from . import constraints
+                ForceEngine._constraints_module_imported = True
+                logger.info("Imported constraints module")
+                
+            # Initialize the learning module if not already done
+            if not ForceEngine._learning_module_imported:
+                from . import learning
+                self.learning_manager = learning.initialize(self)
+                ForceEngine._learning_module_imported = True
+                logger.info("Initialized learning module")
+                
+            # Initialize the governance module if not already done
+            if not ForceEngine._governance_module_imported:
+                from . import governance
+                self.governance_manager = governance.initialize(self)
+                ForceEngine._governance_module_imported = True
+                logger.info("Initialized governance module")
+                
+            # Load components from the .force directory
+            self._load_force_components()
+            
+        except Exception as e:
+            logger.error(f"Error initializing modular components: {e}")
+            traceback.print_exc()
+            
+    def _load_force_components(self):
+        """Load components from the .force directory into the modular system."""
+        try:
+            # Import necessary modules
+            from . import tools
+            from . import patterns
+            from . import constraints
+            
+            # Load tool definitions from the .force directory
+            # This part will need to be updated as the modules are implemented
+            
+            # Load tool definitions (will implement these in tools module)
+            if hasattr(tools, 'load_tool_definitions'):
+                tools.load_tool_definitions(self.force_dir)
+                logger.info("Loaded tool definitions from .force directory")
+            else:
+                logger.warning("Tool definition loader not available")
+            
+            # TODO: Add loading for patterns, constraints, etc. as they are implemented
+            
+        except ImportError as e:
+            logger.error(f"Error importing modules for Force components: {e}")
+            traceback.print_exc()
+        except Exception as e:
+            logger.error(f"Error loading Force components: {e}")
+            traceback.print_exc()
+    
+    async def execute_json_tool(self, 
+                           tool_definition, 
+                           parameters: Dict[str, Any], 
+                           context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Execute a tool defined in JSON.
+        
+        Args:
+            tool_definition: Tool definition object
+            parameters: Parameters for tool execution
+            context: Optional execution context
+            
+        Returns:
+            Execution result
+        """
+        start_time = datetime.now(timezone.utc)
+        tool_id = tool_definition.id
+        execution_id = f"{tool_id}_{start_time.strftime('%Y%m%d_%H%M%S_%f')}"
+        
+        try:
+            logger.info(f"Executing JSON-defined tool {tool_id} with execution ID {execution_id}")
+            
+            # Validate parameters against schema if available
+            if "parameters" in tool_definition.data:
+                schema = tool_definition.data.get("parameters", {}).get("schema")
+                if schema:
+                    try:
+                        if JSONSCHEMA_AVAILABLE:
+                            validate(instance=parameters, schema=schema)
+                    except ValidationError as e:
+                        raise ToolExecutionError(f"Parameter validation failed: {getattr(e, 'message', str(e))}")
+            
+            # Execute the tool commands
+            result = await self._execute_json_tool_commands(
+                tool_definition.execution.get("commands", []),
+                parameters,
+                context
+            )
+            
+            # Record successful execution
+            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
+            await self._record_json_tool_execution(
+                tool_id, 
+                execution_id, 
+                parameters, 
+                result, 
+                execution_time, 
+                True
+            )
+            
+            return result
+            
+        except Exception as e:
+            logger.error(f"Error executing JSON tool {tool_id}: {e}")
+            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
+            
+            await self._record_json_tool_execution(
+                tool_id, 
+                execution_id, 
+                parameters, 
+                {"error": str(e)}, 
+                execution_time, 
+                False
+            )
+            
+            raise ToolExecutionError(f"JSON tool execution failed: {str(e)}") from e
+            
+    async def _execute_json_tool_commands(self, 
+                                       commands: List[Dict[str, Any]], 
+                                       parameters: Dict[str, Any], 
+                                       context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Execute commands defined in a JSON tool.
+        
+        Args:
+            commands: List of command definitions
+            parameters: Tool parameters
+            context: Optional execution context
+            
+        Returns:
+            Execution result
+        """
+        results = {}
+        execution_context = {**(context or {}), **parameters}
+        
+        for i, command in enumerate(commands):
+            try:
+                action = command.get("action")
+                if not action:
+                    logger.error(f"Command {i+1} has no action defined")
+                    results[f"command_{i+1}_error"] = "No action defined"
+                    continue
+                    
+                cmd_params = command.get("parameters", {})
+                description = command.get("description", f"Command {i+1}")
+                
+                logger.info(f"Executing command: {action} - {description}")
+                
+                # Process parameters with template substitution from context
+                processed_params = self._process_template_params(cmd_params, execution_context)
+                
+                # Handle different command actions
+                if action.startswith("git "):
+                    # Git command
+                    cmd_parts = action.split()
+                    result = await self._execute_system_command(cmd_parts, processed_params)
+                elif hasattr(self.tool_executor, action):
+                    # Tool executor method
+                    method = getattr(self.tool_executor, action)
+                    result = await method(processed_params, execution_context)
+                else:
+                    # Try to find a tool with this ID
+                    result = await self.execute_tool(action, processed_params, execution_context)
+                
+                # Store result in context for subsequent commands
+                results[f"command_{i+1}"] = result
+                execution_context[f"{action}_result"] = result
+                
+            except Exception as e:
+                logger.error(f"Error executing command {i+1}: {e}")
+                results[f"command_{i+1}_error"] = str(e)
+                
+                # Check error handling strategy
+                error_handling = command.get("on_error", "stop")
+                if error_handling == "continue":
+                    continue
+                elif error_handling == "stop":
+                    break
+                elif error_handling == "fail":
+                    raise ToolExecutionError(f"Command {i+1} failed: {str(e)}") from e
+                
+        return {
+            "success": True,
+            "command_results": results,
+            "final_context": execution_context
+        }
+
+    def _process_template_params(self, 
+                               params: Dict[str, Any], 
+                               context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Process template parameters, substituting values from context.
+        
+        Args:
+            params: Parameters with potential template values
+            context: Execution context with values
+            
+        Returns:
+            Processed parameters
+        """
+        result = {}
+        for key, value in params.items():
+            if isinstance(value, str) and value.startswith("${") and value.endswith("}"):
+                context_key = value[2:-1]
+                if context_key in context:
+                    result[key] = context[context_key]
+                else:
+                    result[key] = value  # Keep original if not found
+            else:
+                result[key] = value
+                
+        return result
+        
+    async def _execute_system_command(self, 
+                                    cmd_parts: List[str], 
+                                    params: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Execute a system command.
+        
+        Args:
+            cmd_parts: Command parts (e.g. ["git", "status"])
+            params: Additional parameters
+            
+        Returns:
+            Command execution result
+        """
+        try:
+            # Build final command
+            cmd = list(cmd_parts)
+            
+            # Add parameters as command arguments
+            for key, value in params.items():
+                if isinstance(value, bool):
+                    if value:
+                        cmd.append(f"--{key}")
+                elif value is not None:
+                    cmd.append(f"--{key}={value}")
+            
+            logger.info(f"Executing system command: {' '.join(cmd)}")
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            
+            return {
+                "success": True,
+                "output": result.stdout,
+                "stderr": result.stderr,
+                "returncode": result.returncode
+            }
+            
+        except subprocess.CalledProcessError as e:
+            logger.error(f"System command failed: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "output": e.stdout if hasattr(e, 'stdout') else "",
+                "stderr": e.stderr if hasattr(e, 'stderr') else "",
+                "returncode": e.returncode
+            }
+        except Exception as e:
+            logger.error(f"Error executing system command: {e}")
+            return {
+                "success": False,
+                "error": str(e)
+            }
+            
+    async def _record_json_tool_execution(self,
+                                       tool_id: str,
+                                       execution_id: str,
+                                       parameters: Dict[str, Any],
+                                       result: Dict[str, Any],
+                                       execution_time: float,
+                                       success: bool) -> None:
+        """
+        Record execution of a JSON-defined tool.
+        
+        Args:
+            tool_id: Tool ID
+            execution_id: Unique execution ID
+            parameters: Tool parameters
+            result: Execution result
+            execution_time: Execution time in seconds
+            success: Whether execution was successful
+        """
+        if hasattr(self, 'learning_manager'):
+            await self.learning_manager.record_execution(
+                component_type="tool",
+                component_id=tool_id,
+                parameters=parameters,
+                result=result,
+                execution_time=execution_time,
+                success=success
+            )
