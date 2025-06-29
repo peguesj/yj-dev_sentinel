@@ -13,7 +13,15 @@
             "scope": {
               "type": "string",
               "description": "Scope of the commit (feature, fix, docs, etc.)",
-              "enum": ["feature", "fix", "docs", "style", "refactor", "test", "chore"]
+              "enum": [
+                "feature",
+                "fix",
+                "docs",
+                "style",
+                "refactor",
+                "test",
+                "chore"
+              ]
             },
             "message": {
               "type": "string",
@@ -306,7 +314,13 @@
             "projectType": {
               "type": "string",
               "description": "Type of project",
-              "enum": ["python-package", "web-app", "cli-tool", "library", "service"],
+              "enum": [
+                "python-package",
+                "web-app",
+                "cli-tool",
+                "library",
+                "service"
+              ],
               "default": "python-package"
             },
             "checkNaming": {

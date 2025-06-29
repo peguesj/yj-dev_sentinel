@@ -43,7 +43,7 @@
             "default": true
           },
           "check_images": {
-            "type": "boolean", 
+            "type": "boolean",
             "description": "Whether to validate image references",
             "default": true
           }
@@ -74,10 +74,10 @@
             "items": {
               "type": "object",
               "properties": {
-                "file": {"type": "string"},
-                "line": {"type": "number"},
-                "link": {"type": "string"},
-                "error": {"type": "string"}
+                "file": { "type": "string" },
+                "line": { "type": "number" },
+                "link": { "type": "string" },
+                "error": { "type": "string" }
               }
             },
             "description": "List of broken links found"
@@ -87,10 +87,10 @@
             "items": {
               "type": "object",
               "properties": {
-                "type": {"type": "string"},
-                "priority": {"type": "string"},
-                "description": {"type": "string"},
-                "location": {"type": "string"}
+                "type": { "type": "string" },
+                "priority": { "type": "string" },
+                "description": { "type": "string" },
+                "location": { "type": "string" }
               }
             },
             "description": "Improvement suggestions"
@@ -129,7 +129,13 @@
               "type": "string"
             },
             "description": "Required sections to validate",
-            "default": ["Title", "Description", "Installation", "Usage", "License"]
+            "default": [
+              "Title",
+              "Description",
+              "Installation",
+              "Usage",
+              "License"
+            ]
           },
           "validate_code_examples": {
             "type": "boolean",
@@ -163,9 +169,9 @@
             "items": {
               "type": "object",
               "properties": {
-                "section": {"type": "string"},
-                "issue": {"type": "string"},
-                "suggestion": {"type": "string"}
+                "section": { "type": "string" },
+                "issue": { "type": "string" },
+                "suggestion": { "type": "string" }
               }
             },
             "description": "Content that appears outdated"
@@ -173,9 +179,9 @@
           "code_examples_status": {
             "type": "object",
             "properties": {
-              "total": {"type": "number"},
-              "valid": {"type": "number"},
-              "invalid": {"type": "array", "items": {"type": "string"}}
+              "total": { "type": "number" },
+              "valid": { "type": "number" },
+              "invalid": { "type": "array", "items": { "type": "string" } }
             },
             "description": "Status of code examples in README"
           }
@@ -240,11 +246,11 @@
             "items": {
               "type": "object",
               "properties": {
-                "file": {"type": "string"},
-                "line": {"type": "number"},
-                "rule": {"type": "string"},
-                "severity": {"type": "string"},
-                "message": {"type": "string"}
+                "file": { "type": "string" },
+                "line": { "type": "number" },
+                "rule": { "type": "string" },
+                "severity": { "type": "string" },
+                "message": { "type": "string" }
               }
             },
             "description": "Standards violations found"
@@ -254,10 +260,13 @@
             "items": {
               "type": "object",
               "properties": {
-                "file": {"type": "string"},
-                "line": {"type": "number"},
-                "word": {"type": "string"},
-                "suggestions": {"type": "array", "items": {"type": "string"}}
+                "file": { "type": "string" },
+                "line": { "type": "number" },
+                "word": { "type": "string" },
+                "suggestions": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
               }
             },
             "description": "Spelling errors found"
@@ -265,9 +274,9 @@
           "readability_metrics": {
             "type": "object",
             "properties": {
-              "flesch_score": {"type": "number"},
-              "grade_level": {"type": "string"},
-              "avg_sentence_length": {"type": "number"}
+              "flesch_score": { "type": "number" },
+              "grade_level": { "type": "string" },
+              "avg_sentence_length": { "type": "number" }
             },
             "description": "Readability analysis metrics"
           }
@@ -350,9 +359,9 @@
           "generation_summary": {
             "type": "object",
             "properties": {
-              "total_functions": {"type": "number"},
-              "documented_functions": {"type": "number"},
-              "new_docs": {"type": "number"}
+              "total_functions": { "type": "number" },
+              "documented_functions": { "type": "number" },
+              "new_docs": { "type": "number" }
             },
             "description": "Summary of documentation generation"
           }
@@ -419,11 +428,11 @@
           "extraction_stats": {
             "type": "object",
             "properties": {
-              "files_processed": {"type": "number"},
-              "functions_found": {"type": "number"},
-              "documented_functions": {"type": "number"},
-              "classes_found": {"type": "number"},
-              "documented_classes": {"type": "number"}
+              "files_processed": { "type": "number" },
+              "functions_found": { "type": "number" },
+              "documented_functions": { "type": "number" },
+              "classes_found": { "type": "number" },
+              "documented_classes": { "type": "number" }
             },
             "description": "Statistics about extraction process"
           },
@@ -495,10 +504,10 @@
           "completeness_by_category": {
             "type": "object",
             "properties": {
-              "functions": {"type": "number"},
-              "classes": {"type": "number"},
-              "modules": {"type": "number"},
-              "apis": {"type": "number"}
+              "functions": { "type": "number" },
+              "classes": { "type": "number" },
+              "modules": { "type": "number" },
+              "apis": { "type": "number" }
             },
             "description": "Completeness breakdown by category"
           },
@@ -507,11 +516,11 @@
             "items": {
               "type": "object",
               "properties": {
-                "file": {"type": "string"},
-                "line": {"type": "number"},
-                "item": {"type": "string"},
-                "type": {"type": "string"},
-                "priority": {"type": "string"}
+                "file": { "type": "string" },
+                "line": { "type": "number" },
+                "item": { "type": "string" },
+                "type": { "type": "string" },
+                "priority": { "type": "string" }
               }
             },
             "description": "List of undocumented items"
@@ -521,10 +530,10 @@
             "items": {
               "type": "object",
               "properties": {
-                "category": {"type": "string"},
-                "priority": {"type": "string"},
-                "description": {"type": "string"},
-                "action": {"type": "string"}
+                "category": { "type": "string" },
+                "priority": { "type": "string" },
+                "description": { "type": "string" },
+                "action": { "type": "string" }
               }
             },
             "description": "Recommendations for improving documentation"
@@ -556,7 +565,13 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": ["clarity", "completeness", "accuracy", "structure", "examples"]
+              "enum": [
+                "clarity",
+                "completeness",
+                "accuracy",
+                "structure",
+                "examples"
+              ]
             },
             "description": "Areas to focus improvement suggestions on",
             "default": ["clarity", "completeness", "accuracy"]
@@ -583,12 +598,12 @@
             "items": {
               "type": "object",
               "properties": {
-                "category": {"type": "string"},
-                "priority": {"type": "string"},
-                "current_text": {"type": "string"},
-                "suggested_text": {"type": "string"},
-                "rationale": {"type": "string"},
-                "location": {"type": "string"}
+                "category": { "type": "string" },
+                "priority": { "type": "string" },
+                "current_text": { "type": "string" },
+                "suggested_text": { "type": "string" },
+                "rationale": { "type": "string" },
+                "location": { "type": "string" }
               }
             },
             "description": "Specific improvement suggestions"
@@ -610,6 +625,122 @@
         {
           "type": "file_access",
           "description": "Requires read access to documentation files"
+        }
+      ]
+    },
+    {
+      "name": "force-report-generator",
+      "description": "Generate and save Force system reports to the .force/reports directory",
+      "category": "reporting",
+      "type": "utility",
+      "version": "1.0.0",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "report_type": {
+            "type": "string",
+            "enum": ["completion", "git_task", "doc_vcs", "execution", "migration", "implementation", "success"],
+            "description": "Type of report to generate",
+            "required": true
+          },
+          "report_content": {
+            "type": "string",
+            "description": "Content of the report in Markdown format",
+            "required": true
+          },
+          "custom_filename": {
+            "type": "string",
+            "description": "Optional custom filename (should include .md extension)",
+            "required": false
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Optional timestamp for the report (ISO format)",
+            "required": false
+          },
+          "project_context": {
+            "type": "object",
+            "properties": {
+              "project_name": {
+                "type": "string",
+                "description": "Name of the project"
+              },
+              "version": {
+                "type": "string",
+                "description": "Project version"
+              },
+              "phase": {
+                "type": "string",
+                "description": "Current project phase"
+              }
+            },
+            "description": "Project context information for the report",
+            "required": false
+          }
+        }
+      },
+      "execution": {
+        "command": "force_report_generator",
+        "timeout": 30,
+        "retries": 2,
+        "environment": {
+          "FORCE_REPORTS_DIR": ".force/reports"
+        }
+      },
+      "validation": {
+        "preConditions": [
+          {
+            "condition": "report_type in ['completion', 'git_task', 'doc_vcs', 'execution', 'migration', 'implementation', 'success']",
+            "message": "Report type must be one of the supported types"
+          },
+          {
+            "condition": "len(report_content) > 0",
+            "message": "Report content cannot be empty"
+          }
+        ],
+        "postConditions": [
+          {
+            "condition": "file_exists(.force/reports/)",
+            "message": "Reports directory must exist after execution"
+          }
+        ]
+      },
+      "output": {
+        "format": "json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the report was generated successfully"
+            },
+            "report_path": {
+              "type": "string",
+              "description": "Path to the generated report file"
+            },
+            "filename": {
+              "type": "string",
+              "description": "Name of the generated report file"
+            },
+            "size": {
+              "type": "integer",
+              "description": "Size of the generated report in bytes"
+            },
+            "timestamp": {
+              "type": "string",
+              "description": "Timestamp when the report was generated"
+            }
+          }
+        }
+      },
+      "constraints": [
+        {
+          "type": "file_access",
+          "description": "Requires write access to .force/reports directory"
+        },
+        {
+          "type": "directory_creation",
+          "description": "May need to create .force/reports directory if it doesn't exist"
         }
       ]
     }

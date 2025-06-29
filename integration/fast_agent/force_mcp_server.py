@@ -295,6 +295,50 @@ class ForceMCPServer:
                         },
                         "required": ["component", "componentType"]
                     }
+                ),
+                types.Tool(
+                    name="force_save_report",
+                    description="Save a report to the Force reports directory",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "content": {
+                                "type": "string",
+                                "description": "Report content to save"
+                            },
+                            "reportType": {
+                                "type": "string",
+                                "description": "Type of report (completion, git_task, doc_vcs, etc.)"
+                            },
+                            "customFilename": {
+                                "type": "string",
+                                "description": "Optional custom filename (should include .md extension)"
+                            }
+                        },
+                        "required": ["content", "reportType"]
+                    }
+                ),
+                types.Tool(
+                    name="force_list_reports",
+                    description="List all reports in the Force reports directory",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "includeContent": {
+                                "type": "boolean",
+                                "description": "Include report content in response",
+                                "default": False
+                            }
+                        }
+                    }
+                ),
+                types.Tool(
+                    name="force_get_reports_directory",
+                    description="Get the Force reports directory path",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {}
+                    }
                 )
             ])
             
@@ -343,6 +387,12 @@ class ForceMCPServer:
                     return await self._handle_list_patterns(arguments)
                 elif name == "force_validate_component":
                     return await self._handle_validate_component(arguments)
+                elif name == "force_save_report":
+                    return await self._handle_save_report(arguments)
+                elif name == "force_list_reports":
+                    return await self._handle_list_reports(arguments)
+                elif name == "force_get_reports_directory":
+                    return await self._handle_get_reports_directory(arguments)
                 elif name == "yung_command":
                     return await self._handle_yung_command(arguments)
                 else:
@@ -612,6 +662,105 @@ class ForceMCPServer:
                     "valid": False,
                     "error": str(e),
                     "componentType": component_type
+                }, indent=2)
+            )]
+
+    async def _handle_save_report(self, arguments: dict) -> list[types.TextContent]:
+        """Handle saving a report to the Force reports directory."""
+        if not self.force_engine:
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({"success": False, "error": "Force engine not available"}, indent=2)
+            )]
+        
+        content = arguments.get("content")
+        report_type = arguments.get("reportType")
+        custom_filename = arguments.get("customFilename")
+        
+        # Validate report type
+        valid_report_types = ["completion", "git_task", "doc_vcs"]
+        if report_type not in valid_report_types:
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({
+                    "success": False,
+                    "error": f"Invalid report type: {report_type}. Must be one of {valid_report_types}"
+                }, indent=2)
+            )]
+        
+        # Save report
+        try:
+            report_path = self.force_engine.save_report(content, report_type, custom_filename=custom_filename)
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({
+                    "success": True,
+                    "reportPath": str(report_path)
+                }, indent=2)
+            )]
+        except Exception as e:
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({
+                    "success": False,
+                    "error": f"Failed to save report: {str(e)}"
+                }, indent=2)
+            )]
+
+    async def _handle_list_reports(self, arguments: dict) -> list[types.TextContent]:
+        """Handle listing reports in the Force reports directory."""
+        if not self.force_engine:
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({"success": False, "error": "Force engine not available"}, indent=2)
+            )]
+        
+        include_content = arguments.get("includeContent", False)
+        
+        # List reports
+        try:
+            reports = self.force_engine.list_reports()
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({
+                    "success": True,
+                    "reports": reports,
+                    "count": len(reports)
+                }, indent=2)
+            )]
+        except Exception as e:
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({
+                    "success": False,
+                    "error": f"Failed to list reports: {str(e)}"
+                }, indent=2)
+            )]
+
+    async def _handle_get_reports_directory(self, arguments: dict) -> list[types.TextContent]:
+        """Handle getting the Force reports directory path."""
+        if not self.force_engine:
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({"success": False, "error": "Force engine not available"}, indent=2)
+            )]
+        
+        # Get reports directory
+        try:
+            reports_directory = self.force_engine.get_reports_directory()
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({
+                    "success": True,
+                    "reportsDirectory": str(reports_directory)
+                }, indent=2)
+            )]
+        except Exception as e:
+            return [types.TextContent(
+                type="text",
+                text=json.dumps({
+                    "success": False,
+                    "error": f"Failed to get reports directory: {str(e)}"
                 }, indent=2)
             )]
 

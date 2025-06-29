@@ -95,11 +95,12 @@ class ForceEngine:
                 return path
             raise ForceEngineError(f"Force directory not found: {force_directory}")
         
-        # Search in standard locations
+        # Search in standard locations (prioritize root .force directory)
         current_dir = Path.cwd()
         search_paths = [
-            current_dir / "docs" / ".force",
             current_dir / ".force",
+            current_dir / "docs" / ".force",
+            current_dir.parent / ".force",
             current_dir.parent / "docs" / ".force",
         ]
         
@@ -478,6 +479,81 @@ class ForceEngine:
         """Get a specific constraint by ID."""
         constraints = self.load_constraints()
         return constraints.get(constraint_id)
+
+    def get_reports_directory(self) -> Path:
+        """Get the default reports directory path."""
+        return self.force_dir / "reports"
+    
+    def ensure_reports_directory(self) -> Path:
+        """Ensure the reports directory exists and return its path."""
+        reports_dir = self.get_reports_directory()
+        reports_dir.mkdir(parents=True, exist_ok=True)
+        return reports_dir
+    
+    def generate_report_filename(self, report_type: str, timestamp: Optional[datetime] = None) -> str:
+        """Generate a standardized report filename."""
+        if timestamp is None:
+            timestamp = datetime.now(timezone.utc)
+        
+        timestamp_str = timestamp.strftime("%Y%m%d_%H%M%S")
+        return f"FORCE_{report_type.upper()}_REPORT_{timestamp_str}.md"
+    
+    def save_report(self, content: str, report_type: str, timestamp: Optional[datetime] = None, 
+                   custom_filename: Optional[str] = None) -> Path:
+        """
+        Save a report to the Force reports directory.
+        
+        Args:
+            content: Report content to save
+            report_type: Type of report (completion, git_task, doc_vcs, etc.)
+            timestamp: Optional timestamp for filename generation
+            custom_filename: Optional custom filename (should include .md extension)
+            
+        Returns:
+            Path to the saved report file
+        """
+        reports_dir = self.ensure_reports_directory()
+        
+        if custom_filename:
+            filename = custom_filename
+        else:
+            filename = self.generate_report_filename(report_type, timestamp)
+        
+        report_path = reports_dir / filename
+        
+        try:
+            with open(report_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            
+            logger.info(f"Report saved: {report_path}")
+            return report_path
+            
+        except Exception as e:
+            logger.error(f"Failed to save report {report_path}: {e}")
+            raise ForceEngineError(f"Report save failed: {e}")
+    
+    def list_reports(self) -> List[Dict[str, Any]]:
+        """List all reports in the Force reports directory."""
+        reports_dir = self.get_reports_directory()
+        
+        if not reports_dir.exists():
+            return []
+        
+        reports = []
+        for report_file in reports_dir.glob("*.md"):
+            try:
+                stat = report_file.stat()
+                reports.append({
+                    "filename": report_file.name,
+                    "path": str(report_file),
+                    "size": stat.st_size,
+                    "created": datetime.fromtimestamp(stat.st_ctime, timezone.utc).isoformat(),
+                    "modified": datetime.fromtimestamp(stat.st_mtime, timezone.utc).isoformat()
+                })
+            except Exception as e:
+                logger.warning(f"Error reading report file {report_file}: {e}")
+        
+        return sorted(reports, key=lambda x: x["modified"], reverse=True)
 
     async def cleanup(self) -> None:
         """Cleanup and persist any pending data."""

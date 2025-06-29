@@ -4,14 +4,20 @@
   "title": "Force Agentic Development Assistant System Schema",
   "description": "Master schema for Force system components including tools, patterns, constraints, learning, and governance",
   "version": "1.0.0",
-  
+
   "definitions": {
     "ExecutionContext": {
       "type": "object",
       "properties": {
         "projectPhase": {
           "type": "string",
-          "enum": ["initialization", "development", "testing", "deployment", "maintenance"]
+          "enum": [
+            "initialization",
+            "development",
+            "testing",
+            "deployment",
+            "maintenance"
+          ]
         },
         "complexityLevel": {
           "type": "string",
@@ -34,7 +40,7 @@
       },
       "required": ["projectPhase", "complexityLevel"]
     },
-    
+
     "ValidationRule": {
       "type": "object",
       "properties": {
@@ -55,7 +61,7 @@
       },
       "required": ["type", "rule", "severity"]
     },
-    
+
     "PerformanceMetrics": {
       "type": "object",
       "properties": {
@@ -82,7 +88,7 @@
         }
       }
     },
-    
+
     "Tool": {
       "type": "object",
       "properties": {
@@ -104,7 +110,14 @@
         },
         "category": {
           "type": "string",
-          "enum": ["git", "documentation", "code-quality", "testing", "deployment", "analysis"]
+          "enum": [
+            "git",
+            "documentation",
+            "code-quality",
+            "testing",
+            "deployment",
+            "analysis"
+          ]
         },
         "parameters": {
           "type": "object",
@@ -197,9 +210,17 @@
           "$ref": "#/definitions/PerformanceMetrics"
         }
       },
-      "required": ["id", "name", "description", "version", "category", "parameters", "execution"]
+      "required": [
+        "id",
+        "name",
+        "description",
+        "version",
+        "category",
+        "parameters",
+        "execution"
+      ]
     },
-    
+
     "Pattern": {
       "type": "object",
       "properties": {
@@ -221,7 +242,13 @@
         },
         "category": {
           "type": "string",
-          "enum": ["workflow", "documentation", "architecture", "testing", "deployment"]
+          "enum": [
+            "workflow",
+            "documentation",
+            "architecture",
+            "testing",
+            "deployment"
+          ]
         },
         "applicability": {
           "type": "object",
@@ -295,9 +322,16 @@
           }
         }
       },
-      "required": ["id", "name", "description", "version", "category", "implementation"]
+      "required": [
+        "id",
+        "name",
+        "description",
+        "version",
+        "category",
+        "implementation"
+      ]
     },
-    
+
     "Constraint": {
       "type": "object",
       "properties": {
@@ -319,7 +353,13 @@
         },
         "category": {
           "type": "string",
-          "enum": ["code-quality", "documentation", "security", "performance", "compliance"]
+          "enum": [
+            "code-quality",
+            "documentation",
+            "security",
+            "performance",
+            "compliance"
+          ]
         },
         "enforcement": {
           "type": "object",
@@ -363,9 +403,17 @@
           }
         }
       },
-      "required": ["id", "name", "description", "version", "category", "enforcement", "validation"]
+      "required": [
+        "id",
+        "name",
+        "description",
+        "version",
+        "category",
+        "enforcement",
+        "validation"
+      ]
     },
-    
+
     "LearningRecord": {
       "type": "object",
       "properties": {
@@ -410,7 +458,12 @@
             "properties": {
               "type": {
                 "type": "string",
-                "enum": ["optimization", "error-pattern", "usage-pattern", "improvement"]
+                "enum": [
+                  "optimization",
+                  "error-pattern",
+                  "usage-pattern",
+                  "improvement"
+                ]
               },
               "description": {
                 "type": "string"
@@ -426,7 +479,7 @@
       },
       "required": ["id", "timestamp", "context", "outcome"]
     },
-    
+
     "GovernancePolicy": {
       "type": "object",
       "properties": {
@@ -494,7 +547,7 @@
       "required": ["id", "name", "description", "version", "scope", "rules"]
     }
   },
-  
+
   "type": "object",
   "properties": {
     "tools": {
