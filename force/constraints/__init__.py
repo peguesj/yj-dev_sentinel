@@ -8,6 +8,7 @@ import importlib
 import logging
 import os
 import pkgutil
+import json
 from typing import Dict, Any, List, Optional, Type, Set, Union, Callable, Awaitable
 
 logger = logging.getLogger(__name__)
@@ -132,3 +133,175 @@ class ConstraintRegistry:
             self.register_validator(subclass)
         
         logger.info(f"Discovered {len(self._validators)} constraint validators")
+
+
+class ConstraintDefinition:
+    """Represents a constraint definition loaded from a JSON file."""
+    
+    def __init__(self, definition_data: Dict[str, Any]):
+        """Initialize a constraint definition from JSON data."""
+        self.data = definition_data
+        self.id = definition_data.get("id")
+        self.type = definition_data.get("type")
+        self.description = definition_data.get("description")
+        self.enforcement = definition_data.get("enforcement", {})
+        
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert the definition to a dictionary."""
+        return self.data
+        
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'ConstraintDefinition':
+        """Create a constraint definition from a dictionary."""
+        return cls(data)
+
+
+class ConstraintDefinitionRegistry:
+    """Registry for constraint definitions loaded from JSON."""
+    
+    def __init__(self):
+        self._definitions: Dict[str, ConstraintDefinition] = {}
+        
+    def register(self, definition: ConstraintDefinition) -> None:
+        """Register a constraint definition."""
+        if not definition.id:
+            logger.warning("Skipping registration of constraint definition with no ID")
+            return
+        
+        if definition.id in self._definitions:
+            logger.warning(f"Constraint definition for {definition.id} already registered, overriding")
+            
+        self._definitions[definition.id] = definition
+        logger.info(f"Registered constraint definition for {definition.id}")
+        
+    def get(self, constraint_id: str) -> Optional[ConstraintDefinition]:
+        """Get a constraint definition by ID."""
+        return self._definitions.get(constraint_id)
+        
+    def get_all(self) -> Dict[str, ConstraintDefinition]:
+        """Get all registered constraint definitions."""
+        return self._definitions
+
+
+class JsonConstraintValidator(BaseConstraintValidator):
+    """Validator for JSON-defined constraints."""
+    
+    def __init__(self, force_engine, definition: ConstraintDefinition):
+        super().__init__(force_engine)
+        self.definition = definition
+        self.constraint_id = definition.id
+        self.constraint_name = definition.id
+        self.constraint_description = definition.description
+        
+    async def validate(self, context: Dict[str, Any]) -> List[ConstraintViolation]:
+        """Validate against the constraint using the JSON definition."""
+        if hasattr(self.force_engine, "validate_json_constraint"):
+            return await self.force_engine.validate_json_constraint(
+                self.definition, context)
+        else:
+            logger.warning(f"JSON constraint validation not implemented for {self.constraint_id}")
+            return []
+        
+    async def auto_fix(self, violations: List[ConstraintViolation], context: Dict[str, Any]) -> Dict[str, Any]:
+        """Attempt to automatically fix constraint violations."""
+        if (hasattr(self.force_engine, "auto_fix_json_constraint") and 
+            self.definition.enforcement.get("auto_fix", False)):
+            return await self.force_engine.auto_fix_json_constraint(
+                self.definition, violations, context)
+        return {
+            "fixed": 0,
+            "remaining": len(violations),
+            "violations": [v.to_dict() for v in violations],
+            "fixed_details": []
+        }
+
+
+# Global constraint definition registry
+constraint_definition_registry = ConstraintDefinitionRegistry()
+
+
+def load_constraint_definitions(force_dir):
+    """
+    Load constraint definitions from the .force directory.
+    
+    Args:
+        force_dir: Path to the .force directory
+    """
+    try:
+        constraints_dir = force_dir / "constraints"
+        if constraints_dir.exists() and constraints_dir.is_dir():
+            logger.info(f"Loading constraint definitions from {constraints_dir}")
+            for json_file in constraints_dir.glob("*.json"):
+                try:
+                    with open(json_file, 'r') as f:
+                        constraint_data = json.load(f)
+                        
+                    # Handle both single constraints and collections
+                    if "id" in constraint_data and isinstance(constraint_data.get("id"), str):
+                        logger.info(f"Found single constraint definition in {json_file}")
+                        definition = ConstraintDefinition.from_dict(constraint_data)
+                        constraint_definition_registry.register(definition)
+                    elif "constraints" in constraint_data and isinstance(constraint_data.get("constraints"), list):
+                        constraints_list = constraint_data.get("constraints", [])
+                        logger.info(f"Found {len(constraints_list)} constraint definitions in {json_file}")
+                        for constraint_def in constraints_list:
+                            if isinstance(constraint_def, dict) and "id" in constraint_def:
+                                definition = ConstraintDefinition.from_dict(constraint_def)
+                                constraint_definition_registry.register(definition)
+                            else:
+                                logger.warning(f"Invalid constraint definition in {json_file}")
+                    else:
+                        logger.warning(f"Unknown constraint definition format in {json_file}")
+                        
+                except Exception as e:
+                    logger.error(f"Error loading constraint definition from {json_file}: {e}")
+        else:
+            logger.warning(f"Constraint definitions directory not found: {constraints_dir}")
+            
+    except Exception as e:
+        logger.error(f"Error loading constraint definitions: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+def register_json_constraint_validators(registry: ConstraintRegistry) -> None:
+    """
+    Register JSON constraint definitions as validators in the given registry.
+    
+    Args:
+        registry: ConstraintRegistry to register the validators with
+    """
+    for constraint_id, definition in constraint_definition_registry.get_all().items():
+        # Check if there's already a native validator for this constraint
+        if registry.get_validator_class(constraint_id):
+            logger.debug(f"Native validator already exists for {constraint_id}, skipping JSON registration")
+            continue
+            
+        # Create a specialized validator class for this constraint definition
+        class_name = f"{constraint_id.title().replace('_', '')}JsonValidator"
+        
+        # Create a dynamic validator class
+        JsonConstraintValidatorClass = type(
+            class_name,
+            (JsonConstraintValidator,),
+            {
+                "constraint_id": constraint_id,
+                "constraint_name": constraint_id,
+                "constraint_description": definition.description
+            }
+        )
+        
+        # Register the validator class
+        registry.register_validator(JsonConstraintValidatorClass)
+        logger.info(f"Registered JSON constraint validator for {constraint_id}")
+
+
+# Update the discovery method to include JSON-defined constraints
+def extend_constraint_registry(registry: ConstraintRegistry) -> None:
+    """
+    Extend the given constraint registry with JSON-defined constraints.
+    
+    Args:
+        registry: ConstraintRegistry to extend
+    """
+    register_json_constraint_validators(registry)

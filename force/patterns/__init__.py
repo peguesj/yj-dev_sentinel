@@ -128,51 +128,106 @@ class PatternImplementation:
         }
 
 
-class PatternRegistry:
-    """Registry for pattern implementations."""
+class JsonPattern:
+    """Bridge class for JSON pattern definitions."""
     
-    def __init__(self, force_engine):
-        self.force_engine = force_engine
-        self._patterns: Dict[str, PatternImplementation] = {}
-        self._discovered = False
+    def __init__(self, pattern_def: Dict[str, Any]):
+        self.id = pattern_def.get("id")
+        self.name = pattern_def.get("name")
+        self.description = pattern_def.get("description")
+        self.steps = []
         
-    def register_pattern(self, pattern: PatternImplementation) -> None:
-        """Register a pattern implementation."""
-        if pattern.pattern_id is None:
-            logger.warning(f"Skipping registration of pattern with no pattern_id")
-            return
+        for step_def in pattern_def.get("steps", []):
+            if step_def["type"] == "tool":
+                step = ToolStep(
+                    name=step_def.get("name"),
+                    description=step_def.get("description"),
+                    tool_id=step_def.get("tool_id"),
+                    parameters=step_def.get("parameters", {})
+                )
+            else:
+                logger.warning(f"Unknown step type: {step_def['type']}")
+                continue
+            self.steps.append(step)
+    
+    async def execute(self, context: Dict[str, Any], force_engine) -> Dict[str, Any]:
+        """Execute all steps in the pattern."""
+        results = {}
+        for step in self.steps:
+            step_result = await step.execute(context, force_engine)
+            results[step.name] = step_result
+        return results
+
+
+class PatternRegistry:
+    """Registry for Force patterns."""
+    
+    _instance = None
+    _patterns: Dict[str, Union[Type[PatternStep], JsonPattern]] = {}
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    @classmethod
+    def register(cls, pattern_id: str, pattern: Union[Type[PatternStep], JsonPattern]):
+        """Register a pattern."""
+        cls._patterns[pattern_id] = pattern
+        logger.info(f"Registered pattern: {pattern_id}")
+    
+    @classmethod
+    def get_pattern(cls, pattern_id: str) -> Optional[Union[Type[PatternStep], JsonPattern]]:
+        """Get a pattern by ID."""
+        return cls._patterns.get(pattern_id)
+    
+    @classmethod
+    def list_patterns(cls) -> List[str]:
+        """List all registered patterns."""
+        return list(cls._patterns.keys())
+
+def load_json_patterns():
+    """Load and register JSON pattern definitions."""
+    import json
+    import glob
+    from pathlib import Path
+    
+    pattern_paths = [
+        Path(__file__).parent.parent.parent / ".force" / "patterns",
+        Path(__file__).parent.parent.parent / "docs" / ".force" / "patterns"
+    ]
+    
+    for pattern_dir in pattern_paths:
+        if not pattern_dir.exists():
+            continue
             
-        if pattern.pattern_id in self._patterns:
-            logger.warning(f"Pattern {pattern.pattern_id} already registered, overriding")
-            
-        self._patterns[pattern.pattern_id] = pattern
-        logger.debug(f"Registered pattern {pattern.pattern_id}")
+        for pattern_file in pattern_dir.glob("*.json"):
+            try:
+                with open(pattern_file) as f:
+                    pattern_def = json.load(f)
+                    pattern = JsonPattern(pattern_def)
+                    PatternRegistry.register(pattern.id, pattern)
+            except Exception as e:
+                logger.error(f"Error loading pattern from {pattern_file}: {e}")
+
+# Initialize pattern system
+def init_patterns():
+    """Initialize the pattern system."""
+    load_json_patterns()
+
+def initialize(force_engine):
+    """
+    Initialize the pattern system for the Force engine.
+    
+    Args:
+        force_engine: The Force engine instance
         
-    def get_pattern(self, pattern_id: str) -> Optional[PatternImplementation]:
-        """Get a pattern implementation by ID."""
-        self._ensure_discovery()
-        return self._patterns.get(pattern_id)
-        
-    def get_available_patterns(self) -> List[Dict[str, Any]]:
-        """Get a list of all available patterns."""
-        self._ensure_discovery()
-        return [
-            {
-                "id": pattern.pattern_id,
-                "name": pattern.name,
-                "description": pattern.description
-            }
-            for pattern in self._patterns.values()
-        ]
-        
-    def _ensure_discovery(self) -> None:
-        """Ensure pattern discovery has run."""
-        if not self._discovered:
-            self._discover_patterns()
-            self._discovered = True
-            
-    def _discover_patterns(self) -> None:
-        """Discover and register all patterns."""
-        # TODO: Implement discovery of patterns from JSON files
-        # For now, we'll rely on programmatic registration
-        logger.info(f"Discovered {len(self._patterns)} patterns")
+    Returns:
+        PatternRegistry instance
+    """
+    # Initialize patterns
+    init_patterns()
+    
+    # Create and return registry
+    registry = PatternRegistry()
+    return registry

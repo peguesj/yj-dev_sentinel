@@ -577,18 +577,21 @@ class ForceEngine:
             # Initialize the tools module if not already done
             if not ForceEngine._tools_module_imported:
                 from . import tools
+                self.tool_registry = tools.ToolRegistry(self)
                 ForceEngine._tools_module_imported = True
                 logger.info("Imported tools module")
                 
             # Initialize the patterns module if not already done
             if not ForceEngine._patterns_module_imported:
                 from . import patterns
+                self.pattern_registry = patterns.initialize(self)
                 ForceEngine._patterns_module_imported = True
-                logger.info("Imported patterns module")
+                logger.info("Initialized patterns module")
                 
             # Initialize the constraints module if not already done
             if not ForceEngine._constraints_module_imported:
                 from . import constraints
+                self.constraint_registry = constraints.ConstraintRegistry(self)
                 ForceEngine._constraints_module_imported = True
                 logger.info("Imported constraints module")
                 
@@ -622,16 +625,34 @@ class ForceEngine:
             from . import constraints
             
             # Load tool definitions from the .force directory
-            # This part will need to be updated as the modules are implemented
-            
-            # Load tool definitions (will implement these in tools module)
             if hasattr(tools, 'load_tool_definitions'):
                 tools.load_tool_definitions(self.force_dir)
                 logger.info("Loaded tool definitions from .force directory")
             else:
                 logger.warning("Tool definition loader not available")
             
-            # TODO: Add loading for patterns, constraints, etc. as they are implemented
+            # Load pattern definitions
+            if hasattr(patterns, 'load_json_patterns'):
+                patterns.load_json_patterns()
+                logger.info("Loaded pattern definitions from .force directory")
+            else:
+                logger.warning("Pattern definition loader not available")
+            
+            # Load constraint definitions
+            if hasattr(constraints, 'load_constraint_definitions'):
+                constraints.load_constraint_definitions(self.force_dir)
+                logger.info("Loaded constraint definitions from .force directory")
+            else:
+                logger.warning("Constraint definition loader not available")
+                
+            # Extend registries with JSON definitions
+            if hasattr(self, 'tool_registry') and hasattr(tools, 'extend_tool_registry'):
+                tools.extend_tool_registry(self.tool_registry)
+                logger.info("Extended tool registry with JSON tool definitions")
+                
+            if hasattr(self, 'constraint_registry') and hasattr(constraints, 'extend_constraint_registry'):
+                constraints.extend_constraint_registry(self.constraint_registry)
+                logger.info("Extended constraint registry with JSON constraint definitions")
             
         except ImportError as e:
             logger.error(f"Error importing modules for Force components: {e}")
