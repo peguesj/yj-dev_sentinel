@@ -1,0 +1,12 @@
+{
+  "id": "git_workflow_commit",
+  "type": "tool",
+  "name": "Git Workflow Commit",
+  "description": "Commits changes with semantic versioning and scope.",
+  "category": "git",
+  "version": "1.0.0",
+  "parameters": {
+    "scope": {"type": "string", "description": "Scope of the commit (feature, docs, etc.)"},
+    "semanticVersionIncrement": {"type": "string", "enum": ["major", "minor", "patch"]}
+  }
+}

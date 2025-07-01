@@ -1,0 +1,13 @@
+{
+  "id": "git_branch_create",
+  "type": "tool",
+  "name": "Git Branch Create",
+  "description": "Creates a new git branch for development.",
+  "category": "git",
+  "version": "1.0.0",
+  "parameters": {
+    "branchType": {"type": "string", "description": "Type of branch (feature, bugfix, etc.)"},
+    "baseBranch": {"type": "string", "description": "Base branch to create from"},
+    "switchToBranch": {"type": "boolean", "default": true}
+  }
+}
