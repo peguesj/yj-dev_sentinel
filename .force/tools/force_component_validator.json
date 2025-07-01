@@ -1,0 +1,165 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "id": "force_component_validator",
+  "name": "Force Component Validator",
+  "description": "Comprehensive validation system for Force components (tools, patterns, constraints) that runs at MCP server startup to ensure schema compliance and system integrity.",
+  "category": "validation",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "force_root_path",
+        "type": "directory_path",
+        "description": "Path to the .force directory containing components to validate"
+      }
+    ],
+    "optional": [
+      {
+        "name": "validation_level",
+        "type": "string",
+        "description": "Level of validation to perform",
+        "default": "comprehensive",
+        "validation": {
+          "enum": ["basic", "comprehensive", "strict"]
+        }
+      },
+      {
+        "name": "output_format",
+        "type": "string",
+        "description": "Format for validation output",
+        "default": "detailed",
+        "validation": {
+          "enum": ["summary", "detailed", "json"]
+        }
+      },
+      {
+        "name": "fail_fast",
+        "type": "boolean",
+        "description": "Stop validation on first critical error",
+        "default": false
+      },
+      {
+        "name": "save_report",
+        "type": "boolean",
+        "description": "Save detailed validation report to file",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "load_force_schema",
+        "description": "Load and validate the Force schema definition",
+        "parameters": {
+          "schema_path": "{{force_root_path}}/schemas/force-schema.json"
+        }
+      },
+      {
+        "action": "validate_tools",
+        "description": "Validate all Force tool JSON files against ToolDefinition schema",
+        "parameters": {
+          "tools_path": "{{force_root_path}}/tools"
+        }
+      },
+      {
+        "action": "validate_patterns",
+        "description": "Validate all Force pattern JSON files against Pattern schema",
+        "parameters": {
+          "patterns_path": "{{force_root_path}}/patterns"
+        }
+      },
+      {
+        "action": "validate_constraints",
+        "description": "Validate all Force constraint JSON files against Constraint schema",
+        "parameters": {
+          "constraints_path": "{{force_root_path}}/constraints"
+        }
+      },
+      {
+        "action": "perform_semantic_validation",
+        "description": "Perform additional semantic validation beyond schema compliance",
+        "parameters": {
+          "validation_level": "{{validation_level}}"
+        }
+      },
+      {
+        "action": "check_blocking_issues",
+        "description": "Check for critical issues that would prevent MCP server startup",
+        "condition": "validation_level != 'basic'"
+      },
+      {
+        "action": "generate_validation_report",
+        "description": "Generate comprehensive validation report",
+        "parameters": {
+          "format": "{{output_format}}"
+        }
+      },
+      {
+        "action": "save_validation_results",
+        "description": "Save validation results for programmatic access",
+        "condition": "save_report == true",
+        "parameters": {
+          "output_path": "{{force_root_path}}/validation_report.json"
+        }
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Force root directory exists and is accessible",
+        "Force schema file exists at schemas/force-schema.json",
+        "Python jsonschema library is available",
+        "Write permissions for report generation"
+      ],
+      "post_conditions": [
+        "All component files have been validated",
+        "Validation report has been generated",
+        "Blocking issues have been identified (if any)",
+        "MCP server startup decision has been made"
+      ],
+      "error_handling": [
+        {
+          "error_type": "schema_not_found",
+          "strategy": "abort",
+          "action": "Cannot proceed without Force schema - MCP startup must be blocked",
+          "escalation": true
+        },
+        {
+          "error_type": "invalid_json_format",
+          "strategy": "skip",
+          "action": "Log malformed JSON files and continue validation of other components"
+        },
+        {
+          "error_type": "file_access_denied",
+          "strategy": "skip",
+          "action": "Log inaccessible files and continue with available components"
+        },
+        {
+          "error_type": "critical_tool_invalid",
+          "strategy": "abort",
+          "action": "Block MCP startup if critical Force tools are invalid",
+          "escalation": true
+        },
+        {
+          "error_type": "validation_timeout",
+          "strategy": "fallback",
+          "action": "Switch to basic validation mode if comprehensive validation times out"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-01T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "high",
+    "tags": ["validation", "startup", "system", "schema", "compliance", "mcp"],
+    "dependencies": ["jsonschema", "pathlib", "datetime", "logging"],
+    "performance_metrics": {
+      "avg_execution_time": 5.2,
+      "success_rate": 0.98,
+      "usage_count": 0
+    }
+  }
+}
