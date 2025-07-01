@@ -55,31 +55,37 @@ class ToolRegistry:
         self.force_engine = force_engine
         self._executors: Dict[str, Type[BaseToolExecutor]] = {}
         self._discovered = False
+        self._registered_classes = set()  # Track registered executor classes
+        self._dynamic_executor_class_names = set()  # Track dynamic executor class names
         
     def register_tool_executor(self, executor_class: Type[BaseToolExecutor]) -> None:
         """Register a tool executor class."""
-        if executor_class.tool_id is None:
-            logger.warning(f"Skipping registration of {executor_class.__name__} with no tool_id")
+        # Only register concrete classes (not abstract base or JsonToolExecutor itself)
+        if executor_class is JsonToolExecutor or executor_class.tool_id is None:
+            logger.debug(f"Skipping registration of {executor_class.__name__} (abstract or no tool_id)")
             return
-            
+        if executor_class in self._registered_classes:
+            logger.debug(f"Executor class {executor_class.__name__} already registered, skipping duplicate.")
+            return
         if executor_class.tool_id in self._executors:
             logger.warning(f"Tool executor for {executor_class.tool_id} already registered, overriding")
-            
         self._executors[executor_class.tool_id] = executor_class
+        self._registered_classes.add(executor_class)
         logger.debug(f"Registered tool executor for {executor_class.tool_id}")
-        
-    def get_executor_class(self, tool_id: str) -> Optional[Type[BaseToolExecutor]]:
+    
+    def get_executor_class(self, tool_id: str, ensure_discovery: bool = True) -> Optional[Type[BaseToolExecutor]]:
         """Get the executor class for a tool ID."""
-        self._ensure_discovery()
+        if ensure_discovery:
+            self._ensure_discovery()
         return self._executors.get(tool_id)
-        
+    
     def create_executor(self, tool_id: str) -> Optional[BaseToolExecutor]:
         """Create an executor instance for a tool ID."""
         executor_class = self.get_executor_class(tool_id)
         if executor_class:
             return executor_class(self.force_engine)
         return None
-        
+    
     def get_available_tools(self) -> List[Dict[str, Any]]:
         """Get a list of all available tools."""
         self._ensure_discovery()
@@ -88,29 +94,44 @@ class ToolRegistry:
             instance = executor_class(self.force_engine)
             result.append(instance.get_metadata())
         return result
-        
+    
     def _ensure_discovery(self) -> None:
         """Ensure tool discovery has run."""
         if not self._discovered:
             self._discover_tools()
             self._discovered = True
-            
+    
     def _discover_tools(self) -> None:
         """Discover and register all tool executors."""
-        # First, import any modules in the tools package
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        for _, name, ispkg in pkgutil.iter_modules([current_dir]):
-            if not name.startswith('_'):
-                importlib.import_module(f'force.tools.{name}')
-                
-        # Then register any BaseToolExecutor subclasses
-        for subclass in BaseToolExecutor.__subclasses__():
-            self.register_tool_executor(subclass)
+        if hasattr(self, '_discovery_in_progress') and self._discovery_in_progress:
+            logger.debug("Tool discovery already in progress, skipping re-entry")
+            return
             
-        # Add JSON-defined tool executors
-        extend_tool_registry(self)
-        
-        logger.info(f"Discovered {len(self._executors)} tool executors")
+        try:
+            self._discovery_in_progress = True
+            
+            # First, import any modules in the tools package
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            for _, name, ispkg in pkgutil.iter_modules([current_dir]):
+                if not name.startswith('_'):
+                    try:
+                        importlib.import_module(f'force.tools.{name}')
+                    except Exception as e:
+                        logger.error(f"Error importing tool module {name}: {e}")
+                        
+            # Register only concrete BaseToolExecutor subclasses (skip abstract/JsonToolExecutor)
+            for subclass in BaseToolExecutor.__subclasses__():
+                if subclass is JsonToolExecutor or getattr(subclass, 'tool_id', None) is None:
+                    continue
+                self.register_tool_executor(subclass)
+                
+            # Add JSON-defined tool executors without triggering discovery
+            register_json_tool_executors(self, skip_discovery=True)
+            
+            logger.info(f"Discovered {len(self._executors)} tool executors")
+            
+        finally:
+            self._discovery_in_progress = False
         
 # Function to load tool definitions from the .force directory
 def load_tool_definitions(force_dir):
@@ -231,22 +252,27 @@ class JsonToolExecutor(BaseToolExecutor):
 # Global tool definition registry
 tool_definition_registry = ToolDefinitionRegistry()
 
-def register_json_tool_executors(registry: ToolRegistry) -> None:
+def register_json_tool_executors(registry: ToolRegistry, skip_discovery: bool = False) -> None:
     """
     Register JSON tool definitions as executors in the given registry.
     
     Args:
         registry: ToolRegistry to register the executors with
+        skip_discovery: If True, skip discovery check when getting executor class
     """
+    # Track dynamic class names to avoid duplicate creation
+    if not hasattr(registry, '_dynamic_executor_class_names'):
+        registry._dynamic_executor_class_names = set()
     for tool_id, definition in tool_definition_registry.get_all().items():
         # Check if there's already a native executor for this tool
-        if registry.get_executor_class(tool_id):
+        if registry.get_executor_class(tool_id, ensure_discovery=not skip_discovery):
             logger.debug(f"Native executor already exists for {tool_id}, skipping JSON registration")
             continue
-            
-        # Create a specialized executor class for this tool definition
+        # Avoid duplicate dynamic class creation
         class_name = f"{tool_id.title().replace('_', '')}JsonExecutor"
-        
+        if class_name in registry._dynamic_executor_class_names:
+            logger.debug(f"Dynamic executor class {class_name} already exists, skipping.")
+            continue
         # Create a dynamic executor class
         JsonToolExecutorClass = type(
             class_name,
@@ -258,18 +284,18 @@ def register_json_tool_executors(registry: ToolRegistry) -> None:
                 "tool_description": definition.description
             }
         )
-        
-        # Register the executor class
         registry.register_tool_executor(JsonToolExecutorClass)
+        registry._dynamic_executor_class_names.add(class_name)
         logger.info(f"Registered JSON tool executor for {tool_id}")
 
 
 # Update the discovery method to include JSON-defined tools
-def extend_tool_registry(registry: ToolRegistry) -> None:
+def extend_tool_registry(registry: ToolRegistry, skip_discovery: bool = False) -> None:
     """
     Extend the given tool registry with JSON-defined tools.
     
     Args:
         registry: ToolRegistry to extend
+        skip_discovery: If True, skip discovery check when registering tools
     """
-    register_json_tool_executors(registry)
+    register_json_tool_executors(registry, skip_discovery=skip_discovery)
