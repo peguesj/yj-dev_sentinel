@@ -3,27 +3,32 @@
   "name": "Supabase Web Instance Deployment Constraint",
   "version": "1.0.0",
   "type": "deployment_constraint",
-  "category": "infrastructure",
+  "category": "analysis",
   "priority": "critical",
   "created": "2025-06-24T23:47:00Z",
   "description": "Enforces usage of linked web Supabase instance for all database operations and deployments",
-  
   "constraint": {
     "title": "Web Supabase Only - No Local Development",
     "rule": "All Supabase CLI commands must use --linked flag to target the web instance",
     "enforcement": "mandatory",
-    "scope": ["database_migrations", "edge_functions", "storage_operations"]
+    "scope": [
+      "database_migrations",
+      "edge_functions",
+      "storage_operations"
+    ]
   },
-  
   "rationale": {
     "business_reason": "Project uses production Supabase web instance for consistency and data persistence",
     "technical_reason": "Eliminates local/remote sync issues and ensures single source of truth",
     "risk_mitigation": "Prevents data loss and deployment inconsistencies"
   },
-  
   "implementation": {
-    "required_flags": ["--linked"],
-    "prohibited_flags": ["--local"],
+    "required_flags": [
+      "--linked"
+    ],
+    "prohibited_flags": [
+      "--local"
+    ],
     "commands_affected": [
       "supabase db push",
       "supabase functions deploy",
@@ -32,7 +37,6 @@
       "supabase storage update"
     ]
   },
-  
   "examples": {
     "correct": [
       "supabase db push --linked",
@@ -45,16 +49,20 @@
       "supabase db reset --local"
     ]
   },
-  
   "validation": {
     "check_command": "Always verify --linked flag is present",
     "error_handling": "If --linked is missing, add it before execution",
     "confirmation": "Commands should target web instance, not local Docker"
   },
-  
   "force_integration": {
     "learning_record": "supabase-web-deployment-pattern",
     "tool_updates": "Update all database and function deployment tools",
     "pattern_enforcement": "Integrate into git workflow tools"
+  },
+  "enforcement": {
+    "level": "warning",
+    "validation_rules": [
+      "Validation rule description"
+    ]
   }
 }

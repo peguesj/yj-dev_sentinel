@@ -1,7 +1,6 @@
 {
   "$schema": "../schemas/force-schema.json",
-  "id": "generate-changelog",
-  "type": "tool",
+  "id": "generate_changelog",
   "name": "Generate Changelog",
   "description": "Automatically generates changelog entries based on git commits, semantic versioning, and change impact analysis.",
   "category": "documentation",
@@ -34,7 +33,14 @@
         "name": "include_categories",
         "type": "array",
         "description": "Categories to include in changelog",
-        "default": ["added", "changed", "deprecated", "removed", "fixed", "security"]
+        "default": [
+          "added",
+          "changed",
+          "deprecated",
+          "removed",
+          "fixed",
+          "security"
+        ]
       },
       {
         "name": "group_by_scope",

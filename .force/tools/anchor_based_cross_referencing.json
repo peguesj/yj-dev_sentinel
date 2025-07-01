@@ -1,10 +1,9 @@
 {
   "$schema": "../schemas/force-schema.json",
   "id": "anchor_based_cross_referencing",
-  "type": "tool",
   "name": "Anchor Based Cross Referencing",
   "description": "Creates and maintains consistent anchor-based cross-references throughout documentation to enable seamless navigation and context preservation.",
-  "category": "documentation",
+  "category": "analysis",
   "version": "1.0.0",
   "parameters": {
     "required": [

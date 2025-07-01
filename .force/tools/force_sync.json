@@ -1,0 +1,104 @@
+{
+  "id": "force_sync",
+  "name": "Force Directory Synchronizer",
+  "description": "Scans all .force subdirectories and JSON files, detects tool references, and ensures all tool JSONs are present and fully populated. Merges definitions from multi-tool JSONs if needed. Detects and updates incomplete tool files.",
+  "category": "analysis",
+  "version": "1.1.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "sync_mode": {
+        "type": "string",
+        "enum": [
+          "scan",
+          "update",
+          "full"
+        ],
+        "description": "Sync mode: scan (report only), update (create/update missing/incomplete), full (scan and update)",
+        "default": "full"
+      },
+      "directory_strategy": {
+        "type": "string",
+        "enum": [
+          "flat",
+          "nested"
+        ],
+        "description": "Directory structure for tool JSONs: flat (default) or nested by scope",
+        "default": "flat"
+      }
+    }
+  },
+  "steps": [
+    {
+      "name": "scan_force_dirs",
+      "description": "Scan all .force subdirectories and JSON files for tool references and definitions.",
+      "type": "internal"
+    },
+    {
+      "name": "detect_missing_or_incomplete_tools",
+      "description": "Detect missing or incomplete tool JSON files based on references and definitions. Incomplete means only stub fields are present.",
+      "type": "internal"
+    },
+    {
+      "name": "merge_and_update_tool_definitions",
+      "description": "Merge tool definitions from multi-tool JSONs and update incomplete tool files. Prefer the most complete version.",
+      "type": "internal"
+    }
+  ],
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "created_files": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "updated_files": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "missing_elements": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "incomplete_elements": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:07.609585Z",
+    "updated": "2025-07-01T03:54:07.609587Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
+  }
+}

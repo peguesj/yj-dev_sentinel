@@ -1,7 +1,6 @@
 {
   "$schema": "../schemas/force-schema.json",
   "id": "grouped_commit_workflow",
-  "type": "pattern",
   "name": "Grouped Commit Workflow",
   "description": "Advanced pattern for managing complex workflows with multiple atomic commits, semantic versioning, and automated quality gates.",
   "category": "workflow",
@@ -50,7 +49,11 @@
           {
             "name": "implementation",
             "description": "Core functionality development",
-            "quality_gates": ["unit_tests", "integration_tests", "code_coverage"]
+            "quality_gates": [
+              "unit_tests",
+              "integration_tests",
+              "code_coverage"
+            ]
           },
           {
             "name": "documentation",
@@ -60,7 +63,11 @@
           {
             "name": "finalization",
             "description": "Version tagging and release preparation",
-            "quality_gates": ["release_readiness", "security_scan", "performance_check"]
+            "quality_gates": [
+              "release_readiness",
+              "security_scan",
+              "performance_check"
+            ]
           }
         ]
       },

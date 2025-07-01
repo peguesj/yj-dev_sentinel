@@ -193,5 +193,13 @@
         ]
       }
     }
-  ]
+  ],
+  "id": "Generated id",
+  "type": "Generated type",
+  "enforcement": {
+    "level": "warning",
+    "validation_rules": [
+      "Validation rule description"
+    ]
+  }
 }

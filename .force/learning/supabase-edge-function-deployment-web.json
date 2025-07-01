@@ -1,22 +1,45 @@
 {
   "id": "supabase-edge-function-deployment-web",
-  "type": "learning-record",
-  "title": "Supabase Edge Function Deployment for Web Projects",
-  "description": "Discovered that Edge Functions can be deployed to web Supabase projects using the --use-api flag, bypassing the Docker requirement",
-  "key_learning": {
-    "command_format": "supabase functions deploy <function-name> --use-api",
-    "use_case": "Deploying Edge Functions to web Supabase projects without local Docker",
-    "benefit": "Enables direct deployment from development environment to web project",
-    "constraint_resolution": "Resolves the Docker requirement for web-only development workflows"
+  "event_type": "technical_discovery",
+  "context": {
+    "project_phase": "development",
+    "tools_used": ["supabase-cli", "edge-functions"],
+    "complexity_level": "medium",
+    "team_size": 1,
+    "discovery_context": "Phase 2 implementation - deploying vector embedding generation capability",
+    "session_id": "phase-2-core-features-implementation"
   },
-  "successful_deployment": {
-    "function_name": "generate-embeddings",
-    "project_ref": "iqivodptfhiatllakuap",
-    "deployment_confirmation": "Deployed Functions on project iqivodptfhiatllakuap: generate-embeddings",
-    "dashboard_url": "https://supabase.com/dashboard/project/iqivodptfhiatllakuap/functions"
+  "outcome": {
+    "success": true,
+    "metrics": {
+      "functions_deployed": 1,
+      "deployment_time_minutes": 5,
+      "issues_resolved": 1
+    },
+    "key_learning": {
+      "command_format": "supabase functions deploy <function-name> --use-api",
+      "use_case": "Deploying Edge Functions to web Supabase projects without local Docker",
+      "benefit": "Enables direct deployment from development environment to web project",
+      "constraint_resolution": "Resolves the Docker requirement for web-only development workflows"
+    },
+    "successful_deployment": {
+      "function_name": "generate-embeddings",
+      "project_ref": "iqivodptfhiatllakuap",
+      "deployment_confirmation": "Deployed Functions on project iqivodptfhiatllakuap: generate-embeddings",
+      "dashboard_url": "https://supabase.com/dashboard/project/iqivodptfhiatllakuap/functions"
+    }
   },
-  "discovery_context": "Phase 2 implementation - deploying vector embedding generation capability",
-  "created_at": "2025-06-24T17:25:00Z",
-  "session_id": "phase-2-core-features-implementation",
-  "force_pattern": "constraint-resolution-learning"
+  "timestamp": "2025-06-24T17:25:00Z",
+  "insights": [
+    {
+      "type": "constraint-resolution",
+      "description": "The --use-api flag bypasses Docker requirement for Edge Function deployment",
+      "confidence": 0.95
+    },
+    {
+      "type": "workflow-improvement",
+      "description": "Web-only development workflows can deploy Edge Functions directly",
+      "confidence": 0.9
+    }
+  ]
 }

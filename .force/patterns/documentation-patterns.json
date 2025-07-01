@@ -44,15 +44,35 @@
             "name": "Standard Documentation Structure",
             "structure": {
               "docs/": {
-                "01-overview/": ["README.md", "project-overview.md"],
-                "02-requirements/": ["README.md", "requirements.md"],
-                "03-architecture/": ["README.md", "system-design.md"],
+                "01-overview/": [
+                  "README.md",
+                  "project-overview.md"
+                ],
+                "02-requirements/": [
+                  "README.md",
+                  "requirements.md"
+                ],
+                "03-architecture/": [
+                  "README.md",
+                  "system-design.md"
+                ],
                 "assets/": {
-                  "diagrams/": ["*.puml", "*.mermaid"],
-                  "images/": ["*.png", "*.svg"],
-                  "schemas/": ["*.json", "*.yaml"]
+                  "diagrams/": [
+                    "*.puml",
+                    "*.mermaid"
+                  ],
+                  "images/": [
+                    "*.png",
+                    "*.svg"
+                  ],
+                  "schemas/": [
+                    "*.json",
+                    "*.yaml"
+                  ]
                 },
-                "legacy-symlinks/": ["old-file.md -> ../02-requirements/new-file.md"]
+                "legacy-symlinks/": [
+                  "old-file.md -> ../02-requirements/new-file.md"
+                ]
               }
             }
           }
@@ -162,9 +182,20 @@
             "structure": {
               "09-project-management/": {
                 "v3.1.0/": {
-                  "implementation/": ["master-plan.md", "phases/", "tasks/"],
-                  "changelog/": ["CHANGELOG.md", "daily/", "weekly/"],
-                  "handoff/": ["current-status.md", "checkpoints/"]
+                  "implementation/": [
+                    "master-plan.md",
+                    "phases/",
+                    "tasks/"
+                  ],
+                  "changelog/": [
+                    "CHANGELOG.md",
+                    "daily/",
+                    "weekly/"
+                  ],
+                  "handoff/": [
+                    "current-status.md",
+                    "checkpoints/"
+                  ]
                 },
                 "README.md": "Version index and navigation"
               }
@@ -271,5 +302,30 @@
         ]
       }
     }
-  ]
+  ],
+  "id": "Generated id",
+  "name": "Generated name",
+  "context": {
+    "when_to_use": "Describe when to use this pattern",
+    "benefits": [
+      "List",
+      "key",
+      "benefits"
+    ],
+    "trade_offs": [
+      "List",
+      "any",
+      "trade_offs"
+    ]
+  },
+  "implementation": {
+    "steps": [
+      "Step 1",
+      "Step 2",
+      "Step 3"
+    ],
+    "examples": [
+      {}
+    ]
+  }
 }

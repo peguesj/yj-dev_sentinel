@@ -131,7 +131,12 @@
     "version": "1.0.0",
     "complexity": "high",
     "tags": ["integration", "mcp", "startup", "validation", "system", "force"],
-    "dependencies": ["force_component_validator", "logging", "pathlib", "typing"],
+    "dependencies": [
+      "force_component_validator",
+      "logging",
+      "pathlib",
+      "typing"
+    ],
     "performance_metrics": {
       "avg_execution_time": 3.8,
       "success_rate": 0.99,
