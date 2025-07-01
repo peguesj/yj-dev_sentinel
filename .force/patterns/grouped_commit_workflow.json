@@ -1,26 +1,11 @@
 {
   "$schema": "../schemas/force-schema.json",
   "id": "grouped_commit_workflow",
+  "type": "pattern",
   "name": "Grouped Commit Workflow",
-  "category": "git",
-  "description": "Pattern for performing grouped, atomic commits based on logical change sets, with multi-line commit messages and semantic version tagging.",
-  "steps": [
-    { "action": "git", "subaction": "inspect_untracked_and_changed_files", "description": "Inspect untracked and changed files, cross-reference with chat history and get_changed_files." },
-    { "action": "pattern", "pattern": "atomic_commit_grouping", "description": "Iteratively group files by logical change, stage, and commit with multi-line messages." },
-    { "action": "git", "subaction": "determine_version_increment", "description": "Determine if version should be incremented based on change weight and constraints." },
-    { "action": "git", "subaction": "tag_version_if_needed", "description": "Tag the commit with the new version if incremented." }
-  ],
-  "constraints": [
-    { "type": "atomic_commit", "description": "Each commit must be atomic and grouped by logical change." },
-    { "type": "semantic_versioning_compliance", "description": "Version tags must follow semantic versioning and be incremented based on change impact." }
-  ],
-  "governance": [
-    { "policy": "enforce_commit_auditability", "description": "All commits must be auditable and traceable to logical change sets." },
-    { "policy": "require_pattern_modularity", "description": "Patterns must be modular and support recursion for complex workflows." }
-  ],
-  "metadata": {
-    "created": "2025-06-30T00:00:00Z",
-    "author": "system",
-    "last_updated": "2025-06-30T00:00:00Z"
+  "description": "Pattern for managing grouped commit workflows.",
+  "category": "workflow",
+  "implementation": {
+    "steps": []
   }
 }
