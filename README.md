@@ -4,9 +4,9 @@
   <img src="docs/diagrams/dev_sentinel_logo.svg" alt="Dev Sentinel Logo" width="200"/>
   
   [![Built with: Python](https://img.shields.io/badge/Built%20with-Python-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-  [![Architecture: Force-Enabled](https://img.shields.io/badge/Architecture-Force%20Enabled-009688?logo=blueprint&logoColor=white)](docs/.force/README.md)
+  [![Architecture: Force-Enabled](https://img.shields.io/badge/Architecture-Force%20Enabled-009688?logo=blueprint&logoColor=white)](docs/architecture/force/index.md)
   [![Documentation: PlantUML](https://img.shields.io/badge/Documentation-PlantUML-orange?logo=diagram&logoColor=white)](docs/diagrams/)
-  [![Force System: Active](https://img.shields.io/badge/Force%20System-Active-brightgreen?logo=star&logoColor=white)](docs/.force/)
+  [![Force System: Active](https://img.shields.io/badge/Force%20System-Active-brightgreen?logo=star&logoColor=white)](docs/reference/tools/force-tools.md)
 </div>
 
 ## Overview
@@ -49,6 +49,18 @@ source .venv/bin/activate  # Linux/macOS
 # Install dependencies
 pip install -r requirements.txt
 ```
+
+## Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- [📚 Documentation Home](docs/index.md) - Start here for all documentation
+- [🏛️ Architecture Documentation](docs/architecture/overview.md) - System design and architecture
+- [🧩 Component Documentation](docs/components/index.md) - Details of each component
+- [📝 API Reference](docs/api/index.md) - API documentation
+- [👤 User Guide](docs/user/getting-started.md) - Getting started and user documentation
+- [💻 Developer Guide](docs/developer/index.md) - Contributing and development documentation
+- [📋 Reference](docs/reference/index.md) - Tools, patterns, and constraints reference
 
 ### Basic Usage
 
