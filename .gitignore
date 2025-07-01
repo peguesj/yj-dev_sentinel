@@ -5,7 +5,6 @@ __pycache__
 venv
 
 # Environment-specific files
-.vscode/
 .idea/
 .python-version
 .env
@@ -50,3 +49,8 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
+
+# Ignore import recovery files
+import/
+import/recovery/
+import/recovery/copilot_chat/
