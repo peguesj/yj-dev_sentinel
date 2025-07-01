@@ -1,0 +1,12 @@
+{
+  "id": "analyze-code-changes",
+  "type": "tool",
+  "name": "Analyze Code Changes",
+  "description": "Analyzes code changes to determine documentation impact.",
+  "category": "documentation",
+  "version": "1.0.0",
+  "parameters": {
+    "sinceCommit": {"type": "string", "description": "Commit hash or ref to compare from"},
+    "focusAreas": {"type": "array", "items": {"type": "string"}, "description": "Areas of code to focus analysis on (e.g., api, interfaces)"}
+  }
+}

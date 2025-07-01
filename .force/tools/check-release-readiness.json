@@ -1,0 +1,8 @@
+{
+  "id": "check-release-readiness",
+  "type": "tool",
+  "name": "Check Release Readiness",
+  "description": "Checks if the project is ready for release.",
+  "category": "release",
+  "version": "1.0.0"
+}
