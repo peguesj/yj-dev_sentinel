@@ -37,9 +37,15 @@ except ImportError as e:
             def __init__(self, name, description, inputSchema): pass
         class TextContent:
             def __init__(self, type, text): pass
+    class ServerCapabilities:
+        def __init__(self):
+            self.capabilities = {}
     class Server:
         def __init__(self, name): pass
-
+        def list_tools(self): return lambda f: f
+        def call_tool(self): return lambda f: f
+        async def run(self, *args, **kwargs): pass
+        def get_capabilities(self, *args, **kwargs): return ServerCapabilities()
 # Force system imports
 try:
     from force import ForceEngine, ForceEngineError, ToolExecutionError, SchemaValidationError
@@ -48,10 +54,22 @@ except ImportError as e:
     logging.warning(f"Force engine not available: {e}")
     FORCE_AVAILABLE = False
     class ForceEngine:
-        def __init__(self): pass
-    ForceEngineError = Exception
-    ToolExecutionError = Exception
-    SchemaValidationError = Exception
+        def __init__(self, *args, **kwargs): pass
+        def load_tools(self): return {}
+        def load_patterns(self): return {}
+        def load_constraints(self): return {}
+        def get_tool_list(self): return []
+        def get_pattern_list(self): return []
+        def validate_component(self, component, component_type): return True
+        def save_report(self, content, report_type, custom_filename=None): return '/tmp/fake_report.md'
+        def list_reports(self): return []
+        def get_reports_directory(self): return '/tmp/reports'
+        async def execute_tool(self, tool_id, parameters, context): return {"executed": True, "tool_id": tool_id, "parameters": parameters, "context": context}
+        async def cleanup(self): pass
+        @property
+        def learning_dir(self):
+            import pathlib
+            return pathlib.Path('/tmp')
 
 # Legacy system imports for backward compatibility
 try:
@@ -118,7 +136,6 @@ class ForceMCPServer:
     
     def _setup_server(self):
         """Set up server capabilities and tool handlers."""
-        
         @self.server.list_tools()
         async def handle_list_tools() -> list[types.Tool]:
             """List available Force tools and capabilities."""
@@ -163,7 +180,7 @@ class ForceMCPServer:
                             "dryRun": {
                                 "type": "boolean",
                                 "description": "Perform a dry run without executing",
-                                "default": false
+                                "default": False
                             }
                         },
                         "required": ["toolId"]
@@ -210,7 +227,7 @@ class ForceMCPServer:
                             "autoFix": {
                                 "type": "boolean",
                                 "description": "Automatically fix violations where possible",
-                                "default": false
+                                "default": False
                             }
                         }
                     }
@@ -251,7 +268,7 @@ class ForceMCPServer:
                             "includeMetadata": {
                                 "type": "boolean",
                                 "description": "Include detailed metadata",
-                                "default": true
+                                "default": True
                             }
                         }
                     }
@@ -802,7 +819,13 @@ class ForceMCPServer:
         try:
             await self._initialize_force_engine()
             logger.info("Starting Force MCP server...")
-            
+
+            # Provide a minimal notification_options stub if needed
+            class NotificationOptionsStub:
+                tools_changed = False
+
+            notification_options = NotificationOptionsStub()
+
             async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
                 await self.server.run(
                     read_stream,
@@ -811,7 +834,7 @@ class ForceMCPServer:
                         server_name="dev-sentinel-force",
                         server_version="2.0.0",
                         capabilities=self.server.get_capabilities(
-                            notification_options=None,
+                            notification_options=notification_options,
                             experimental_capabilities={}
                         )
                     )
