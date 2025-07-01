@@ -284,30 +284,9 @@ class ServerManager:
     async def _start_http_server(self):
         """Start the HTTP API server in a separate process."""
         try:
-            # Import server module
-            logger.debug("Importing HTTP server components...")
-            # Use both relative and absolute imports for robustness
-            try:
-                # First try relative imports
-                # from .mcp_command_server import FastMCP as app  # REMOVED: FastMCP does not exist
-                logger.debug("Using relative imports for HTTP server (FastMCP import removed)")
-            except ImportError:
-                # Fall back to absolute imports
-                # from integration.fast_agent.mcp_command_server import FastMCP as app  # REMOVED: FastMCP does not exist
-                logger.debug("Using absolute imports for HTTP server (FastMCP import removed)")
-            
-            # Start uvicorn server
-            import uvicorn
-            logger.debug("Configuring uvicorn server...")
-            config = uvicorn.Config(
-                self, 
-                host=self.host, 
-                port=self.http_port,
-                log_level="debug" if root_logger.level <= logging.DEBUG else "info"
-            )
-            server = uvicorn.Server(config)
-            logger.debug("Starting uvicorn server...")
-            await server.serve()
+            # Use the start_server function instead of importing app directly
+            logger.debug("Starting HTTP server...")
+            await start_http_server(self.host, self.http_port)
             
         except ImportError as e:
             logger.error(f"Failed to import HTTP server components: {e}")
