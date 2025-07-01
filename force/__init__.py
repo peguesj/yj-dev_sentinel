@@ -150,7 +150,7 @@ class ForceEngine:
                 raise SchemaValidationError(f"Unknown component type: {component_type}")
             
             component_schema = {
-                "$ref": f"#/definitions/{component_type.title()}"
+                "$ref": f"#/definitions/{component_type}"
             }
             
             # Create a complete schema for validation
@@ -171,7 +171,7 @@ class ForceEngine:
         """Load and validate all tools."""
         if not self._tools_cache:
             self._tools_cache = self._load_component_directory(
-                self.tools_dir, "Tool"
+                self.tools_dir, "ToolDefinition"
             )
         return self._tools_cache
     
@@ -192,12 +192,97 @@ class ForceEngine:
         return self._constraints_cache
     
     def load_governance_policies(self) -> Dict[str, Dict[str, Any]]:
-        """Load and validate all governance policies."""
+        """Load and validate all governance policies and learning records."""
         if not self._governance_policies:
-            self._governance_policies = self._load_component_directory(
-                self.governance_dir, "GovernancePolicy"
-            )
+            self._governance_policies = self._load_governance_components()
         return self._governance_policies
+    
+    def _load_governance_components(self) -> Dict[str, Dict[str, Any]]:
+        """Load and validate governance components (both policies and learning records)."""
+        components = {}
+        
+        if not self.governance_dir.exists():
+            logger.warning(f"Governance directory not found: {self.governance_dir}")
+            return components
+        
+        for json_file in self.governance_dir.glob("*.json"):
+            try:
+                with open(json_file, 'r') as f:
+                    data = json.load(f)
+                
+                # Extract components from the file
+                file_components = self._extract_governance_components(data)
+                components.update(file_components)
+                
+                logger.info(f"Loaded {len(file_components)} governance components from {json_file}")
+                
+            except Exception as e:
+                logger.error(f"Error loading governance components from {json_file}: {e}")
+                continue
+        
+        return components
+    
+    def _extract_governance_components(self, data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+        """Extract governance components from file data, handling both policies and learning records."""
+        components = {}
+        
+        # Check for governance policies in the 'governance_policies' array (new structure)
+        if "governance_policies" in data:
+            for policy in data["governance_policies"]:
+                if isinstance(policy, dict) and "id" in policy:
+                    try:
+                        self.validate_component(policy, "GovernancePolicy")
+                        components[policy["id"]] = policy
+                    except Exception as e:
+                        logger.warning(f"Failed to validate governance policy {policy.get('id', 'unknown')} as GovernancePolicy: {e}")
+        
+        # Check for governance policies in the 'governance' section (legacy structure)
+        if "governance" in data:
+            governance_data = data["governance"]
+            
+            # Check for quality gates (these are governance policies)
+            if "quality_gates" in governance_data:
+                for gate in governance_data["quality_gates"]:
+                    if isinstance(gate, dict) and "id" in gate:
+                        # Validate as GovernancePolicy
+                        try:
+                            self.validate_component(gate, "GovernancePolicy")
+                            components[gate["id"]] = gate
+                        except Exception as e:
+                            logger.warning(f"Failed to validate quality gate {gate.get('id', 'unknown')} as GovernancePolicy: {e}")
+            
+            # Check for policies (these are governance policies)
+            if "policies" in governance_data:
+                for policy in governance_data["policies"]:
+                    if isinstance(policy, dict) and "id" in policy:
+                        try:
+                            self.validate_component(policy, "GovernancePolicy")
+                            components[policy["id"]] = policy
+                        except Exception as e:
+                            logger.warning(f"Failed to validate policy {policy.get('id', 'unknown')} as GovernancePolicy: {e}")
+        
+        # Check for learning records in the 'learning_records' section
+        if "learning_records" in data:
+            for record in data["learning_records"]:
+                if isinstance(record, dict) and "id" in record:
+                    try:
+                        self.validate_component(record, "LearningRecord")
+                        components[record["id"]] = record
+                    except Exception as e:
+                        logger.warning(f"Failed to validate learning record {record.get('id', 'unknown')} as LearningRecord: {e}")
+        
+        # Check if the root object itself is a component
+        if "id" in data:
+            # Try as GovernancePolicy first, then LearningRecord
+            for component_type in ["GovernancePolicy", "LearningRecord"]:
+                try:
+                    self.validate_component(data, component_type)
+                    components[data["id"]] = data
+                    break
+                except Exception:
+                    continue
+        
+        return components
     
     def _load_component_directory(self, directory: Path, component_type: str) -> Dict[str, Dict[str, Any]]:
         """Load and validate all JSON files in a component directory."""
