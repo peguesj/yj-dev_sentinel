@@ -1,0 +1,150 @@
+{
+  "$schema": "../../../.force/schemas/force-schema.json",
+  "id": "force_component_fix_system",
+  "name": "Force Component Fix System",
+  "description": "Intelligent batch fixing system that analyzes validation errors, groups components by similar issues, and provides efficient automated fixes for Force component compliance.",
+  "category": "optimization",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "force_root_path",
+        "type": "directory_path",
+        "description": "Path to the Force root directory containing .force subdirectory"
+      }
+    ],
+    "optional": [
+      {
+        "name": "operation_mode",
+        "type": "string",
+        "description": "Operation mode for the fix system",
+        "default": "analyze",
+        "validation": {
+          "enum": ["analyze", "fix", "dry_run"]
+        }
+      },
+      {
+        "name": "fix_groups",
+        "type": "array",
+        "description": "Specific fix groups to process",
+        "default": []
+      },
+      {
+        "name": "efficiency_threshold",
+        "type": "string",
+        "description": "Minimum efficiency level for automated fixes",
+        "default": "medium",
+        "validation": {
+          "enum": ["low", "medium", "high"]
+        }
+      },
+      {
+        "name": "batch_size",
+        "type": "number",
+        "description": "Maximum number of components to fix in one batch",
+        "default": 50
+      },
+      {
+        "name": "backup_before_fix",
+        "type": "boolean",
+        "description": "Create backup copies before applying fixes",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "run_validation_analysis",
+        "description": "Run comprehensive validation to identify all component errors"
+      },
+      {
+        "action": "categorize_validation_errors",
+        "description": "Categorize errors by type: missing fields, type mismatches, enum violations, etc."
+      },
+      {
+        "action": "group_errors_by_fix_patterns",
+        "description": "Group components with similar errors for batch fixing efficiency"
+      },
+      {
+        "action": "calculate_efficiency_metrics",
+        "description": "Calculate time estimates and efficiency metrics for each fix group"
+      },
+      {
+        "action": "generate_fix_templates",
+        "description": "Generate standard templates for common missing structures"
+      },
+      {
+        "action": "prioritize_fix_groups",
+        "description": "Order fix groups by efficiency and impact"
+      },
+      {
+        "action": "apply_batch_fixes",
+        "description": "Apply automated fixes to grouped components",
+        "condition": "operation_mode is 'fix' or 'dry_run'"
+      },
+      {
+        "action": "validate_fixed_components",
+        "description": "Re-validate components after fixes to ensure compliance"
+      },
+      {
+        "action": "generate_fix_report",
+        "description": "Generate comprehensive report of applied fixes and remaining issues"
+      },
+      {
+        "action": "identify_manual_review_items",
+        "description": "Identify components requiring manual review and provide guidance"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Force component validator is available",
+        "Force root directory is writable for fixes",
+        "Backup directory is available if backup_before_fix is enabled",
+        "Fix templates are properly defined"
+      ],
+      "post_conditions": [
+        "All fixable components have been processed",
+        "Efficiency metrics have been calculated and reported",
+        "Fix results are documented with success/failure details",
+        "Manual review items are clearly identified"
+      ],
+      "error_handling": [
+        {
+          "error_type": "validation_analysis_failure",
+          "strategy": "abort",
+          "action": "Cannot proceed without validation results"
+        },
+        {
+          "error_type": "component_file_locked",
+          "strategy": "skip",
+          "action": "Skip locked files and report for manual intervention"
+        },
+        {
+          "error_type": "template_application_error",
+          "strategy": "retry",
+          "action": "Retry with fallback template or skip if persistent failure"
+        },
+        {
+          "error_type": "backup_creation_failure",
+          "strategy": "abort",
+          "action": "Abort fixes if backup cannot be created and backup is required"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-01T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "expert",
+    "tags": ["batch-fixing", "automation", "efficiency", "error-correction", "optimization"],
+    "dependencies": ["force_component_validator", "json-manipulation", "file-system-access"],
+    "performance_metrics": {
+      "avg_execution_time": 120.0,
+      "success_rate": 0.92,
+      "usage_count": 0
+    }
+  }
+}
