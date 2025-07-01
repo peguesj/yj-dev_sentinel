@@ -1,8 +1,20 @@
 #!/usr/local/bin/python
 """
-Dev Sentinel Server Runner
+Dev Sentinel Server        # Run             # Re-run validation
+            revalidation = subprocess.run([
+                sys.executable,
+                "force/tools/system/force_component_validator.py", 
+                ".force",
+                "--startup-check"
+            ], capture_output=True, text=True, cwd=Path.cwd())x
+        fix_result = subprocess.run([
+            sys.executable,
+            "force/tools/system/force_component_fix_system.py",
+            "--fix"
+        ], capture_output=True, text=True, cwd=Path.cwd())r
 
-This script properly launches the Dev Sentinel MCP server with correct path setup.
+This script properly launches the Dev Sentinel MCP server with correct path setup
+and integrated Force component validation and fixing.
 """
 
 import os
@@ -26,6 +38,67 @@ try:
 except ImportError:
     logger.error("Failed to import path_setup module")
     sys.exit(1)
+
+# Run Force validation and fix at startup
+logger.info("🔍 Running Force component validation at startup...")
+try:
+    from force.tools.system import run_startup_validation
+    
+    # Run validation and auto-fix using embedded system
+    validation_success = run_startup_validation(".force", auto_fix=True)
+    
+    if validation_success:
+        logger.info("✅ Force validation passed")
+    else:
+        logger.warning("⚠️ Some validation issues remain - server may encounter problems")
+        
+except ImportError:
+    logger.warning("Force validation system not available, falling back to subprocess method...")
+    try:
+        import subprocess
+        from pathlib import Path
+        
+        # Run validation
+        result = subprocess.run([
+            sys.executable,
+            "force/tools/system/force_component_validator.py",
+            ".force",
+            "--startup-check"
+        ], capture_output=True, text=True, cwd=Path.cwd())
+        
+        if result.returncode != 0:
+            logger.warning("❌ Force validation failed, attempting auto-fix...")
+            
+            # Run auto-fix
+            fix_result = subprocess.run([
+                sys.executable,
+                "force/tools/system/force_component_fix_system.py",
+                "--fix"
+            ], capture_output=True, text=True, cwd=Path.cwd())
+            
+            if fix_result.returncode in [0, 1]:
+                logger.info("🔧 Auto-fix completed, re-validating...")
+                # Re-run validation
+                revalidation = subprocess.run([
+                    sys.executable,
+                    "force/tools/system/force_component_validator.py", 
+                    ".force",
+                    "--startup-check"
+                ], capture_output=True, text=True, cwd=Path.cwd())
+                
+                if revalidation.returncode == 0:
+                    logger.info("✅ Force validation passed after auto-fix")
+                else:
+                    logger.warning("⚠️ Some validation issues remain after auto-fix")
+            else:
+                logger.error("❌ Auto-fix failed")
+        else:
+            logger.info("✅ Force validation passed")
+            
+    except Exception as e:
+        logger.warning(f"Force validation system error: {e}")
+except Exception as e:
+    logger.warning(f"Force validation system error: {e}")
 
 # Now we can safely import Dev Sentinel components
 try:
