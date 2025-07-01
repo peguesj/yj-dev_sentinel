@@ -9,7 +9,7 @@ import os
 import subprocess
 from typing import Dict, Any, Optional, List
 
-from . import BaseToolExecutor
+from force.tools import BaseToolExecutor
 
 logger = logging.getLogger(__name__)
 
