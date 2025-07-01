@@ -1,0 +1,8 @@
+{
+  "id": "docs-extraction",
+  "type": "tool",
+  "name": "Docs Extraction",
+  "description": "Extracts documentation from source files (docstrings, comments, annotations).",
+  "category": "documentation",
+  "version": "1.0.0"
+}

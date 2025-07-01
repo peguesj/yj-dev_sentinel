@@ -1,0 +1,7 @@
+{
+  "id": "generate-docs-update-summary",
+  "name": "Generate Docs Update Summary",
+  "description": "Generates summary of documentation updates.",
+  "category": "documentation",
+  "version": "1.0.0"
+}

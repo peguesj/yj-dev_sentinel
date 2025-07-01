@@ -1,0 +1,8 @@
+{
+  "id": "docs-validation",
+  "type": "tool",
+  "name": "Docs Validation",
+  "description": "Validates documentation files for correctness.",
+  "category": "documentation",
+  "version": "1.0.0"
+}
