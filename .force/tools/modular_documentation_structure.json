@@ -1,0 +1,118 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "id": "modular_documentation_structure",
+  "type": "tool",
+  "name": "Modular Documentation Structure",
+  "description": "Organizes project documentation into logical, numbered sections with centralized assets and backward compatibility mechanisms for scalable knowledge management.",
+  "category": "documentation",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "project_root",
+        "type": "directory_path",
+        "description": "Root directory of the project to organize documentation for"
+      }
+    ],
+    "optional": [
+      {
+        "name": "sections",
+        "type": "array",
+        "description": "Custom section names and order",
+        "default": ["overview", "requirements", "architecture", "implementation", "testing", "deployment", "maintenance"]
+      },
+      {
+        "name": "create_symlinks",
+        "type": "boolean",
+        "description": "Create backward compatibility symlinks",
+        "default": true
+      },
+      {
+        "name": "assets_structure",
+        "type": "object",
+        "description": "Custom assets directory structure",
+        "default": {
+          "diagrams": ["*.puml", "*.mermaid", "*.drawio"],
+          "images": ["*.png", "*.jpg", "*.svg"],
+          "schemas": ["*.json", "*.yaml", "*.xsd"]
+        }
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "analyze_existing_docs",
+        "description": "Analyze current documentation structure and content"
+      },
+      {
+        "action": "create_section_directories",
+        "description": "Create numbered section directories with proper naming"
+      },
+      {
+        "action": "create_assets_structure",
+        "description": "Set up centralized assets directory with subdirectories"
+      },
+      {
+        "action": "migrate_existing_content",
+        "description": "Move existing documentation to appropriate sections"
+      },
+      {
+        "action": "create_section_indexes",
+        "description": "Generate README files for each section with navigation"
+      },
+      {
+        "action": "update_cross_references",
+        "description": "Update all internal links to new structure"
+      },
+      {
+        "action": "create_backward_compatibility",
+        "description": "Create symlinks for backward compatibility",
+        "condition": "create_symlinks == true"
+      },
+      {
+        "action": "generate_main_index",
+        "description": "Create main documentation index with navigation"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Project root directory exists",
+        "User has write permissions",
+        "No conflicting directory structure exists"
+      ],
+      "post_conditions": [
+        "All sections have proper directory structure",
+        "Navigation links are functional",
+        "Assets are properly organized",
+        "Backward compatibility maintained"
+      ],
+      "error_handling": [
+        {
+          "error_type": "permission_denied",
+          "strategy": "abort",
+          "action": "Report permission error and exit"
+        },
+        {
+          "error_type": "conflicting_structure",
+          "strategy": "manual_intervention",
+          "action": "Request user decision on conflict resolution"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-01T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": ["documentation", "organization", "structure", "migration"],
+    "dependencies": ["file-system-access", "symlink-support"],
+    "performance_metrics": {
+      "avg_execution_time": 15.0,
+      "success_rate": 0.92,
+      "usage_count": 0
+    }
+  }
+}
