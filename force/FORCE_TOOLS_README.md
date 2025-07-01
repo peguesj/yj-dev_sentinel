@@ -1,19 +1,44 @@
-# FORCE Tools Documentation
+# FORCE Tools Documentation v0.3.0
 
 This document describes the tools available in the FORCE (Framework for Organized and Robust Code Evolution) system. These tools are designed to enhance software development workflows by providing automation for common tasks related to code organization, documentation, and project management.
 
+## What's New in v0.3.0
+
+- **Enhanced Tool Structure**: Comprehensive reorganization with modular architecture
+- **New Analysis Tools**: Code change analysis, release readiness checks, quality assessment
+- **Expanded Git Tools**: Branch creation, workflow commits, enhanced status reporting
+- **Documentation Tools**: Analysis, extraction, validation, and update summary generation
+- **Security & Compliance**: Infrastructure security checks, secrets scanning, compliance validation
+- **Performance Tools**: Static analysis, dependency analysis, test execution management
+
 ## Tools Structure
 
-All FORCE tools are located in the `force/tools` directory and are organized into categories:
+All FORCE tools are organized in a dual structure for maximum flexibility:
 
+### Primary Structure (`force/tools/`)
 ```
 force/tools/
 ├── documentation/     # Documentation-related tools
 │   └── doc_sync/      # Documentation synchronization tool
 ├── git/               # Git-related tools
-│   └── grouped_commit/# Grouped commit workflow tool
-└── project/           # Project management tools
-    └── migration/     # Project structure migration tool
+│   ├── grouped_commit/# Grouped commit workflow tool
+│   └── status/        # Enhanced git status tool
+├── project/           # Project management tools
+│   └── migration/     # Project structure migration tool
+└── system/            # System-level tools
+```
+
+### Extended Structure (`.force/tools/`)
+```
+.force/tools/
+├── analyze-code-changes.json      # Code change impact analysis
+├── check-release-readiness.json   # Release readiness assessment
+├── code-quality-check.json        # Comprehensive quality analysis
+├── docs-analysis.json             # Documentation quality analysis
+├── generate-changelog.json        # Automated changelog generation
+├── git-workflow-tools/            # Complete git workflow suite
+├── security-analysis.json         # Security and compliance tools
+└── performance-analysis.json      # Performance monitoring tools
 ```
 
 Each tool is implemented as a Python module with a main class that encapsulates the tool's functionality.
