@@ -15,5 +15,11 @@
   "priority": "medium",
   "created_at": "2025-06-24T17:25:00Z",
   "session_id": "phase-2-core-features-implementation",
-  "force_pattern": "technical-constraint-documentation"
+  "force_pattern": "technical-constraint-documentation",
+  "enforcement": {
+    "level": "warning",
+    "validation_rules": [
+      "Validation rule description"
+    ]
+  }
 }

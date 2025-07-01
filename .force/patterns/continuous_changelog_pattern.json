@@ -1,7 +1,6 @@
 {
   "$schema": "../schemas/force-schema.json",
   "id": "continuous_changelog_pattern",
-  "type": "pattern",
   "name": "Continuous Changelog Pattern",
   "description": "Maintains real-time project progress tracking through timestamped changelog entries with implementation anchors and cross-references for transparent development visibility.",
   "category": "documentation",
@@ -45,7 +44,7 @@
           "phase": "**Phase:** [Phase Name] `#phase-anchor`",
           "type": "**Type:** [Category] | [Subcategory]",
           "impact": "**Impact:** [High|Medium|Low]",
-          "changes": "**Changes Made:** - ✅ Completed items",
+          "changes": "**Changes Made:** - \u2705 Completed items",
           "references": "**Implementation References:** - [Links]"
         }
       }
@@ -53,7 +52,7 @@
     "code_templates": [
       {
         "name": "Changelog Entry Template",
-        "template": "### {timestamp} - {title}\\n**Phase:** {phase} `#{anchor}`\\n**Type:** {type}\\n**Impact:** {impact}\\n\\n**Changes Made:**\\n- ✅ {completed_items}\\n\\n**Implementation References:**\\n- [{ref_title}]({ref_link})"
+        "template": "### {timestamp} - {title}\\n**Phase:** {phase} `#{anchor}`\\n**Type:** {type}\\n**Impact:** {impact}\\n\\n**Changes Made:**\\n- \u2705 {completed_items}\\n\\n**Implementation References:**\\n- [{ref_title}]({ref_link})"
       }
     ]
   }

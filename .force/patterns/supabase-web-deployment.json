@@ -6,20 +6,17 @@
   "subcategory": "database_operations",
   "created": "2025-06-24T23:47:00Z",
   "last_updated": "2025-06-24T23:47:00Z",
-  
   "pattern": {
     "title": "Web Supabase Instance Deployment",
     "description": "Consistent pattern for deploying to web Supabase instance using --linked flag",
     "context": "Resume Match Maker Pro uses production Supabase web instance exclusively"
   },
-  
   "implementation": {
     "pre_conditions": [
       "Supabase project must be linked",
       "Authentication credentials must be valid",
       "Network connectivity to Supabase required"
     ],
-    
     "steps": [
       {
         "step": 1,
@@ -40,14 +37,12 @@
         "expected": "Changes reflected in web dashboard"
       }
     ],
-    
     "post_conditions": [
       "Changes visible in Supabase web dashboard",
       "No local Docker containers affected",
       "Data persistence confirmed"
     ]
   },
-  
   "usage_examples": {
     "database_migrations": {
       "command": "supabase db push --linked",
@@ -62,7 +57,6 @@
       "description": "Create new migration for web instance"
     }
   },
-  
   "error_handling": {
     "missing_linked_flag": {
       "detection": "Command executed without --linked",
@@ -75,16 +69,28 @@
       "prevention": "Verify auth status before operations"
     }
   },
-  
   "success_metrics": {
     "deployment_success_rate": "100% of commands target web instance",
     "data_consistency": "No local/remote sync conflicts",
     "operation_reliability": "Predictable deployment outcomes"
   },
-  
   "related_patterns": [
     "database-migration-workflow",
     "edge-function-deployment",
     "production-deployment-safety"
-  ]
+  ],
+  "description": "Generated description",
+  "context": {
+    "when_to_use": "Describe when to use this pattern",
+    "benefits": [
+      "List",
+      "key",
+      "benefits"
+    ],
+    "trade_offs": [
+      "List",
+      "any",
+      "trade_offs"
+    ]
+  }
 }

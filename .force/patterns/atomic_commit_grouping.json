@@ -1,7 +1,6 @@
 {
   "$schema": "../schemas/force-schema.json",
   "id": "atomic_commit_grouping",
-  "type": "pattern",
   "name": "Atomic Commit Grouping",
   "description": "Pattern for intelligently grouping related changes into atomic, logical commits with proper semantic versioning and meaningful commit messages.",
   "category": "workflow",

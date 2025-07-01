@@ -1,0 +1,591 @@
+{
+  "success": true,
+  "validation_timestamp": "2025-07-01T05:56:56.248339",
+  "tools": {
+    "valid": [
+      {
+        "file": "generate-changelog.json",
+        "path": ".force/tools/generate-changelog.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "generate_changelog",
+        "tool_name": "Generate Changelog"
+      },
+      {
+        "file": "force-report-generator.json",
+        "path": ".force/tools/force-report-generator.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_report_generator",
+        "tool_name": "Force Report Generator"
+      },
+      {
+        "file": "force_component_fix_system.json",
+        "path": ".force/tools/force_component_fix_system.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_component_fix_system",
+        "tool_name": "Force Component Fix System"
+      },
+      {
+        "file": "force_component_validator.json",
+        "path": ".force/tools/force_component_validator.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_component_validator",
+        "tool_name": "Force Component Validator"
+      },
+      {
+        "file": "modular_documentation_structure.json",
+        "path": ".force/tools/modular_documentation_structure.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "modular_documentation_structure",
+        "tool_name": "Modular Documentation Structure"
+      },
+      {
+        "file": "force_mcp_integration.json",
+        "path": ".force/tools/force_mcp_integration.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_mcp_integration",
+        "tool_name": "Force MCP Integration"
+      },
+      {
+        "file": "secrets-scan.json",
+        "path": ".force/tools/secrets-scan.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "secrets_scan",
+        "tool_name": "Secrets Scan"
+      }
+    ],
+    "invalid": [
+      {
+        "file": "documentation_analysis.json",
+        "path": ".force/tools/documentation_analysis.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "documentation_analysis",
+        "tool_name": "Documentation Analysis"
+      },
+      {
+        "file": "code-quality-check.json",
+        "path": ".force/tools/code-quality-check.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "code_quality_check",
+        "tool_name": "Code Quality Check"
+      },
+      {
+        "file": "test-execution.json",
+        "path": ".force/tools/test-execution.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Conditional strategy requires 'condition' in command: discover_test_files",
+          "Conditional strategy requires 'condition' in command: execute_test_suite",
+          "Conditional strategy requires 'condition' in command: analyze_test_results",
+          "Conditional strategy requires 'condition' in command: validate_coverage_threshold"
+        ],
+        "tool_id": "test_execution",
+        "tool_name": "Test Execution"
+      },
+      {
+        "file": "generate-docs-update-summary.json",
+        "path": ".force/tools/generate-docs-update-summary.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "generate_docs_update_summary",
+        "tool_name": "Generate Docs Update Summary"
+      },
+      {
+        "file": "compliance-check.json",
+        "path": ".force/tools/compliance-check.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'category': 'security' is not one of ['git', 'documentation', 'analysis', 'implementation', 'testing', 'deployment', 'optimization', 'validation']"
+        ],
+        "tool_id": "compliance_check",
+        "tool_name": "Compliance Check"
+      },
+      {
+        "file": "versioned_project_management.json",
+        "path": ".force/tools/versioned_project_management.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "versioned_project_management",
+        "tool_name": "Versioned Project Management Pattern"
+      },
+      {
+        "file": "code_quality_check.json",
+        "path": ".force/tools/code_quality_check.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "code_quality_check",
+        "tool_name": "Code Quality Check"
+      },
+      {
+        "file": "project-structure-analysis.json",
+        "path": ".force/tools/project-structure-analysis.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "project_structure_analysis",
+        "tool_name": "Project Structure Analysis"
+      },
+      {
+        "file": "project_structure_analysis.json",
+        "path": ".force/tools/project_structure_analysis.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "project_structure_analysis",
+        "tool_name": "Project Structure Analysis"
+      },
+      {
+        "file": "docs-analysis.json",
+        "path": ".force/tools/docs-analysis.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "docs_analysis",
+        "tool_name": "Documentation Analysis"
+      },
+      {
+        "file": "git-diff.json",
+        "path": ".force/tools/git-diff.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "git_diff",
+        "tool_name": "Git Diff"
+      },
+      {
+        "file": "infrastructure-security-check.json",
+        "path": ".force/tools/infrastructure-security-check.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'category': 'security' is not one of ['git', 'documentation', 'analysis', 'implementation', 'testing', 'deployment', 'optimization', 'validation']"
+        ],
+        "tool_id": "infrastructure_security_check",
+        "tool_name": "Infrastructure Security Check"
+      },
+      {
+        "file": "git_branch_create.json",
+        "path": ".force/tools/git_branch_create.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "git_branch_create",
+        "tool_name": "Git Branch Create"
+      },
+      {
+        "file": "readme-analysis.json",
+        "path": ".force/tools/readme-analysis.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "readme_analysis",
+        "tool_name": "README Analysis"
+      },
+      {
+        "file": "force_sync.json",
+        "path": ".force/tools/force_sync.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "force_sync",
+        "tool_name": "Force Directory Synchronizer"
+      },
+      {
+        "file": "docs-extraction.json",
+        "path": ".force/tools/docs-extraction.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "docs_extraction",
+        "tool_name": "Docs Extraction"
+      },
+      {
+        "file": "static-analysis.json",
+        "path": ".force/tools/static-analysis.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "static_analysis",
+        "tool_name": "Static Analysis"
+      },
+      {
+        "file": "dependency-analysis.json",
+        "path": ".force/tools/dependency-analysis.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "dependency_analysis",
+        "tool_name": "Dependency Analysis"
+      },
+      {
+        "file": "anchor_based_cross_referencing.json",
+        "path": ".force/tools/anchor_based_cross_referencing.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'execution -> validation -> error_handling -> 1 -> strategy': 'auto_fix' is not one of ['retry', 'fallback', 'skip', 'abort', 'manual_intervention']"
+        ],
+        "tool_id": "anchor_based_cross_referencing",
+        "tool_name": "Anchor Based Cross Referencing"
+      },
+      {
+        "file": "security-analysis.json",
+        "path": ".force/tools/security-analysis.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'category': 'security' is not one of ['git', 'documentation', 'analysis', 'implementation', 'testing', 'deployment', 'optimization', 'validation']"
+        ],
+        "tool_id": "security_analysis",
+        "tool_name": "Security Analysis"
+      },
+      {
+        "file": "git_workflow_commit.json",
+        "path": ".force/tools/git_workflow_commit.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "git_workflow_commit",
+        "tool_name": "Git Workflow Commit"
+      },
+      {
+        "file": "git-commit.json",
+        "path": ".force/tools/git-commit.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "git_commit",
+        "tool_name": "Git Commit"
+      },
+      {
+        "file": "validate-version.json",
+        "path": ".force/tools/validate-version.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'category': 'release_management' is not one of ['git', 'documentation', 'analysis', 'implementation', 'testing', 'deployment', 'optimization', 'validation']"
+        ],
+        "tool_id": "validate_version",
+        "tool_name": "Validate Version"
+      },
+      {
+        "file": "security-configuration-check.json",
+        "path": ".force/tools/security-configuration-check.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'category': 'security' is not one of ['git', 'documentation', 'analysis', 'implementation', 'testing', 'deployment', 'optimization', 'validation']"
+        ],
+        "tool_id": "security_configuration_check",
+        "tool_name": "Security Configuration Check"
+      },
+      {
+        "file": "analyze-code-changes.json",
+        "path": ".force/tools/analyze-code-changes.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "analyze_code_changes",
+        "tool_name": "Analyze Code Changes"
+      },
+      {
+        "file": "git-status.json",
+        "path": ".force/tools/git-status.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "git_status",
+        "tool_name": "Git Status"
+      },
+      {
+        "file": "performance-analysis.json",
+        "path": ".force/tools/performance-analysis.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "performance_analysis",
+        "tool_name": "Performance Analysis"
+      },
+      {
+        "file": "check-release-readiness.json",
+        "path": ".force/tools/check-release-readiness.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'category': 'release' is not one of ['git', 'documentation', 'analysis', 'implementation', 'testing', 'deployment', 'optimization', 'validation']"
+        ],
+        "tool_id": "check_release_readiness",
+        "tool_name": "Check Release Readiness"
+      },
+      {
+        "file": "generate-review-feedback.json",
+        "path": ".force/tools/generate-review-feedback.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'category': 'review' is not one of ['git', 'documentation', 'analysis', 'implementation', 'testing', 'deployment', 'optimization', 'validation']"
+        ],
+        "tool_id": "generate_review_feedback",
+        "tool_name": "Generate Review Feedback"
+      },
+      {
+        "file": "update-release-documentation.json",
+        "path": ".force/tools/update-release-documentation.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "update_release_documentation",
+        "tool_name": "Update Release Documentation"
+      },
+      {
+        "file": "handoff_documentation_pattern.json",
+        "path": ".force/tools/handoff_documentation_pattern.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "handoff_documentation_pattern",
+        "tool_name": "Handoff Documentation Pattern"
+      },
+      {
+        "file": "docs-validation.json",
+        "path": ".force/tools/docs-validation.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "docs_validation",
+        "tool_name": "Docs Validation"
+      },
+      {
+        "file": "update-api-docs.json",
+        "path": ".force/tools/update-api-docs.json",
+        "valid": false,
+        "error": "Semantic validation failed",
+        "detailed_errors": [
+          "Sequential strategy should have multiple commands"
+        ],
+        "tool_id": "update_api_docs",
+        "tool_name": "Update API Docs"
+      }
+    ],
+    "total": 40
+  },
+  "patterns": {
+    "valid": [
+      {
+        "file": "continuous_changelog_pattern.json",
+        "path": ".force/patterns/continuous_changelog_pattern.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "pattern_id": "continuous_changelog_pattern",
+        "pattern_name": "Continuous Changelog Pattern"
+      },
+      {
+        "file": "branch_task_end_tasks.json",
+        "path": ".force/patterns/branch_task_end_tasks.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "pattern_id": "branch_task_end_tasks",
+        "pattern_name": "Branch Task End Tasks"
+      },
+      {
+        "file": "atomic_commit_grouping.json",
+        "path": ".force/patterns/atomic_commit_grouping.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "pattern_id": "atomic_commit_grouping",
+        "pattern_name": "Atomic Commit Grouping"
+      },
+      {
+        "file": "grouped_commit_workflow.json",
+        "path": ".force/patterns/grouped_commit_workflow.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "pattern_id": "grouped_commit_workflow",
+        "pattern_name": "Grouped Commit Workflow"
+      },
+      {
+        "file": "handoff_documentation_pattern.json",
+        "path": ".force/patterns/handoff_documentation_pattern.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "pattern_id": "handoff_documentation_pattern",
+        "pattern_name": "Handoff Documentation Pattern"
+      }
+    ],
+    "invalid": [
+      {
+        "file": "documentation-patterns.json",
+        "path": ".force/patterns/documentation-patterns.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'id': 'Generated id' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'"
+        ],
+        "pattern_id": "Generated id",
+        "pattern_name": "Generated name"
+      },
+      {
+        "file": "supabase-web-deployment.json",
+        "path": ".force/patterns/supabase-web-deployment.json",
+        "valid": false,
+        "error": "Validation failed with 5 errors",
+        "detailed_errors": [
+          "Path 'id': 'supabase-web-deployment-pattern' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'",
+          "Path 'implementation': 'examples' is a required property",
+          "Path 'implementation -> steps -> 0': {'step': 1, 'action': 'Verify project linking', 'command': 'supabase status --linked', 'expected': 'Project linked status confirmed'} is not of type 'string'",
+          "Path 'implementation -> steps -> 1': {'step': 2, 'action': 'Execute database operation', 'command': '<base_command> --linked', 'expected': 'Operation targets web instance'} is not of type 'string'",
+          "Path 'implementation -> steps -> 2': {'step': 3, 'action': 'Verify operation success', 'command': 'Check logs and status', 'expected': 'Changes reflected in web dashboard'} is not of type 'string'"
+        ],
+        "pattern_id": "supabase-web-deployment-pattern",
+        "pattern_name": "Supabase Web Instance Deployment Pattern"
+      }
+    ],
+    "total": 7
+  },
+  "constraints": {
+    "valid": [],
+    "invalid": [
+      {
+        "file": "development-constraints.json",
+        "path": ".force/constraints/development-constraints.json",
+        "valid": false,
+        "error": "Validation failed with 2 errors",
+        "detailed_errors": [
+          "Path 'id': 'Generated id' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'",
+          "Path 'type': 'Generated type' is not one of ['code_quality', 'performance', 'security', 'documentation', 'testing', 'architecture', 'business_rule']"
+        ],
+        "constraint_id": "Generated id",
+        "constraint_type": "Generated type"
+      },
+      {
+        "file": "docker-requirement-for-functions.json",
+        "path": ".force/constraints/docker-requirement-for-functions.json",
+        "valid": false,
+        "error": "Validation failed with 2 errors",
+        "detailed_errors": [
+          "Path 'id': 'docker-requirement-for-functions' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'",
+          "Path 'type': 'technical-constraint' is not one of ['code_quality', 'performance', 'security', 'documentation', 'testing', 'architecture', 'business_rule']"
+        ],
+        "constraint_id": "docker-requirement-for-functions",
+        "constraint_type": "technical-constraint"
+      },
+      {
+        "file": "supabase-project-access-constraint.json",
+        "path": ".force/constraints/supabase-project-access-constraint.json",
+        "valid": false,
+        "error": "Validation failed with 2 errors",
+        "detailed_errors": [
+          "Path 'id': 'supabase-project-access-constraint' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'",
+          "Path 'type': 'technical-constraint' is not one of ['code_quality', 'performance', 'security', 'documentation', 'testing', 'architecture', 'business_rule']"
+        ],
+        "constraint_id": "supabase-project-access-constraint",
+        "constraint_type": "technical-constraint"
+      },
+      {
+        "file": "supabase-deployment.json",
+        "path": ".force/constraints/supabase-deployment.json",
+        "valid": false,
+        "error": "Validation failed with 2 errors",
+        "detailed_errors": [
+          "Path 'id': 'supabase-deployment-constraint' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'",
+          "Path 'type': 'deployment_constraint' is not one of ['code_quality', 'performance', 'security', 'documentation', 'testing', 'architecture', 'business_rule']"
+        ],
+        "constraint_id": "supabase-deployment-constraint",
+        "constraint_type": "deployment_constraint"
+      },
+      {
+        "file": "supabase-cli-linked-constraint.json",
+        "path": ".force/constraints/supabase-cli-linked-constraint.json",
+        "valid": false,
+        "error": "Validation failed with 2 errors",
+        "detailed_errors": [
+          "Path 'id': 'supabase-cli-linked-constraint' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'",
+          "Path 'type': 'technical-constraint' is not one of ['code_quality', 'performance', 'security', 'documentation', 'testing', 'architecture', 'business_rule']"
+        ],
+        "constraint_id": "supabase-cli-linked-constraint",
+        "constraint_type": "technical-constraint"
+      }
+    ],
+    "total": 5
+  },
+  "summary": {
+    "total_components": 52,
+    "total_valid": 12,
+    "total_invalid": 40,
+    "success_rate": 23.076923076923077,
+    "ready_for_loading": false
+  }
+}

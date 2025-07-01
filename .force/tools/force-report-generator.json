@@ -1,7 +1,6 @@
 {
   "$schema": "../schemas/force-schema.json",
-  "id": "force-report-generator",
-  "type": "tool",
+  "id": "force_report_generator",
   "name": "Force Report Generator",
   "description": "Generates comprehensive analysis and security reports for Force system components, tools, and workflows.",
   "category": "analysis",
@@ -13,7 +12,13 @@
         "type": "string",
         "description": "Type of report to generate",
         "validation": {
-          "enum": ["tool_usage", "pattern_effectiveness", "constraint_compliance", "security_analysis", "performance_metrics"]
+          "enum": [
+            "tool_usage",
+            "pattern_effectiveness",
+            "constraint_compliance",
+            "security_analysis",
+            "performance_metrics"
+          ]
         }
       }
     ],
@@ -29,11 +34,17 @@
       },
       {
         "name": "time_range",
-        "type": "string", 
+        "type": "string",
         "description": "Time range for report data",
         "default": "last_30_days",
         "validation": {
-          "enum": ["last_day", "last_week", "last_30_days", "last_quarter", "all_time"]
+          "enum": [
+            "last_day",
+            "last_week",
+            "last_30_days",
+            "last_quarter",
+            "all_time"
+          ]
         }
       },
       {

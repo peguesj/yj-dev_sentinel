@@ -9,7 +9,15 @@
     "ToolDefinition": {
       "type": "object",
       "description": "Defines a single agentic development tool with execution parameters",
-      "required": ["id", "name", "category", "description", "parameters", "execution", "metadata"],
+      "required": [
+        "id",
+        "name",
+        "category",
+        "description",
+        "parameters",
+        "execution",
+        "metadata"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -24,7 +32,16 @@
         },
         "category": {
           "type": "string",
-          "enum": ["git", "documentation", "analysis", "implementation", "testing", "deployment", "optimization", "validation"],
+          "enum": [
+            "git",
+            "documentation",
+            "analysis",
+            "implementation",
+            "testing",
+            "deployment",
+            "optimization",
+            "validation"
+          ],
           "description": "Primary category for tool organization"
         },
         "description": {
@@ -39,12 +56,12 @@
           "properties": {
             "required": {
               "type": "array",
-              "items": {"$ref": "#/definitions/Parameter"},
+              "items": { "$ref": "#/definitions/Parameter" },
               "description": "Required parameters for tool execution"
             },
             "optional": {
               "type": "array",
-              "items": {"$ref": "#/definitions/Parameter"},
+              "items": { "$ref": "#/definitions/Parameter" },
               "description": "Optional parameters with default values"
             }
           }
@@ -60,7 +77,7 @@
             },
             "commands": {
               "type": "array",
-              "items": {"$ref": "#/definitions/Command"},
+              "items": { "$ref": "#/definitions/Command" },
               "minItems": 1,
               "description": "Sequence of commands to execute"
             },
@@ -70,17 +87,17 @@
               "properties": {
                 "pre_conditions": {
                   "type": "array",
-                  "items": {"type": "string"},
+                  "items": { "type": "string" },
                   "description": "Conditions that must be met before execution"
                 },
                 "post_conditions": {
                   "type": "array",
-                  "items": {"type": "string"},
+                  "items": { "type": "string" },
                   "description": "Conditions that verify successful execution"
                 },
                 "error_handling": {
                   "type": "array",
-                  "items": {"$ref": "#/definitions/ErrorHandler"},
+                  "items": { "$ref": "#/definitions/ErrorHandler" },
                   "description": "Error handling strategies"
                 }
               }
@@ -113,21 +130,25 @@
             },
             "tags": {
               "type": "array",
-              "items": {"type": "string"},
+              "items": { "type": "string" },
               "description": "Tags for tool discovery and organization"
             },
             "dependencies": {
               "type": "array",
-              "items": {"type": "string"},
+              "items": { "type": "string" },
               "description": "Other tools or systems this tool depends on"
             },
             "performance_metrics": {
               "type": "object",
               "description": "Performance and success tracking",
               "properties": {
-                "avg_execution_time": {"type": "number"},
-                "success_rate": {"type": "number", "minimum": 0, "maximum": 1},
-                "usage_count": {"type": "integer", "minimum": 0}
+                "avg_execution_time": { "type": "number" },
+                "success_rate": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "usage_count": { "type": "integer", "minimum": 0 }
               }
             }
           }
@@ -145,7 +166,17 @@
         },
         "type": {
           "type": "string",
-          "enum": ["string", "number", "boolean", "array", "object", "file_path", "directory_path", "url", "regex"],
+          "enum": [
+            "string",
+            "number",
+            "boolean",
+            "array",
+            "object",
+            "file_path",
+            "directory_path",
+            "url",
+            "regex"
+          ],
           "description": "Parameter data type"
         },
         "description": {
@@ -160,11 +191,11 @@
           "type": "object",
           "description": "Validation rules for the parameter",
           "properties": {
-            "pattern": {"type": "string"},
-            "min_length": {"type": "integer"},
-            "max_length": {"type": "integer"},
-            "enum": {"type": "array"},
-            "custom_validator": {"type": "string"}
+            "pattern": { "type": "string" },
+            "min_length": { "type": "integer" },
+            "max_length": { "type": "integer" },
+            "enum": { "type": "array" },
+            "custom_validator": { "type": "string" }
           }
         }
       }
@@ -192,9 +223,12 @@
         "retry_policy": {
           "type": "object",
           "properties": {
-            "max_attempts": {"type": "integer", "minimum": 1},
-            "backoff_strategy": {"type": "string", "enum": ["linear", "exponential", "fixed"]},
-            "retry_delay": {"type": "number", "minimum": 0}
+            "max_attempts": { "type": "integer", "minimum": 1 },
+            "backoff_strategy": {
+              "type": "string",
+              "enum": ["linear", "exponential", "fixed"]
+            },
+            "retry_delay": { "type": "number", "minimum": 0 }
           }
         }
       }
@@ -243,19 +277,19 @@
           "type": "object",
           "required": ["when_to_use", "benefits", "trade_offs"],
           "properties": {
-            "when_to_use": {"type": "string"},
-            "benefits": {"type": "array", "items": {"type": "string"}},
-            "trade_offs": {"type": "array", "items": {"type": "string"}},
-            "anti_patterns": {"type": "array", "items": {"type": "string"}}
+            "when_to_use": { "type": "string" },
+            "benefits": { "type": "array", "items": { "type": "string" } },
+            "trade_offs": { "type": "array", "items": { "type": "string" } },
+            "anti_patterns": { "type": "array", "items": { "type": "string" } }
           }
         },
         "implementation": {
           "type": "object",
           "required": ["steps", "examples"],
           "properties": {
-            "steps": {"type": "array", "items": {"type": "string"}},
-            "examples": {"type": "array", "items": {"type": "object"}},
-            "code_templates": {"type": "array", "items": {"type": "object"}}
+            "steps": { "type": "array", "items": { "type": "string" } },
+            "examples": { "type": "array", "items": { "type": "object" } },
+            "code_templates": { "type": "array", "items": { "type": "object" } }
           }
         }
       }
@@ -271,7 +305,15 @@
         },
         "type": {
           "type": "string",
-          "enum": ["code_quality", "performance", "security", "documentation", "testing", "architecture", "business_rule"],
+          "enum": [
+            "code_quality",
+            "performance",
+            "security",
+            "documentation",
+            "testing",
+            "architecture",
+            "business_rule"
+          ],
           "description": "Type of constraint being enforced"
         },
         "description": {
@@ -289,7 +331,7 @@
             },
             "validation_rules": {
               "type": "array",
-              "items": {"type": "string"},
+              "items": { "type": "string" },
               "description": "Rules that define when the constraint is violated"
             },
             "auto_fix": {
@@ -298,8 +340,109 @@
             },
             "fix_commands": {
               "type": "array",
-              "items": {"type": "string"},
+              "items": { "type": "string" },
               "description": "Commands to automatically fix constraint violations"
+            }
+          }
+        }
+      }
+    },
+    "GovernancePolicy": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "category",
+        "description",
+        "policy_type",
+        "enforcement",
+        "scope",
+        "metadata"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*[a-z0-9]$",
+          "description": "Unique identifier for the governance policy"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100,
+          "description": "Human-readable name for the governance policy"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "security",
+            "compliance",
+            "quality",
+            "performance",
+            "accessibility",
+            "maintainability"
+          ],
+          "description": "Category of governance policy"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "Detailed description of the governance policy"
+        },
+        "policy_type": {
+          "type": "string",
+          "enum": ["mandatory", "recommended", "advisory"],
+          "description": "Enforcement level of the policy"
+        },
+        "enforcement": {
+          "type": "object",
+          "required": ["level", "validation_rules"],
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": ["blocking", "warning", "info"],
+              "description": "How strictly to enforce this policy"
+            },
+            "validation_rules": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Rules to validate compliance with this policy"
+            },
+            "auto_fix": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Commands to automatically fix policy violations"
+            }
+          }
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "applies_to": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "What this policy applies to (tools, patterns, etc.)"
+            },
+            "exceptions": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Exceptions to this policy"
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "required": ["created", "updated", "version"],
+          "properties": {
+            "created": { "type": "string", "format": "date-time" },
+            "updated": { "type": "string", "format": "date-time" },
+            "version": { "type": "string" },
+            "author": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" } },
+            "priority": {
+              "type": "string",
+              "enum": ["critical", "high", "medium", "low"],
+              "default": "medium"
             }
           }
         }
@@ -315,27 +458,39 @@
         },
         "event_type": {
           "type": "string",
-          "enum": ["tool_execution", "pattern_application", "constraint_violation", "error_resolution", "optimization"],
+          "enum": [
+            "tool_execution",
+            "pattern_application",
+            "constraint_violation",
+            "error_resolution",
+            "optimization"
+          ],
           "description": "Type of event that generated this learning record"
         },
         "context": {
           "type": "object",
           "description": "Context information about the event",
           "properties": {
-            "project_phase": {"type": "string"},
-            "tools_used": {"type": "array", "items": {"type": "string"}},
-            "complexity_level": {"type": "string"},
-            "team_size": {"type": "integer"}
+            "project_phase": { "type": "string" },
+            "tools_used": { "type": "array", "items": { "type": "string" } },
+            "complexity_level": { "type": "string" },
+            "team_size": { "type": "integer" }
           }
         },
         "outcome": {
           "type": "object",
           "required": ["success", "metrics"],
           "properties": {
-            "success": {"type": "boolean"},
-            "metrics": {"type": "object"},
-            "lessons_learned": {"type": "array", "items": {"type": "string"}},
-            "improvements_suggested": {"type": "array", "items": {"type": "string"}}
+            "success": { "type": "boolean" },
+            "metrics": { "type": "object" },
+            "lessons_learned": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "improvements_suggested": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
           }
         },
         "timestamp": {
@@ -349,22 +504,22 @@
   "properties": {
     "tools": {
       "type": "array",
-      "items": {"$ref": "#/definitions/ToolDefinition"},
+      "items": { "$ref": "#/definitions/ToolDefinition" },
       "description": "Collection of agentic development tools"
     },
     "patterns": {
       "type": "array",
-      "items": {"$ref": "#/definitions/Pattern"},
+      "items": { "$ref": "#/definitions/Pattern" },
       "description": "Collection of development patterns and best practices"
     },
     "constraints": {
       "type": "array",
-      "items": {"$ref": "#/definitions/Constraint"},
+      "items": { "$ref": "#/definitions/Constraint" },
       "description": "Collection of development constraints and rules"
     },
     "learning_records": {
       "type": "array",
-      "items": {"$ref": "#/definitions/LearningRecord"},
+      "items": { "$ref": "#/definitions/LearningRecord" },
       "description": "Historical learning data for continuous improvement"
     }
   }

@@ -1,7 +1,6 @@
 {
   "$schema": "../schemas/force-schema.json",
   "id": "modular_documentation_structure",
-  "type": "tool",
   "name": "Modular Documentation Structure",
   "description": "Organizes project documentation into logical, numbered sections with centralized assets and backward compatibility mechanisms for scalable knowledge management.",
   "category": "documentation",
@@ -19,7 +18,15 @@
         "name": "sections",
         "type": "array",
         "description": "Custom section names and order",
-        "default": ["overview", "requirements", "architecture", "implementation", "testing", "deployment", "maintenance"]
+        "default": [
+          "overview",
+          "requirements",
+          "architecture",
+          "implementation",
+          "testing",
+          "deployment",
+          "maintenance"
+        ]
       },
       {
         "name": "create_symlinks",

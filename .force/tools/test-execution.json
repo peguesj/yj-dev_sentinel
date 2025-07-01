@@ -1,7 +1,6 @@
 {
   "$schema": "../schemas/force-schema.json",
-  "id": "test-execution",
-  "type": "tool",
+  "id": "test_execution",
   "name": "Test Execution",
   "description": "Intelligently executes relevant tests for changed code or comprehensive test suites with coverage analysis and reporting.",
   "category": "testing",
@@ -13,7 +12,12 @@
         "type": "string",
         "description": "Scope of tests to execute",
         "validation": {
-          "enum": ["changed_files", "related_tests", "full_suite", "smoke_tests"]
+          "enum": [
+            "changed_files",
+            "related_tests",
+            "full_suite",
+            "smoke_tests"
+          ]
         }
       }
     ],
@@ -45,7 +49,7 @@
       },
       {
         "name": "generate_reports",
-        "type": "boolean", 
+        "type": "boolean",
         "description": "Generate test and coverage reports",
         "default": true
       }

@@ -1,12 +1,47 @@
 {
-  "id": "analyze-code-changes",
-  "type": "tool",
+  "id": "analyze_code_changes",
   "name": "Analyze Code Changes",
   "description": "Analyzes code changes to determine documentation impact.",
   "category": "documentation",
   "version": "1.0.0",
   "parameters": {
-    "sinceCommit": {"type": "string", "description": "Commit hash or ref to compare from"},
-    "focusAreas": {"type": "array", "items": {"type": "string"}, "description": "Areas of code to focus analysis on (e.g., api, interfaces)"}
+    "sinceCommit": {
+      "type": "string",
+      "description": "Commit hash or ref to compare from"
+    },
+    "focusAreas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Areas of code to focus analysis on (e.g., api, interfaces)"
+    }
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:07.609985Z",
+    "updated": "2025-07-01T03:54:07.609986Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
   }
 }
