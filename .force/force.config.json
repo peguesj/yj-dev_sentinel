@@ -17,7 +17,7 @@
     },
     "directories": {
       "schemas": "schemas",
-      "tools": "tools", 
+      "tools": "tools",
       "patterns": "patterns",
       "constraints": "constraints",
       "learning": "learning",
@@ -34,11 +34,11 @@
       "max_reports_per_type": 10,
       "supported_types": [
         "completion",
-        "git_task", 
+        "git_task",
         "doc_vcs",
         "execution",
         "migration",
-        "implementation", 
+        "implementation",
         "success",
         "analysis",
         "security",

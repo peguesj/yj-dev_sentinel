@@ -452,3 +452,14 @@ class ToolExecutor:
             raise ValueError(f"Command timed out after {timeout} seconds")
         except Exception as e:
             raise ValueError(f"Command execution failed: {str(e)}")
+    
+    async def execute_pattern(self, pattern_name, parameters=None):
+        """Execute a pattern, supporting recursion and modularity."""
+        pattern = self.load_pattern(pattern_name)
+        for step in pattern.get('steps', []):
+            action = step.get('action')
+            if action == 'pattern':
+                nested_pattern = step.get('pattern')
+                await self.execute_pattern(nested_pattern, parameters)
+            else:
+                await self.execute_step(step, parameters)
