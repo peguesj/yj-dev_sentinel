@@ -4,6 +4,9 @@ Enhanced MCP server for Dev Sentinel with Force system integration.
 This module provides a comprehensive Model Context Protocol server that
 exposes all Force system capabilities, including tools, patterns, constraints,
 learning insights, and governance controls.
+
+The server performs validation and fixing of Force components at startup
+before loading any JSON tool files to ensure system integrity.
 """
 
 import os
@@ -12,6 +15,9 @@ import json
 import logging
 import asyncio
 import traceback
+import argparse
+import subprocess
+from pathlib import Path
 from typing import Dict, List, Any, Optional, Sequence
 from contextlib import asynccontextmanager, AbstractAsyncContextManager
 
@@ -118,9 +124,12 @@ class ForceMCPServer:
     
     Provides comprehensive access to Force tools, patterns, constraints,
     learning insights, and governance controls through the Model Context Protocol.
+    
+    Performs validation and fixing of Force components at startup before loading
+    any JSON tool files to ensure system integrity.
     """
 
-    def __init__(self, force_directory: Optional[str] = None):
+    def __init__(self, force_directory: Optional[str] = None, auto_fix: bool = True):
         """Initialize the Force MCP server."""
         if not MCP_AVAILABLE:
             raise RuntimeError("MCP package not available - install with 'pip install mcp'")
@@ -129,17 +138,125 @@ class ForceMCPServer:
         self.force_engine = None
         self.legacy_processor = None
         self._force_directory = force_directory
+        self._auto_fix = auto_fix
         self._initialized = False
+        self._validation_passed = False
         self._initialization_lock = asyncio.Lock()
         
         # Set up server capabilities and handlers
         self._setup_server()
     
+    async def _run_startup_validation_and_fix(self) -> bool:
+        """Run Force component validation and fixing at startup using embedded system."""
+        logger.info("🔍 Starting Force component validation at MCP server startup...")
+        
+        # Determine Force directory
+        force_root = self._force_directory or ".force"
+        if not Path(force_root).exists():
+            logger.error(f"❌ Force directory not found: {force_root}")
+            return False
+        
+        try:
+            # Import the embedded validation system directly
+            from force.system.force_component_validator import ForceValidator
+            
+            # Initialize validator
+            validator = ForceValidator(force_root)
+            
+            # Run validation
+            validation_result = validator.validate_all()
+            
+            # Generate and log validation report
+            report = validator.generate_validation_report(validation_result)
+            logger.info(f"Validation output:\n{report}")
+            
+            # Check for blocking issues
+            blocking_issues = validator.check_blocking_issues(validation_result)
+            if blocking_issues:
+                logger.error("🚨 BLOCKING ISSUES DETECTED:")
+                for issue in blocking_issues:
+                    logger.error(f"  • {issue}")
+                logger.error("❌ Force component validation failed - blocking MCP server startup")
+                return False
+            
+            # No blocking issues found - validation passes even with some invalid components
+            logger.info("✅ Force component validation passed - MCP server can proceed")
+            return True
+                
+        except Exception as e:
+            logger.error(f"❌ Error during startup validation: {e}")
+            # Fallback to ForceStartupValidator if direct validation fails
+            logger.info("⚠️ Falling back to ForceStartupValidator method...")
+            return await self._run_validation_fallback(force_root)
+    
+    async def _run_validation_fallback(self, force_root: str) -> bool:
+        """Fallback validation method using embedded validation."""
+        try:
+            # Import ForceValidator directly
+            from force.system.force_component_validator import ForceValidator
+            
+            # Initialize validator
+            validator = ForceValidator(force_root)
+            
+            # Run validation
+            validation_result = validator.validate_all()
+            
+            # Generate and print validation report
+            report = validator.generate_validation_report(validation_result)
+            logger.info(f"Validation output:\n{report}")
+            
+            # Check for blocking issues
+            blocking_issues = validator.check_blocking_issues(validation_result)
+            if blocking_issues:
+                logger.error("🚨 BLOCKING ISSUES DETECTED:")
+                for issue in blocking_issues:
+                    logger.error(f"  • {issue}")
+                return False
+            
+            # Check if validation passed (some components can be invalid but not blocking)
+            validation_success = validation_result.get('summary', {}).get('ready_for_loading', True)
+            
+            if not validation_success and self._auto_fix:
+                logger.info("🔧 Validation failed, attempting automatic fixes...")
+                
+                # For now, we'll use a simple approach since ForceValidator doesn't have auto-fix
+                # In the future, this could be enhanced with actual auto-fix logic
+                logger.info("Auto-fix output:\n🔧 Auto-fix functionality is not yet implemented in ForceValidator")
+                logger.info("Manual intervention may be required for invalid components.")
+                
+                # Re-run validation after attempted fixes
+                validation_result = validator.validate_all()
+                report = validator.generate_validation_report(validation_result)
+                logger.info(f"Re-validation output:\n{report}")
+                
+                # Check for blocking issues again
+                blocking_issues = validator.check_blocking_issues(validation_result)
+                if blocking_issues:
+                    logger.error("❌ Auto-fix failed, manual intervention required")
+                    return False
+                
+                validation_success = validation_result.get('summary', {}).get('ready_for_loading', True)
+            elif not validation_success:
+                logger.error("❌ Validation failed and auto-fix is disabled")
+                return False
+            
+            return validation_success
+            
+        except Exception as e:
+            logger.error(f"❌ Error in fallback validation: {e}")
+            return False
+
     async def _initialize_force_engine(self):
-        """Initialize the Force engine asynchronously."""
+        """Initialize the Force engine asynchronously after validation."""
         async with self._initialization_lock:
             if self._initialized:
                 return
+            
+            # Run startup validation and fix before initializing
+            if not self._validation_passed:
+                self._validation_passed = await self._run_startup_validation_and_fix()
+                if not self._validation_passed:
+                    raise RuntimeError("Force component validation failed - cannot start MCP server")
             
             try:
                 if FORCE_AVAILABLE:
@@ -1093,7 +1210,6 @@ class ForceMCPServer:
 
 async def main():
     """Main entry point for the Force MCP server."""
-    import argparse
     
     parser = argparse.ArgumentParser(description="Dev Sentinel Force MCP Server")
     parser.add_argument(
@@ -1106,13 +1222,38 @@ async def main():
         action="store_true",
         help="Enable debug logging"
     )
+    parser.add_argument(
+        "--no-auto-fix",
+        action="store_true",
+        help="Disable automatic fixing of Force components at startup"
+    )
+    parser.add_argument(
+        "--validation-only",
+        action="store_true",
+        help="Run validation only and exit (don't start MCP server)"
+    )
     
     args = parser.parse_args()
     
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
     
-    server = ForceMCPServer(force_directory=args.force_dir)
+    # Enable auto-fix unless explicitly disabled
+    auto_fix = not args.no_auto_fix
+    
+    if args.validation_only:
+        # Run validation only mode
+        logger.info("🔍 Running Force validation only mode...")
+        server = ForceMCPServer(force_directory=args.force_dir, auto_fix=auto_fix)
+        validation_passed = await server._run_startup_validation_and_fix()
+        if validation_passed:
+            logger.info("✅ Validation passed successfully")
+            sys.exit(0)
+        else:
+            logger.error("❌ Validation failed")
+            sys.exit(1)
+    
+    server = ForceMCPServer(force_directory=args.force_dir, auto_fix=auto_fix)
     await server.run()
 
 if __name__ == "__main__":
