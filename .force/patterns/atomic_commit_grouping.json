@@ -1,0 +1,25 @@
+ {
+  "$schema": "../schemas/force-schema.json",
+  "id": "atomic_commit_grouping",
+  "name": "Atomic Commit Grouping",
+  "category": "git",
+  "description": "Pattern for iteratively grouping files by logical change, staging, and committing with multi-line atomic commit messages.",
+  "steps": [
+    { "action": "git", "subaction": "analyze_changes_and_group", "description": "Analyze changed/untracked files and group by logical change set." },
+    { "action": "git", "subaction": "stage_group", "description": "Stage files for the current logical group." },
+    { "action": "git", "subaction": "commit_group", "description": "Commit staged files with a multi-line, atomic commit message." },
+    { "action": "pattern", "pattern": "atomic_commit_grouping", "description": "Recurse for remaining groups until all changes are committed (base case: no more groups)." }
+  ],
+  "constraints": [
+    { "type": "atomic_commit", "description": "Each commit must be atomic and grouped by logical change." },
+    { "type": "pattern_recursion", "description": "Pattern may invoke itself recursively with a base case." }
+  ],
+  "governance": [
+    { "policy": "enforce_commit_auditability", "description": "All commits must be auditable and traceable to logical change sets." }
+  ],
+  "metadata": {
+    "created": "2025-06-30T00:00:00Z",
+    "author": "system",
+    "last_updated": "2025-06-30T00:00:00Z"
+  }
+}
