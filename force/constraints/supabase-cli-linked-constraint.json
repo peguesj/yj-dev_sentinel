@@ -1,0 +1,31 @@
+{
+  "id": "supabase-cli-linked-constraint",
+  "type": "technical-constraint",
+  "title": "Supabase CLI --linked Flag Limitation",
+  "description": "The --linked flag in Supabase CLI can only be used with 'supabase db' subcommands, not with other commands like functions deployment or project management.",
+  "discovery_context": "During Phase 2 implementation when setting up proper Supabase CLI usage",
+  "impact": "Need to use different approaches for different Supabase operations - db operations can use --linked, but Edge Functions and other operations need different deployment strategies",
+  "applicable_commands": {
+    "with_linked": [
+      "supabase db push --linked",
+      "supabase db pull --linked",
+      "supabase db diff --linked",
+      "supabase db reset --linked"
+    ],
+    "without_linked": [
+      "supabase functions deploy",
+      "supabase projects list",
+      "supabase link"
+    ]
+  },
+  "workaround": "For non-db operations, rely on the project linking established via 'supabase link' command",
+  "created_at": "2025-06-24T16:45:00Z",
+  "session_id": "phase-2-core-features-implementation",
+  "force_pattern": "technical-constraint-documentation",
+  "enforcement": {
+    "level": "warning",
+    "validation_rules": [
+      "Validation rule description"
+    ]
+  }
+}

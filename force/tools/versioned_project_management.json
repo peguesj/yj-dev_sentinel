@@ -1,0 +1,38 @@
+{
+  "id": "versioned_project_management",
+  "name": "Versioned Project Management Pattern",
+  "description": "Organizes project management documentation by semantic version with namespaced directories for scalable project evolution and historical tracking.",
+  "category": "analysis",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:59.843676Z",
+    "updated": "2025-07-01T03:54:59.843677Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
+  }
+}

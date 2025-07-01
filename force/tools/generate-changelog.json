@@ -1,0 +1,123 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "id": "generate_changelog",
+  "name": "Generate Changelog",
+  "description": "Automatically generates changelog entries based on git commits, semantic versioning, and change impact analysis.",
+  "category": "documentation",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "since_version",
+        "type": "string",
+        "description": "Starting version/tag to generate changelog from"
+      }
+    ],
+    "optional": [
+      {
+        "name": "output_file",
+        "type": "file_path",
+        "description": "Path to output changelog file",
+        "default": "CHANGELOG.md"
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "description": "Changelog format style",
+        "default": "keep_a_changelog",
+        "validation": {
+          "enum": ["keep_a_changelog", "conventional_commits", "custom"]
+        }
+      },
+      {
+        "name": "include_categories",
+        "type": "array",
+        "description": "Categories to include in changelog",
+        "default": [
+          "added",
+          "changed",
+          "deprecated",
+          "removed",
+          "fixed",
+          "security"
+        ]
+      },
+      {
+        "name": "group_by_scope",
+        "type": "boolean",
+        "description": "Group changes by commit scope",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "fetch_git_commits",
+        "description": "Retrieve git commits since specified version"
+      },
+      {
+        "action": "analyze_commit_types",
+        "description": "Categorize commits by type (feat, fix, docs, etc.)"
+      },
+      {
+        "action": "extract_breaking_changes",
+        "description": "Identify breaking changes from commit messages and footers"
+      },
+      {
+        "action": "group_by_categories",
+        "description": "Organize changes into changelog categories"
+      },
+      {
+        "action": "format_changelog_entries",
+        "description": "Format entries according to specified format"
+      },
+      {
+        "action": "merge_with_existing",
+        "description": "Merge new entries with existing changelog if present"
+      },
+      {
+        "action": "write_changelog_file",
+        "description": "Write formatted changelog to output file"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Git repository is accessible",
+        "Starting version/tag exists",
+        "Output directory is writable"
+      ],
+      "post_conditions": [
+        "Changelog file exists at specified path",
+        "Changelog follows specified format",
+        "All commits since version are included"
+      ],
+      "error_handling": [
+        {
+          "error_type": "invalid_version",
+          "strategy": "abort",
+          "action": "Report invalid version and suggest alternatives"
+        },
+        {
+          "error_type": "file_write_error",
+          "strategy": "retry",
+          "action": "Retry write operation with backup location"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-01T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": ["changelog", "git", "versioning", "documentation"],
+    "dependencies": ["git", "semantic-version-parser"],
+    "performance_metrics": {
+      "avg_execution_time": 5.0,
+      "success_rate": 0.94,
+      "usage_count": 0
+    }
+  }
+}
