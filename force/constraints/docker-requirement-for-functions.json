@@ -1,0 +1,25 @@
+{
+  "id": "docker-requirement-for-functions",
+  "type": "technical-constraint",
+  "title": "Docker Required for Supabase Edge Function Deployment",
+  "description": "Supabase CLI requires Docker Desktop to be running for Edge Function deployment, even when deploying to web projects",
+  "discovery_context": "Attempting to deploy generate-embeddings Edge Function during Phase 2 implementation",
+  "impact": "Cannot deploy Edge Functions without Docker installation",
+  "workaround_options": [
+    "Install Docker Desktop to enable function deployment",
+    "Use Supabase web dashboard to manually create functions",
+    "Continue with frontend development and deploy functions later",
+    "Use existing Edge Functions that are already deployed"
+  ],
+  "recommended_approach": "Continue with frontend development using existing Edge Functions, defer new function deployment until Docker is available",
+  "priority": "medium",
+  "created_at": "2025-06-24T17:25:00Z",
+  "session_id": "phase-2-core-features-implementation",
+  "force_pattern": "technical-constraint-documentation",
+  "enforcement": {
+    "level": "warning",
+    "validation_rules": [
+      "Validation rule description"
+    ]
+  }
+}

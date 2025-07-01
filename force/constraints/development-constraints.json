@@ -1,0 +1,205 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "title": "Development Constraints and Quality Rules",
+  "description": "Enforceable constraints for maintaining code quality, documentation standards, and development best practices in agentic workflows",
+  "version": "1.0.0",
+  "constraints": [
+    {
+      "id": "documentation_link_integrity",
+      "type": "documentation",
+      "description": "Ensures all internal markdown links are functional and point to existing files or anchors within the documentation structure.",
+      "enforcement": {
+        "level": "error",
+        "validation_rules": [
+          "All internal links must use relative paths",
+          "Link targets must exist in the repository",
+          "Anchor links must point to valid heading IDs",
+          "No broken internal references allowed"
+        ],
+        "auto_fix": true,
+        "fix_commands": [
+          "find docs -name '*.md' -exec markdown-link-check {} \\;",
+          "sed -i 's|broken-link|corrected-link|g' affected-files",
+          "validate-anchors --directory docs --fix"
+        ]
+      }
+    },
+    {
+      "id": "changelog_timestamp_format",
+      "type": "documentation",
+      "description": "Enforces consistent timestamp formatting in changelog entries for chronological accuracy and professional appearance.",
+      "enforcement": {
+        "level": "warning",
+        "validation_rules": [
+          "Timestamps must follow 'HH:MM PST - Title' format",
+          "Dates must be in 'YYYY-MM-DD' format",
+          "Timezone must be specified consistently",
+          "Chronological order must be maintained"
+        ],
+        "auto_fix": true,
+        "fix_commands": [
+          "validate-changelog-format --file docs/09-project-management/*/changelog/CHANGELOG.md",
+          "fix-timestamp-format --timezone PST",
+          "sort-changelog-entries --chronological"
+        ]
+      }
+    },
+    {
+      "id": "semantic_versioning_compliance",
+      "type": "business_rule",
+      "description": "Ensures semantic versioning follows SemVer specification with appropriate increment levels based on change impact analysis.",
+      "enforcement": {
+        "level": "error",
+        "validation_rules": [
+          "Version format must be MAJOR.MINOR.PATCH",
+          "Breaking changes require MAJOR increment",
+          "New features require MINOR increment",
+          "Bug fixes require PATCH increment",
+          "Pre-release versions must follow SemVer pre-release format"
+        ],
+        "auto_fix": false,
+        "fix_commands": []
+      }
+    },
+    {
+      "id": "implementation_anchor_consistency",
+      "type": "documentation",
+      "description": "Maintains consistent anchor naming conventions across implementation documentation for reliable cross-referencing.",
+      "enforcement": {
+        "level": "warning",
+        "validation_rules": [
+          "Phase anchors must follow #phase-{number}-{name} format",
+          "Implementation anchors must use #impl-{feature}-{component} format",
+          "Section anchors must use #section-{category}-{topic} format",
+          "Anchor names must be lowercase with hyphens"
+        ],
+        "auto_fix": true,
+        "fix_commands": [
+          "validate-anchor-format --directory docs --fix",
+          "standardize-anchor-names --pattern implementation",
+          "update-cross-references --validate"
+        ]
+      }
+    },
+    {
+      "id": "git_commit_message_format",
+      "type": "code_quality",
+      "description": "Enforces conventional commit message format for clear git history and automated tooling compatibility.",
+      "enforcement": {
+        "level": "error",
+        "validation_rules": [
+          "Commit messages must follow conventional commits format",
+          "Type must be one of: feat, fix, docs, style, refactor, test, chore",
+          "Subject line must be under 50 characters",
+          "Body must be wrapped at 72 characters if present"
+        ],
+        "auto_fix": false,
+        "fix_commands": []
+      }
+    },
+    {
+      "id": "file_naming_conventions",
+      "type": "architecture",
+      "description": "Ensures consistent file and directory naming conventions across the project for maintainability and clarity.",
+      "enforcement": {
+        "level": "warning",
+        "validation_rules": [
+          "Directory names must use kebab-case",
+          "Markdown files must use kebab-case with .md extension",
+          "JSON files must use kebab-case with .json extension",
+          "No spaces or special characters in file names"
+        ],
+        "auto_fix": true,
+        "fix_commands": [
+          "rename-files --pattern kebab-case --directory docs",
+          "update-references --after-rename",
+          "validate-naming-conventions --fix"
+        ]
+      }
+    },
+    {
+      "id": "documentation_completeness",
+      "type": "documentation",
+      "description": "Ensures all documentation sections have proper README files and minimum required content for navigation and understanding.",
+      "enforcement": {
+        "level": "suggestion",
+        "validation_rules": [
+          "Each documentation section must have a README.md file",
+          "README files must contain overview and contents sections",
+          "All major features must have corresponding documentation",
+          "Cross-references must exist between related documents"
+        ],
+        "auto_fix": true,
+        "fix_commands": [
+          "generate-section-readme --directory docs",
+          "validate-documentation-coverage",
+          "create-missing-cross-references"
+        ]
+      }
+    },
+    {
+      "id": "json_schema_validation",
+      "type": "code_quality",
+      "description": "Validates all JSON files against their corresponding schemas for data integrity and type safety.",
+      "enforcement": {
+        "level": "error",
+        "validation_rules": [
+          "All JSON files must be valid JSON",
+          "JSON files with $schema property must validate against schema",
+          "Required properties must be present",
+          "Data types must match schema definitions"
+        ],
+        "auto_fix": false,
+        "fix_commands": []
+      }
+    },
+    {
+      "id": "cross_reference_completeness",
+      "type": "documentation",
+      "description": "Ensures adequate cross-referencing between related documents to maintain context and improve navigation.",
+      "enforcement": {
+        "level": "suggestion",
+        "validation_rules": [
+          "Implementation documents must reference requirements",
+          "Changelog entries must reference implementation anchors",
+          "Handoff documents must reference all related documentation",
+          "Architecture documents must reference design decisions"
+        ],
+        "auto_fix": true,
+        "fix_commands": [
+          "analyze-cross-reference-gaps",
+          "generate-missing-references",
+          "validate-reference-completeness"
+        ]
+      }
+    },
+    {
+      "id": "version_consistency",
+      "type": "business_rule",
+      "description": "Maintains version consistency across all project files including package.json, documentation, and project management files.",
+      "enforcement": {
+        "level": "error",
+        "validation_rules": [
+          "package.json version must match project management version",
+          "Documentation version references must be consistent",
+          "Git tags must align with documented versions",
+          "Version increments must be justified in changelog"
+        ],
+        "auto_fix": true,
+        "fix_commands": [
+          "sync-version-across-files --version-source package.json",
+          "validate-version-consistency",
+          "update-version-references"
+        ]
+      }
+    }
+  ],
+  "id": "Generated id",
+  "type": "Generated type",
+  "enforcement": {
+    "level": "warning",
+    "validation_rules": [
+      "Validation rule description"
+    ]
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "id": "force_component_fix_system",
+  "name": "Force Component Fix System",
+  "description": "Comprehensive system for analyzing Force components, grouping validation errors by similarity, and applying batch fixes to efficiently resolve common issues across multiple components.",
+  "category": "validation",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "dry_run",
+        "type": "boolean",
+        "description": "Analyze and show what fixes would be applied without modifying files",
+        "default": true
+      },
+      {
+        "name": "apply_fixes",
+        "type": "boolean",
+        "description": "Apply batch fixes to components after analysis",
+        "default": false
+      },
+      {
+        "name": "force_dir",
+        "type": "directory_path",
+        "description": "Path to the .force directory containing components",
+        "default": ".force"
+      },
+      {
+        "name": "output_report",
+        "type": "file_path",
+        "description": "Path to save the detailed fix report",
+        "default": null
+      },
+      {
+        "name": "component_types",
+        "type": "array",
+        "description": "Specific component types to analyze (tools, patterns, constraints, governance)",
+        "default": ["tools", "patterns", "constraints", "governance"]
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "load_force_schema",
+        "description": "Load and validate the Force schema file"
+      },
+      {
+        "action": "discover_components",
+        "description": "Discover all Force component files in specified directories"
+      },
+      {
+        "action": "validate_components",
+        "description": "Validate each component against its schema definition"
+      },
+      {
+        "action": "categorize_errors",
+        "description": "Group validation errors by type and similarity for batch processing"
+      },
+      {
+        "action": "generate_fix_suggestions",
+        "description": "Analyze error patterns and generate batch fix strategies"
+      },
+      {
+        "action": "apply_batch_fixes",
+        "description": "Apply batch fixes to components with similar validation errors",
+        "condition": "apply_fixes parameter is true"
+      },
+      {
+        "action": "validate_fixed_components",
+        "description": "Re-validate components after fixes to confirm success"
+      },
+      {
+        "action": "generate_comprehensive_report",
+        "description": "Generate detailed report of analysis, fixes, and remaining issues"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Force directory structure exists",
+        "Force schema file is valid and accessible",
+        "Component directories are readable",
+        "Python jsonschema library is available"
+      ],
+      "post_conditions": [
+        "All components are analyzed and categorized",
+        "Error groups are identified with fix strategies",
+        "Batch fixes are applied if requested",
+        "Comprehensive report is generated",
+        "Validation success rate is improved"
+      ],
+      "error_handling": [
+        {
+          "error_type": "schema_load_failure",
+          "strategy": "abort",
+          "action": "Cannot proceed without valid Force schema"
+        },
+        {
+          "error_type": "component_load_failure",
+          "strategy": "skip",
+          "action": "Log failed component and continue with others"
+        },
+        {
+          "error_type": "validation_engine_error",
+          "strategy": "fallback",
+          "action": "Use basic validation if advanced features fail"
+        },
+        {
+          "error_type": "file_write_error",
+          "strategy": "retry",
+          "action": "Retry saving component with backup strategy"
+        },
+        {
+          "error_type": "batch_fix_failure",
+          "strategy": "manual_intervention",
+          "action": "Report failed fixes for manual review"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:40:00Z",
+    "updated": "2025-07-01T03:40:00Z",
+    "version": "1.0.0",
+    "complexity": "high",
+    "tags": [
+      "validation",
+      "batch-processing",
+      "error-analysis",
+      "component-fixing",
+      "schema-compliance",
+      "automation",
+      "quality-assurance"
+    ],
+    "dependencies": [
+      "jsonschema",
+      "force-schema",
+      "python-pathlib",
+      "file-system-access"
+    ],
+    "performance_metrics": {
+      "avg_execution_time": 15.0,
+      "success_rate": 0.95,
+      "usage_count": 0
+    }
+  }
+}

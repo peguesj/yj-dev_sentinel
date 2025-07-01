@@ -1,0 +1,53 @@
+{
+  "id": "security_configuration_check",
+  "name": "Security Configuration Check",
+  "description": "Checks security configuration and settings.",
+  "category": "security",
+  "version": "1.0.0",
+  "parameters": {
+    "configFiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of configuration files to check"
+    },
+    "checkSecrets": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to check for secrets in config"
+    },
+    "checkPermissions": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to check for insecure permissions"
+    }
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:07.609858Z",
+    "updated": "2025-07-01T03:54:07.609859Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
+  }
+}

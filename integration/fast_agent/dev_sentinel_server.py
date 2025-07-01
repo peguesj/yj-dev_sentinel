@@ -122,8 +122,11 @@ try:
         logger.debug("Using absolute imports")
     except ImportError as e:
         logger.warning(f"Absolute imports failed: {e}, trying relative imports")
-        # Fall back to relative imports
-        from mcp_command_server import start_server as start_http_server
+        # Patch: fallback to absolute import if relative fails
+        try:
+            from integration.fast_agent.mcp_command_server import start_server as start_http_server
+        except ImportError:
+            from .mcp_command_server import start_server as start_http_server
         from mcp_servers import start_server as start_mcp_server
         from async_initialization import initialize_fast_agent
         logger.debug("Using relative imports")
@@ -281,30 +284,9 @@ class ServerManager:
     async def _start_http_server(self):
         """Start the HTTP API server in a separate process."""
         try:
-            # Import server module
-            logger.debug("Importing HTTP server components...")
-            # Use both relative and absolute imports for robustness
-            try:
-                # First try relative imports
-                from .mcp_command_server import FastMCP as app
-                logger.debug("Using relative imports for HTTP server")
-            except ImportError:
-                # Fall back to absolute imports
-                from integration.fast_agent.mcp_command_server import FastMCP as app
-                logger.debug("Using absolute imports for HTTP server")
-            
-            # Start uvicorn server
-            import uvicorn
-            logger.debug("Configuring uvicorn server...")
-            config = uvicorn.Config(
-                self, 
-                host=self.host, 
-                port=self.http_port,
-                log_level="debug" if root_logger.level <= logging.DEBUG else "info"
-            )
-            server = uvicorn.Server(config)
-            logger.debug("Starting uvicorn server...")
-            await server.serve()
+            # Use the start_server function instead of importing app directly
+            logger.debug("Starting HTTP server...")
+            await start_http_server(self.host, self.http_port)
             
         except ImportError as e:
             logger.error(f"Failed to import HTTP server components: {e}")
@@ -319,10 +301,15 @@ class ServerManager:
     async def _start_mcp_server(self):
         """Start the MCP server."""
         try:
-            # Start MCP server
             logger.debug("Starting MCP server...")
-            await start_mcp_server("dev_sentinel", self.host, self.mcp_port)
-            
+            # Try mcp_command_server first (new signature)
+            try:
+                from integration.fast_agent.mcp_command_server import start_server as mcp_start_server
+                await mcp_start_server("dev_sentinel", self.host, self.mcp_port)
+            except TypeError as e:
+                logger.warning(f"mcp_command_server.start_server failed: {e}, falling back to mcp_servers.start_server")
+                from integration.fast_agent.mcp_servers import start_server as legacy_start_server
+                await legacy_start_server(self.host, self.mcp_port)
         except ImportError as e:
             logger.error(f"Failed to import MCP server components: {e}")
             logger.error("Make sure all dependencies are installed")
