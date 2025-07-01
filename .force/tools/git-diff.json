@@ -1,0 +1,7 @@
+{
+  "id": "git-diff",
+  "name": "Git Diff",
+  "description": "Gets list of files changed in a branch or commit.",
+  "category": "git",
+  "version": "1.0.0"
+}

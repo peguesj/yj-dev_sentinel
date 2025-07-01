@@ -1,0 +1,8 @@
+{
+  "id": "git-status",
+  "type": "tool",
+  "name": "Git Status",
+  "description": "Analyzes git repository status and history.",
+  "category": "git",
+  "version": "1.0.0"
+}
