@@ -223,3 +223,6 @@ class MCPAgentAdapter(BaseAgentAdapter):
             base_commands.extend(["analyze_code", "run_static_analysis"])
             
         return base_commands
+
+# Alias for compatibility with legacy and fast-agent code
+FastAgentAdapter = MCPAgentAdapter

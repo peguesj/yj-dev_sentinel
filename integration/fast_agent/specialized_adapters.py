@@ -472,3 +472,11 @@ def list_registered_adapters() -> Dict[str, str]:
         agent_cls.__name__: adapter_cls.__name__
         for agent_cls, adapter_cls in ADAPTER_REGISTRY.items()
     }
+
+from integration.fast_agent.specialized_adapters import (
+    VCMAAdapter as VCMAFastAdapter,
+    VCLAAdapter as VCLAFastAdapter,
+    CDIAAdapter as CDIAFastAdapter,
+    RDIAAdapter as RDIAFastAdapter,
+    SAAAdapter as SAAFastAdapter
+)

@@ -122,8 +122,11 @@ try:
         logger.debug("Using absolute imports")
     except ImportError as e:
         logger.warning(f"Absolute imports failed: {e}, trying relative imports")
-        # Fall back to relative imports
-        from mcp_command_server import start_server as start_http_server
+        # Patch: fallback to absolute import if relative fails
+        try:
+            from integration.fast_agent.mcp_command_server import start_server as start_http_server
+        except ImportError:
+            from .mcp_command_server import start_server as start_http_server
         from mcp_servers import start_server as start_mcp_server
         from async_initialization import initialize_fast_agent
         logger.debug("Using relative imports")
@@ -286,12 +289,12 @@ class ServerManager:
             # Use both relative and absolute imports for robustness
             try:
                 # First try relative imports
-                from .mcp_command_server import FastMCP as app
-                logger.debug("Using relative imports for HTTP server")
+                # from .mcp_command_server import FastMCP as app  # REMOVED: FastMCP does not exist
+                logger.debug("Using relative imports for HTTP server (FastMCP import removed)")
             except ImportError:
                 # Fall back to absolute imports
-                from integration.fast_agent.mcp_command_server import FastMCP as app
-                logger.debug("Using absolute imports for HTTP server")
+                # from integration.fast_agent.mcp_command_server import FastMCP as app  # REMOVED: FastMCP does not exist
+                logger.debug("Using absolute imports for HTTP server (FastMCP import removed)")
             
             # Start uvicorn server
             import uvicorn
@@ -319,14 +322,15 @@ class ServerManager:
     async def _start_mcp_server(self):
         """Start the MCP server."""
         try:
-            # Start MCP server
             logger.debug("Starting MCP server...")
-            # Import the correct start_server function
-            from integration.fast_agent.mcp_servers import start_server
-            
-            # Use the run_async method to avoid creating a new event loop
-            await start_server("dev_sentinel", self.host, self.mcp_port)
-            
+            # Try mcp_command_server first (new signature)
+            try:
+                from integration.fast_agent.mcp_command_server import start_server as mcp_start_server
+                await mcp_start_server("dev_sentinel", self.host, self.mcp_port)
+            except TypeError as e:
+                logger.warning(f"mcp_command_server.start_server failed: {e}, falling back to mcp_servers.start_server")
+                from integration.fast_agent.mcp_servers import start_server as legacy_start_server
+                await legacy_start_server(self.host, self.mcp_port)
         except ImportError as e:
             logger.error(f"Failed to import MCP server components: {e}")
             logger.error("Make sure all dependencies are installed")
