@@ -31,6 +31,8 @@ class ProjectMigrationTool:
         update_links (bool): Whether to update links in documentation files
     """
 
+    TOOL_ID = "project_structure_migration"
+
     def __init__(self, source_dir=None, target_dir=None, mapping_file=None, 
                  create_symlinks=True, update_imports=True, update_links=True):
         """
@@ -52,6 +54,11 @@ class ProjectMigrationTool:
         self.update_links = update_links
         self.log_entries = []
         self.errors = []
+
+    @property
+    def tool_id(self):
+        """Property for tool_id for registration"""
+        return self.TOOL_ID
 
     @staticmethod
     def print_section_header(title):
