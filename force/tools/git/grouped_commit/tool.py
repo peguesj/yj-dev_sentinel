@@ -45,6 +45,11 @@ class GroupedCommitTool:
         self.commit_message_prefix = commit_message_prefix
         self.dry_run = dry_run
         
+    @property
+    def tool_id(self):
+        """Property for tool_id for registration."""
+        return self.TOOL_ID
+    
     def get_git_status(self):
         """Get the current git status output."""
         try:
