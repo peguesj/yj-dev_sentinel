@@ -1,0 +1,7 @@
+{
+  "id": "code-quality-check",
+  "name": "Code Quality Check",
+  "description": "Analyzes code quality and computes quality score.",
+  "category": "quality_assurance",
+  "version": "1.0.0"
+}
