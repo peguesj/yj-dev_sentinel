@@ -46,6 +46,10 @@ class DocSyncTool:
         self.cross_reference_anchors = cross_reference_anchors
         self.dry_run = dry_run
         
+    @property
+    def tool_id(self):
+        return self.TOOL_ID
+    
     def scan_documentation_changes(self, include_markdown_files=True, include_schema_files=True, 
                                analyze_cross_references=True):
         """
