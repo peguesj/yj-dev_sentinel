@@ -1,0 +1,110 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "id": "force-report-generator",
+  "type": "tool",
+  "name": "Force Report Generator",
+  "description": "Generates comprehensive analysis and security reports for Force system components, tools, and workflows.",
+  "category": "analysis",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "report_type",
+        "type": "string",
+        "description": "Type of report to generate",
+        "validation": {
+          "enum": ["tool_usage", "pattern_effectiveness", "constraint_compliance", "security_analysis", "performance_metrics"]
+        }
+      }
+    ],
+    "optional": [
+      {
+        "name": "output_format",
+        "type": "string",
+        "description": "Output format for the report",
+        "default": "markdown",
+        "validation": {
+          "enum": ["markdown", "json", "html", "pdf"]
+        }
+      },
+      {
+        "name": "time_range",
+        "type": "string", 
+        "description": "Time range for report data",
+        "default": "last_30_days",
+        "validation": {
+          "enum": ["last_day", "last_week", "last_30_days", "last_quarter", "all_time"]
+        }
+      },
+      {
+        "name": "include_charts",
+        "type": "boolean",
+        "description": "Include visualization charts in report",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "collect_metrics_data",
+        "description": "Gather metrics data from Force system logs and databases"
+      },
+      {
+        "action": "analyze_data_patterns",
+        "description": "Analyze collected data for patterns and insights"
+      },
+      {
+        "action": "generate_visualizations",
+        "description": "Create charts and graphs for data visualization",
+        "condition": "include_charts == true"
+      },
+      {
+        "action": "compile_report",
+        "description": "Compile all data and visualizations into final report"
+      },
+      {
+        "action": "save_report",
+        "description": "Save report to appropriate output location"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Force system logs are accessible",
+        "Report output directory exists and is writable",
+        "Required dependencies are installed"
+      ],
+      "post_conditions": [
+        "Report file exists at specified location",
+        "Report contains all requested sections",
+        "Report is properly formatted"
+      ],
+      "error_handling": [
+        {
+          "error_type": "data_collection_failure",
+          "strategy": "retry",
+          "action": "Retry data collection with extended timeout"
+        },
+        {
+          "error_type": "visualization_error",
+          "strategy": "fallback",
+          "action": "Generate report without visualizations"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-01T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": ["reporting", "analysis", "metrics", "visualization"],
+    "dependencies": ["force-system", "python-charting-libraries"],
+    "performance_metrics": {
+      "avg_execution_time": 30.0,
+      "success_rate": 0.95,
+      "usage_count": 0
+    }
+  }
+}
