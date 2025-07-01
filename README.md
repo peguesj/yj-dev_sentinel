@@ -53,6 +53,55 @@ source .venv/bin/activate  # Linux/macOS
 pip install -r requirements.txt
 ```
 
+## FORCE MCP Server Quick Start / Getting Started
+
+This section guides you on how to add the `force_mcp_stdio` server to your MCP clients configuration and workspace.
+
+### Add `force_mcp_stdio` Server to MCP Clients
+
+If you are using VSCode MCP extension, the server is configured in `.vscode/mcp.json` as follows:
+
+```json
+{
+  "servers": {
+    "force_mcp_stdio": {
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["${workspaceFolder}/integration/fast_agent/force_mcp_server.py"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "pattern": ".*(?:Force MCP server|Starting Force MCP server|Listening).*",
+      "transport": "stdio",
+      "timeout": 30000
+    }
+  }
+}
+```
+
+### Using with Other MCP Clients (e.g., Claude)
+
+To use the `force_mcp_stdio` server with other MCP clients like Claude, translate the above configuration accordingly. For example:
+
+- **Command**: Path to your Python interpreter (e.g., `/path/to/python`)
+- **Arguments**: Path to `force_mcp_server.py` script (e.g., `/path/to/integration/fast_agent/force_mcp_server.py`)
+- **Working Directory**: Your project root directory
+- **Environment Variables**:
+  - `PYTHONPATH`: Set to your project root directory
+  - `PYTHONUNBUFFERED`: Set to `1`
+- **Transport**: `stdio`
+- **Timeout**: 30000 ms (30 seconds)
+- **Pattern**: Regex to detect server start messages, e.g., `.*(?:Force MCP server|Starting Force MCP server|Listening).*`
+
+### Add the Project Directory to Your Workspace
+
+Make sure to add the root directory of this project to your MCP client workspace so that the server and all related files are accessible.
+
+---
+
+This setup enables the Force MCP server to integrate seamlessly with your MCP client, providing Force system capabilities, validation, and tooling support.
+
 ## Documentation
 
 Comprehensive documentation is available in the `docs/` directory:
@@ -206,3 +255,4 @@ This project is licensed under the MIT License - see [LICENSE-MIT.md](LICENSE-MI
 - FORCE framework inspired by advanced software development practices
 - Agent architecture based on proven autonomous systems
 - Diagrams created with [PlantUML](https://plantuml.com/)
+</edit_file>
