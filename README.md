@@ -3,6 +3,7 @@
 <div align="center">
   <img src="docs/diagrams/dev_sentinel_logo.svg" alt="Dev Sentinel Logo" width="200"/>
   
+  [![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-blue)](force/version.py)
   [![Built with: Python](https://img.shields.io/badge/Built%20with-Python-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Architecture: Force-Enabled](https://img.shields.io/badge/Architecture-Force%20Enabled-009688?logo=blueprint&logoColor=white)](docs/architecture/force/index.md)
   [![Documentation: PlantUML](https://img.shields.io/badge/Documentation-PlantUML-orange?logo=diagram&logoColor=white)](docs/diagrams/)
@@ -12,6 +13,8 @@
 ## Overview
 
 Dev Sentinel is an autonomous development assistant that combines intelligent agents with the FORCE development framework. The system helps automate and streamline development tasks through tools, patterns, constraints, and continuous learning.
+
+**Latest Release (v0.3.0)** brings enhanced Force tools structure, comprehensive git workflow automation, improved MCP server implementations, and modular documentation capabilities.
 
 ### Key Components
 
@@ -151,29 +154,32 @@ package "FORCE Framework" {
 
 ## Core Features
 
-### 1. Development Tools
+### 1. Enhanced Development Tools (v0.3.0)
 
-- **Git Workflow Management**: Smart commit grouping and versioning
-- **Documentation Analysis**: Quality and completeness checks
-- **Code Analysis**: Static analysis and best practices
+- **Git Workflow Management**: Smart commit grouping, atomic commits, and semantic versioning
+- **Documentation Analysis**: Quality checks, completeness validation, and sync capabilities
+- **Code Analysis**: Static analysis, quality scoring, and release readiness assessment
+- **Release Management**: Automated changelog generation and dependency analysis
 
-### 2. Pattern Application
+### 2. Advanced Pattern Application
 
-- **Development Patterns**: Proven workflows and practices
-- **Documentation Patterns**: Clear and consistent documentation
-- **Git Patterns**: Effective version control workflows
+- **Development Patterns**: Atomic commit grouping, branch end tasks, continuous changelog
+- **Documentation Patterns**: Handoff documentation, modular structure, cross-referencing
+- **Git Patterns**: Grouped commit workflows, semantic versioning, release management
 
-### 3. Quality Constraints
+### 3. Comprehensive Quality Constraints
 
-- **Code Quality**: Automated style and quality checks
-- **Documentation Quality**: Structure and completeness validation
-- **Git Quality**: Commit message and history standards
+- **Code Quality**: Automated style checks, complexity analysis, and best practices
+- **Documentation Quality**: Structure validation, completeness scoring, and consistency
+- **Git Quality**: Commit message standards, history validation, and workflow compliance
+- **Security**: Infrastructure security checks, secrets scanning, and compliance validation
 
-### 4. Continuous Learning
+### 4. Intelligent Learning System
 
-- **Pattern Recognition**: Learn from successful workflows
-- **Task Optimization**: Improve based on execution metrics
-- **Suggestion Engine**: Provide context-aware suggestions
+- **Pattern Recognition**: Learn from successful development workflows
+- **Task Optimization**: Improve efficiency based on execution metrics
+- **Suggestion Engine**: Context-aware recommendations and automation
+- **Performance Analytics**: Track tool usage and success patterns
 
 ## Documentation
 
