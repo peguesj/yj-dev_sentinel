@@ -1,0 +1,7 @@
+{
+  "id": "docs-analysis",
+  "name": "Documentation Analysis",
+  "description": "Analyzes project documentation for completeness and quality.",
+  "category": "documentation",
+  "version": "1.0.0"
+}
