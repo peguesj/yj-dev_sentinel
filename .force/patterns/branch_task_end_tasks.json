@@ -1,34 +1,11 @@
 {
   "$schema": "../schemas/force-schema.json",
   "id": "branch_task_end_tasks",
-  "name": "Branch/Task End Tasks",
+  "type": "pattern",
+  "name": "Branch Task End Tasks",
+  "description": "Pattern for handling end-of-branch tasks.",
   "category": "workflow",
-  "description": "Pattern for closing out a branch or task, including tool listing, status checks, learning updates, documentation sync, reporting, grouped commit (with nested pattern), version tagging, and push.",
-  "steps": [
-    { "action": "tools", "description": "List all available FORCE tools." },
-    { "action": "status", "description": "Show project status, recent changes, and outstanding tasks." },
-    { "action": "prompt_user", "description": "Prompt user for input or confirmation." },
-    { "action": "learning", "subaction": "add_learnings_from_chat", "description": "Add learnings based on chat history." },
-    { "action": "git", "subaction": "get_version_from_remote_tags", "description": "Get version based on available tags in remote." },
-    { "action": "docs", "subaction": "synchronize", "description": "Synchronize documentation." },
-    { "action": "report", "subaction": "generate_all", "description": "Generate reports on all of this." },
-    { "action": "prompt_user", "description": "Prompt user for input or confirmation." },
-    { "action": "learning", "subaction": "add_learnings_from_updates", "description": "Add learnings based on all updates since last learning update actions." },
-    { "action": "pattern", "pattern": "grouped_commit_workflow", "description": "Perform grouped commit workflow with atomic, multi-stage commits and version tagging." },
-    { "action": "git", "subaction": "push_remote", "description": "Push changes to remote repository." }
-  ],
-  "constraints": [
-    { "type": "pattern_nesting", "description": "Pattern steps may reference and invoke other patterns recursively." },
-    { "type": "atomic_commit", "description": "Commits must be atomic, grouped by logical change, and use multi-line messages." },
-    { "type": "versioning_best_practices", "description": "Version tags must be incremented semantically based on change weight." }
-  ],
-  "governance": [
-    { "policy": "require_pattern_modularity", "description": "Patterns must be modular and support recursion for complex workflows." },
-    { "policy": "enforce_commit_auditability", "description": "All commits must be auditable and traceable to pattern execution steps." }
-  ],
-  "metadata": {
-    "created": "2025-06-30T00:00:00Z",
-    "author": "system",
-    "last_updated": "2025-06-30T00:00:00Z"
+  "implementation": {
+    "steps": []
   }
 }
