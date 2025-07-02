@@ -1,29 +1,19 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/workbench/contrib/debug/common/debugger.contribution.json",
   "servers": {
-    "devsentinel_mcp_stdio": {
-      "command": "${workspaceFolder}/.venv/bin/python",
-      "args": ["${workspaceFolder}/run_server.py"],
-      "cwd": "${workspaceFolder}",
+    "force_mcp_stdio": {
+      "command": "${workspaceFolder}/../dev_sentinel/.venv/bin/python",
+      "args": [
+        "${workspaceFolder}/../dev_sentinel/integration/fast_agent/force_mcp_server.py"
+      ],
+      "cwd": "${workspaceFolder}/../dev_sentinel",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}",
+        "PYTHONPATH": "${workspaceFolder}/../dev_sentinel",
         "PYTHONUNBUFFERED": "1"
       },
-      "pattern": ".*(?:MCP server|Force MCP server|Listening).*",
+      "pattern": ".*(?:Force MCP server|Starting Force MCP server|Listening).*",
       "transport": "stdio",
       "timeout": 30000
-    },
-      "force_mcp_stdio": {
-        "command": "${workspaceFolder}/.venv/bin/python",
-        "args": ["${workspaceFolder}/integration/fast_agent/force_mcp_server.py"],
-        "cwd": "${workspaceFolder}",
-        "env": {
-        "PYTHONPATH": "${workspaceFolder}",
-        "PYTHONUNBUFFERED": "1"
-        },
-        "pattern": ".*(?:Force MCP server|Starting Force MCP server|Listening).*",
-        "transport": "stdio",
-        "timeout": 30000
-      }
+    }
   }
 }
