@@ -53,54 +53,130 @@ source .venv/bin/activate  # Linux/macOS
 pip install -r requirements.txt
 ```
 
-## FORCE MCP Server Quick Start / Getting Started
+## FORCE MCP Server Integration
 
-This section guides you on how to add the `force_mcp_stdio` server to your MCP clients configuration and workspace.
+The Force MCP server provides seamless integration with VS Code Copilot and other MCP clients, offering direct access to Force tools, patterns, constraints, and the extended schema system.
 
-### Add `force_mcp_stdio` Server to MCP Clients
+### Features
 
-If you are using VSCode MCP extension, the server is configured in `.vscode/mcp.json` as follows:
+- **🛠️ Direct Tool Execution**: Access 38+ Force tools through MCP
+- **📋 Pattern Application**: Execute development patterns with executable and descriptive steps
+- **✅ Schema Validation**: Flexible validation with extended schema support
+- **🔄 Real-time Monitoring**: Live execution feedback and error handling
+- **🎯 Context-Aware**: Project-specific tool discovery and configuration
+
+### Quick Setup for VS Code
+
+1. **Create MCP Configuration**
+
+   Create `.vscode/mcp.json` in your workspace:
+
+   ```json
+   {
+     "servers": {
+       "force_mcp_stdio": {
+         "command": "${workspaceFolder}/.venv/bin/python",
+         "args": ["${workspaceFolder}/integration/fast_agent/force_mcp_server.py"],
+         "cwd": "${workspaceFolder}",
+         "env": {
+           "PYTHONPATH": "${workspaceFolder}",
+           "PYTHONUNBUFFERED": "1"
+         },
+         "pattern": ".*(?:Force MCP server|Starting Force MCP server|Listening).*",
+         "transport": "stdio",
+         "timeout": 30000
+       }
+     }
+   }
+   ```
+
+2. **Initialize Force System** (Optional)
+
+   ```bash
+   # Initialize .force directory structure with schema and tools
+   python -c "
+   import sys; sys.path.append('.')
+   from force.tools.system.force_init_system import force_init_system
+   force_init_system('.')
+   "
+   ```
+
+3. **Test Integration**
+
+   In VS Code Copilot Chat:
+
+   ```text
+   @force_mcp_stdio list all available Force tools
+   @force_mcp_stdio execute force_tool_generator to create a new tool
+   @force_mcp_stdio apply pattern atomic_commit_pattern
+   ```
+
+### Configuration for Other MCP Clients
+
+For **Claude Desktop** or other MCP clients, adapt the configuration:
 
 ```json
 {
-  "servers": {
+  "mcpServers": {
     "force_mcp_stdio": {
-      "command": "${workspaceFolder}/.venv/bin/python",
-      "args": ["${workspaceFolder}/integration/fast_agent/force_mcp_server.py"],
-      "cwd": "${workspaceFolder}",
+      "command": "/path/to/your/python",
+      "args": ["/path/to/dev_sentinel/integration/fast_agent/force_mcp_server.py"],
+      "cwd": "/path/to/dev_sentinel",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}",
-        "PYTHONUNBUFFERED": "1"
-      },
-      "pattern": ".*(?:Force MCP server|Starting Force MCP server|Listening).*",
-      "transport": "stdio",
-      "timeout": 30000
+        "PYTHONPATH": "/path/to/dev_sentinel"
+      }
     }
   }
 }
 ```
 
-### Using with Other MCP Clients (e.g., Claude)
+### Extended Schema System
 
-To use the `force_mcp_stdio` server with other MCP clients like Claude, translate the above configuration accordingly. For example:
+The Force MCP server leverages the new **Extended Schema System** for flexible validation:
 
-- **Command**: Path to your Python interpreter (e.g., `/path/to/python`)
-- **Arguments**: Path to `force_mcp_server.py` script (e.g., `/path/to/integration/fast_agent/force_mcp_server.py`)
-- **Working Directory**: Your project root directory
-- **Environment Variables**:
-  - `PYTHONPATH`: Set to your project root directory
-  - `PYTHONUNBUFFERED`: Set to `1`
-- **Transport**: `stdio`
-- **Timeout**: 30000 ms (30 seconds)
-- **Pattern**: Regex to detect server start messages, e.g., `.*(?:Force MCP server|Starting Force MCP server|Listening).*`
+- **✅ Automatic Schema Detection**: Prefers `force-extended-schema.json` over strict schema
+- **🔄 Flexible Categories**: Supports custom tool categories (security, release, monitoring, etc.)
+- **⚡ Enhanced Error Handling**: Open-ended error handling strategies
+- **📊 Improved Loading**: 38+ tools load successfully vs. 31 with strict schema
 
-### Add the Project Directory to Your Workspace
+### Available MCP Tools
 
-Make sure to add the root directory of this project to your MCP client workspace so that the server and all related files are accessible.
+The server exposes these key Force capabilities:
 
----
+| Tool | Description |
+|------|-------------|
+| `force_list_tools` | List all available Force tools with metadata |
+| `force_execute_tool` | Execute any Force tool with validation |
+| `force_apply_pattern` | Apply development patterns with step execution |
+| `force_list_patterns` | Browse available patterns by category |
+| `force_check_constraints` | Validate code against Force constraints |
+| `force_get_insights` | Retrieve learning insights and recommendations |
+| `force_component_validator` | Validate Force components for schema compliance |
 
-This setup enables the Force MCP server to integrate seamlessly with your MCP client, providing Force system capabilities, validation, and tooling support.
+### Troubleshooting
+
+1. **Server Won't Start**
+
+   ```bash
+   # Check Python path and dependencies
+   python integration/fast_agent/force_mcp_server.py --version
+   ```
+
+2. **Schema Validation Errors**
+
+   ```bash
+   # Verify extended schema is present
+   ls -la .force/schemas/force-extended-schema.json
+   ```
+
+3. **Tool Loading Issues**
+
+   ```bash
+   # Test tool discovery
+   python -c "from force import ForceEngine; f = ForceEngine(); print(f.list_tools())"
+   ```
+
+For detailed documentation, see [MCP Integration Guide](docs/integration/mcp-integration.md).
 
 ## Documentation
 
@@ -165,6 +241,29 @@ package "Dev Sentinel" {
 }
 @enduml
 ```
+
+```mermaid
+flowchart TB
+    subgraph "Dev Sentinel"
+        MB["Message Bus"]
+        TM["Task Manager"]
+        FE["FORCE Engine"]
+        subgraph "Agents"
+            VCMA["Version Control Master"]
+            VCLA["Version Control Listener"]
+            CDIA["Code Documentation"]
+            RDIA["Readme Documentation"]
+            SAA["System Analysis"]
+        end
+    end
+    MB --> TM
+    MB --> FE
+    VCMA --> MB
+    VCLA --> MB
+    CDIA --> MB
+    RDIA --> MB
+    SAA --> MB
+```
 </details>
 
 <details>
@@ -199,7 +298,34 @@ package "FORCE Framework" {
 }
 @enduml
 ```
+
+```mermaid
+flowchart TB
+    subgraph "FORCE Framework"
+        TM["Tool Manager"]
+        PM["Pattern Manager"]
+        CM["Constraint Manager"]
+        LM["Learning Manager"]
+        GM["Governance Manager"]
+        TR["Tool Registry"]
+        PR["Pattern Registry"]
+        CR["Constraint Registry"]
+    end
+    TM --> TR
+    PM --> PR
+    CM --> CR
+    TM <-- LM
+    PM <-- LM
+    CM <-- LM
+    TM <-- GM
+    PM <-- GM
+    CM <-- GM
+```
 </details>
+    CM <-- GM
+@enduml
+    SAA --> MB
+@enduml
 
 ## Core Features
 
