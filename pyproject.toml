@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dev-sentinel"
+version = "0.3.0"
+description = "AI-powered development sentinel with Force framework and MCP integration"
+readme = "README.md"
+license = {file = "LICENSE-MIT.md"}
+authors = [
+    {name = "Dev Sentinel Team", email = "dev@devsentinel.ai"}
+]
+keywords = ["ai", "development", "automation", "mcp", "force", "agents"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Tools",
+    "Topic :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "jsonschema>=4.0",
+    "click>=8.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+    "mcp>=0.5.0",
+    "aiohttp>=3.8.0",
+    "python-multipart>=0.0.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "isort>=5.12",
+    "flake8>=6.0",
+    "mypy>=1.5",
+]
+docs = [
+    "sphinx>=7.0",
+    "sphinx-rtd-theme>=1.3",
+    "myst-parser>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/peguesj/yj-dev_sentinel"
+Repository = "https://github.com/peguesj/yj-dev_sentinel.git"
+Documentation = "https://dev-sentinel.readthedocs.io"
+"Bug Tracker" = "https://github.com/peguesj/yj-dev_sentinel/issues"
+
+[project.scripts]
+dev-sentinel = "dev_sentinel.cli:main"
+force-mcp-stdio = "dev_sentinel.servers.force_mcp_stdio:main"
+dev-sentinel-stdio = "dev_sentinel.servers.dev_sentinel_stdio:main"
+force-mcp-http = "dev_sentinel.servers.force_mcp_http:main"
+dev-sentinel-http = "dev_sentinel.servers.dev_sentinel_http:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dev_sentinel*", "force*", "agents*", "core*", "integration*", "utils*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.yaml", "*.yml", "*.md", "*.txt"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

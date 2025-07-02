@@ -2,17 +2,51 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/workbench/contrib/debug/common/debugger.contribution.json",
   "servers": {
     "force_mcp_stdio": {
-      "command": "${workspaceFolder}/../dev_sentinel/.venv/bin/python",
-      "args": [
-        "${workspaceFolder}/../dev_sentinel/integration/fast_agent/force_mcp_server.py"
-      ],
-      "cwd": "${workspaceFolder}/../dev_sentinel",
+      "command": "force-mcp-stdio",
+      "args": [],
+      "cwd": "${workspaceFolder}",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/../dev_sentinel",
+        "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
         "PYTHONUNBUFFERED": "1"
       },
       "pattern": ".*(?:Force MCP server|Starting Force MCP server|Listening).*",
       "transport": "stdio",
+      "timeout": 30000
+    },
+    "dev_sentinel_stdio": {
+      "command": "dev-sentinel-stdio",
+      "args": ["--mcp-port", "8090"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "pattern": ".*(?:Dev Sentinel|MCP Server).*",
+      "transport": "stdio",
+      "timeout": 30000
+    },
+    "force_mcp_http": {
+      "command": "force-mcp-http",
+      "args": ["--port", "8080"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "pattern": ".*(?:Force MCP|HTTP server).*",
+      "transport": "http",
+      "timeout": 30000
+    },
+    "dev_sentinel_http": {
+      "command": "dev-sentinel-http",
+      "args": ["--http-port", "8000", "--mcp-port", "8090"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "pattern": ".*(?:Dev Sentinel|HTTP API).*",
+      "transport": "http",
       "timeout": 30000
     }
   }
