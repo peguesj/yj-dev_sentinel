@@ -123,15 +123,22 @@ class ForceEngine:
         raise ForceEngineError("Force directory not found in standard locations")
     
     def get_master_schema(self) -> Dict[str, Any]:
-        """Load and return the master Force schema."""
+        """Load and return the master Force schema, preferring extended schema."""
         if self._master_schema is None:
+            # Try extended schema first
+            extended_schema_path = self.schemas_dir / "force-extended-schema.json"
             schema_path = self.schemas_dir / "force-schema.json"
-            if not schema_path.exists():
-                raise ForceEngineError(f"Master schema not found: {schema_path}")
             
-            with open(schema_path, 'r') as f:
-                self._master_schema = json.load(f)
-                logger.info("Loaded master Force schema")
+            if extended_schema_path.exists():
+                with open(extended_schema_path, 'r') as f:
+                    self._master_schema = json.load(f)
+                    logger.info("Loaded extended Force schema with relaxed constraints")
+            elif schema_path.exists():
+                with open(schema_path, 'r') as f:
+                    self._master_schema = json.load(f)
+                    logger.info("Loaded standard Force schema")
+            else:
+                raise ForceEngineError(f"No schema found. Checked: {extended_schema_path}, {schema_path}")
         
         return self._master_schema
     
