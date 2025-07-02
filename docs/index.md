@@ -6,13 +6,22 @@ Welcome to the Dev Sentinel documentation. This documentation covers all aspects
 
 ## What's New in v0.3.0
 
-- **Enhanced Tool Architecture**: Dual tool registry with modular organization
-- **Advanced Git Workflows**: Atomic commits, semantic versioning, automated branching
-- **Comprehensive Analysis**: Code quality, release readiness, documentation validation
-- **Security & Compliance**: Infrastructure security, secrets scanning, compliance checks
-- **Performance Monitoring**: Static analysis, dependency tracking, test automation
+- **Enhanced Tool Architecture**: Dual tool registry with modular organization  
+- **Advanced Git Workflows**: Atomic commits, semantic versioning, automated branching  
+- **Comprehensive Analysis**: Code quality, release readiness, documentation validation  
+- **Security & Compliance**: Infrastructure security, secrets scanning, compliance checks  
+- **Performance Monitoring**: Static analysis, dependency tracking, test automation  
+- **🆕 Extended Schema System**: Flexible validation with backward compatibility  
+- **🆕 Enhanced MCP Integration**: Direct Force tool access through Model Context Protocol  
+- **🆕 Advanced Pattern Engine**: Support for executable and descriptive development patterns
 
 ## Documentation Structure
+
+### [Integration](./integration/index.md) ⭐ **New**
+
+- MCP Integration Guide
+- Extended Schema System
+- Client Setup and Configuration
 
 ### [Architecture](./architecture/overview.md)
 
@@ -53,7 +62,9 @@ Welcome to the Dev Sentinel documentation. This documentation covers all aspects
 
 - [Getting Started](./user/getting-started.md)
 - [Installation](./user/installation.md)
-- [Force v0.3.0 Update Guide](./force-v0.3.0-update.md) ⭐ **New**
+- [🆕 MCP Integration Guide](./integration/mcp-integration.md) ⭐ **New**
+- [🆕 Extended Schema System](./integration/extended-schema-system.md) ⭐ **New**
+- [Force v0.3.0 Update Guide](./force-v0.3.0-update.md) ⭐ **Updated**
 - [System Architecture Overview](./architecture/overview.md)
 - [FORCE Framework](./components/force/index.md)
 - [Autonomous Agents](./components/agents/index.md)
