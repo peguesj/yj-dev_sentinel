@@ -1,0 +1,54 @@
+{
+  "id": "mcp_debug_troubleshooter",
+  "name": "MCP Debug Troubleshooter",
+  "version": "1.0.0",
+  "description": "Comprehensive troubleshooting tool for MCP server issues including validation failures, schema problems, and component loading issues",
+  "category": "debugging",
+  "complexity": "medium",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "issue_type": {
+        "type": "string",
+        "enum": ["validation_failures", "schema_issues", "component_loading", "module_errors", "all"],
+        "description": "Type of issue to troubleshoot"
+      },
+      "auto_fix": {
+        "type": "boolean",
+        "default": false,
+        "description": "Attempt automatic fixes for identified issues"
+      },
+      "detailed_output": {
+        "type": "boolean", 
+        "default": true,
+        "description": "Provide detailed diagnostic output"
+      }
+    },
+    "required": ["issue_type"]
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "diagnosis": {
+        "type": "object",
+        "properties": {
+          "issues_found": {"type": "array"},
+          "fixes_applied": {"type": "array"},
+          "recommendations": {"type": "array"}
+        }
+      },
+      "component_status": {"type": "object"},
+      "next_steps": {"type": "array"}
+    }
+  },
+  "implementation": {
+    "executor": "python",
+    "entryPoint": "force.tools.debugging.mcp_debug_troubleshooter",
+    "timeout": 60
+  },
+  "metadata": {
+    "created": "2025-07-02T20:00:00.000Z",
+    "author": "Force Development Team",
+    "tags": ["debugging", "mcp", "troubleshooting", "validation"]
+  }
+}

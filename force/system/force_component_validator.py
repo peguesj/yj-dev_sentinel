@@ -19,8 +19,21 @@ class ForceValidator:
     
     def __init__(self, force_dir: str = "/Users/jeremiah/Developer/dev_sentinel/.force"):
         self.force_dir = Path(force_dir)
-        self.schema_file = self.force_dir / "schemas" / "force-schema.json"
-        self.logger = logging.getLogger("ForceValidator")
+        # Prefer extended schema, fallback to standard schema
+        extended_schema_file = self.force_dir / "schemas" / "force-extended-schema.json"
+        standard_schema_file = self.force_dir / "schemas" / "force-schema.json"
+        
+        if extended_schema_file.exists():
+            self.schema_file = extended_schema_file
+            self.logger = logging.getLogger("ForceValidator")
+            self.logger.info("Using extended Force schema for validation")
+        elif standard_schema_file.exists():
+            self.schema_file = standard_schema_file
+            self.logger = logging.getLogger("ForceValidator")
+            self.logger.info("Using standard Force schema for validation")
+        else:
+            self.logger = logging.getLogger("ForceValidator")
+            raise FileNotFoundError("No Force schema found (neither extended nor standard)")
         
         # Load schema
         self.schema = self._load_schema()

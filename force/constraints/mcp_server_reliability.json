@@ -1,0 +1,55 @@
+{
+  "id": "mcp_server_reliability",
+  "name": "MCP Server Reliability Constraint",
+  "version": "1.0.0", 
+  "description": "Ensures MCP server startup reliability with minimum validation failure thresholds",
+  "category": "reliability",
+  "severity": "high",
+  "applicability": [
+    "mcp_server",
+    "validation_systems",
+    "server_startup"
+  ],
+  "validationCriteria": [
+    {
+      "id": "component_loading_success_rate",
+      "description": "Component loading success rate must meet minimum threshold",
+      "check": "Measure percentage of components that load successfully",
+      "errorMessage": "Component loading success rate below 80%",
+      "threshold": "80%"
+    },
+    {
+      "id": "module_initialization_success",
+      "description": "All Force modules must initialize without errors",
+      "check": "Verify patterns, constraints, and governance modules initialize properly",
+      "errorMessage": "Module initialization failed - missing __init__.py or initialize() function"
+    },
+    {
+      "id": "schema_preference_working",
+      "description": "Extended schema should be preferred when available",
+      "check": "Verify ForceValidator uses extended schema if present",
+      "errorMessage": "Validator not using extended schema despite availability"
+    },
+    {
+      "id": "learning_data_loading",
+      "description": "Learning data should load without format errors",
+      "check": "Verify learning data parsing handles both list and dict formats",
+      "errorMessage": "Learning data format not handled correctly"
+    }
+  ],
+  "errorHandling": {
+    "onViolation": "prevent_startup",
+    "reportingLevel": "error",
+    "autoFix": true,
+    "fixStrategies": [
+      "create_missing_init_files",
+      "update_schema_preference_logic",
+      "fix_learning_data_parsing"
+    ]
+  },
+  "metadata": {
+    "created": "2025-07-02T20:15:00.000Z",
+    "derivedFrom": "mcp_validation_debugging_session",
+    "tags": ["mcp", "reliability", "validation", "startup"]
+  }
+}

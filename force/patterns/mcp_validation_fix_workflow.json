@@ -1,0 +1,80 @@
+{
+  "id": "mcp_validation_fix_workflow",
+  "name": "MCP Validation Fix Workflow",
+  "version": "1.0.0",
+  "description": "Systematic workflow for fixing MCP server validation issues, including schema problems, component loading failures, and module initialization errors",
+  "category": "debugging",
+  "complexity": "high",
+  "applicability": [
+    "mcp_debugging",
+    "validation_fixing",
+    "system_troubleshooting"
+  ],
+  "constraints": [
+    "atomic_commit_constraint"
+  ],
+  "steps": [
+    {
+      "id": "analyze_validation_logs",
+      "type": "descriptive",
+      "description": "Analyze MCP server logs to identify specific validation failures",
+      "guidance": "Look for patterns in error messages, count failures by type, identify root causes"
+    },
+    {
+      "id": "check_schema_usage",
+      "type": "executable",
+      "description": "Verify which schema is being used for validation",
+      "action": "force_execute_tool",
+      "parameters": {
+        "toolId": "force_schema_manager"
+      }
+    },
+    {
+      "id": "fix_module_initialization",
+      "type": "descriptive",
+      "description": "Fix missing __init__.py files and module structure issues",
+      "guidance": "Ensure all Force modules have proper __init__.py files with initialize() functions"
+    },
+    {
+      "id": "update_schema_preference",
+      "type": "descriptive",
+      "description": "Update validators to prefer extended schema over strict schema",
+      "guidance": "Modify ForceValidator to check for extended schema first"
+    },
+    {
+      "id": "run_component_validation",
+      "type": "executable", 
+      "description": "Run comprehensive component validation",
+      "action": "force_execute_tool",
+      "parameters": {
+        "toolId": "force_component_validator"
+      }
+    },
+    {
+      "id": "apply_component_fixes",
+      "type": "executable",
+      "description": "Apply automatic fixes for common validation issues",
+      "action": "force_execute_tool",
+      "parameters": {
+        "toolId": "force_component_fix_system"
+      }
+    },
+    {
+      "id": "test_mcp_server",
+      "type": "descriptive",
+      "description": "Test MCP server startup and tool discovery",
+      "guidance": "Restart MCP server and verify tool loading success rate improvement"
+    }
+  ],
+  "expectedOutcomes": [
+    "Reduced validation failure rate",
+    "Successful MCP server startup",
+    "Improved tool loading success rate",
+    "Fixed module initialization errors"
+  ],
+  "metadata": {
+    "created": "2025-07-02T20:10:00.000Z",
+    "derivedFrom": "mcp_validation_troubleshooting_session",
+    "tags": ["mcp", "validation", "debugging", "troubleshooting"]
+  }
+}

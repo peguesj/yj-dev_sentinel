@@ -906,7 +906,16 @@ class ForceMCPServer:
             try:
                 with open(learning_file, 'r') as f:
                     learning_data = json.load(f)
-                    insights = learning_data.get("learningInsights", insights)
+                    # Handle both list format (execution analytics) and dict format (insights)
+                    if isinstance(learning_data, list):
+                        # Extract insights from execution analytics
+                        extracted_insights = []
+                        for entry in learning_data:
+                            if entry.get("insights"):
+                                extracted_insights.extend(entry["insights"])
+                        insights = {"insights": extracted_insights, "recommendations": []}
+                    else:
+                        insights = learning_data.get("learningInsights", insights)
             except Exception as e:
                 logger.warning(f"Could not load learning data: {e}")
         
