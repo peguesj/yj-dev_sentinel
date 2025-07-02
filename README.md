@@ -49,40 +49,68 @@ source .venv/bin/activate  # Linux/macOS
 # or
 .venv\\Scripts\\activate   # Windows
 
-# Install dependencies
-pip install -r requirements.txt
+# Install package with CLI commands
+pip install -e .
 ```
 
-## FORCE MCP Server Integration
+### Package Installation
 
-The Force MCP server provides seamless integration with VS Code Copilot and other MCP clients, offering direct access to Force tools, patterns, constraints, and the extended schema system.
+Dev Sentinel is available as a proper Python package with CLI commands:
 
-### Features
+```bash
+# Install from source (development)
+pip install -e .
 
-- **🛠️ Direct Tool Execution**: Access 38+ Force tools through MCP
-- **📋 Pattern Application**: Execute development patterns with executable and descriptive steps
-- **✅ Schema Validation**: Flexible validation with extended schema support
-- **🔄 Real-time Monitoring**: Live execution feedback and error handling
-- **🎯 Context-Aware**: Project-specific tool discovery and configuration
+# Verify installation
+dev-sentinel --version
+force-mcp-stdio --help
+```
+
+### Available CLI Commands
+
+After installation, these commands are available:
+
+- `dev-sentinel` - Main CLI with system management
+- `force-mcp-stdio` - Force MCP server (stdio transport)
+- `dev-sentinel-stdio` - Dev Sentinel MCP server (stdio transport)  
+- `force-mcp-http` - Force MCP server (HTTP transport)
+- `dev-sentinel-http` - Dev Sentinel MCP server (HTTP transport)
+
+## MCP Server Integration
+
+Dev Sentinel provides comprehensive MCP (Model Context Protocol) server integration with VS Code, Claude, and other AI development tools.
+
+### Available MCP Servers
+
+| Server | Command | Transport | Description |
+|--------|---------|-----------|-------------|
+| **Force MCP** | `force-mcp-stdio` | stdio | Primary Force framework server |
+| **Dev Sentinel** | `dev-sentinel-stdio` | stdio | Full Dev Sentinel with AI agents |
+| **Force HTTP** | `force-mcp-http` | http | Force server with HTTP transport |
+| **Dev Sentinel HTTP** | `dev-sentinel-http` | http | Dev Sentinel with HTTP API |
 
 ### Quick Setup for VS Code
 
-1. **Create MCP Configuration**
+1. **Install the package**:
+   ```bash
+   pip install -e .
+   ```
+
+2. **Create MCP Configuration**
 
    Create `.vscode/mcp.json` in your workspace:
 
    ```json
    {
-     "servers": {
+     "mcpServers": {
        "force_mcp_stdio": {
-         "command": "${workspaceFolder}/.venv/bin/python",
-         "args": ["${workspaceFolder}/integration/fast_agent/force_mcp_server.py"],
+         "command": "force-mcp-stdio",
+         "args": [],
          "cwd": "${workspaceFolder}",
          "env": {
-           "PYTHONPATH": "${workspaceFolder}",
+           "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
            "PYTHONUNBUFFERED": "1"
          },
-         "pattern": ".*(?:Force MCP server|Starting Force MCP server|Listening).*",
          "transport": "stdio",
          "timeout": 30000
        }
@@ -90,15 +118,26 @@ The Force MCP server provides seamless integration with VS Code Copilot and othe
    }
    ```
 
-2. **Initialize Force System** (Optional)
-
+3. **Test the server**:
    ```bash
-   # Initialize .force directory structure with schema and tools
-   python -c "
-   import sys; sys.path.append('.')
-   from force.tools.system.force_init_system import force_init_system
-   force_init_system('.')
-   "
+   force-mcp-stdio --validation-only
+   ```
+
+### Configuration Examples
+
+Complete configuration examples are available in [`examples/mcp-configurations/`](examples/mcp-configurations/):
+
+- [`vscode-mcp.json`](examples/mcp-configurations/vscode-mcp.json) - VS Code integration
+- [`claude-mcp.json`](examples/mcp-configurations/claude-mcp.json) - Claude Desktop  
+- [`generic-mcp.json`](examples/mcp-configurations/generic-mcp.json) - Universal configuration
+
+### Server Features
+
+- **🛠️ Direct Tool Execution**: Access 40+ Force tools through MCP
+- **📋 Pattern Application**: Execute development patterns with executable and descriptive steps
+- **✅ Schema Validation**: Flexible validation with extended schema support
+- **🔄 Real-time Monitoring**: Live execution feedback and error handling
+- **🎯 Context-Aware**: Project-specific tool discovery and configuration
    ```
 
 3. **Test Integration**
