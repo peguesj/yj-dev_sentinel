@@ -66,6 +66,47 @@ dev-sentinel --version
 force-mcp-stdio --help
 ```
 
+## Deployment Options
+
+### Install from Git Repository
+
+#### Direct Installation
+```bash
+# Install latest from main branch
+pip install git+https://github.com/peguesj/yj-dev_sentinel.git
+
+# Install specific version
+pip install git+https://github.com/peguesj/yj-dev_sentinel.git@v0.3.0
+
+# Install with optional dependencies
+pip install "git+https://github.com/peguesj/yj-dev_sentinel.git[dev,docs]"
+```
+
+#### Development Installation
+```bash
+# Clone and install in editable mode
+git clone https://github.com/peguesj/yj-dev_sentinel.git
+cd yj-dev_sentinel
+pip install -e .
+```
+
+#### Docker Deployment
+```bash
+# Quick Docker run
+docker run -it python:3.10 bash -c "
+  pip install git+https://github.com/peguesj/yj-dev_sentinel.git &&
+  force-mcp-stdio --validation-only
+"
+
+# HTTP server deployment
+docker run -p 8080:8080 python:3.10 bash -c "
+  pip install git+https://github.com/peguesj/yj-dev_sentinel.git &&
+  force-mcp-http --port 8080 --host 0.0.0.0
+"
+```
+
+For comprehensive deployment guides including cloud platforms, CI/CD integration, and production setup, see [Deployment Documentation](docs/deployment.md).
+
 ### Available CLI Commands
 
 After installation, these commands are available:
@@ -420,4 +461,3 @@ This project is licensed under the MIT License - see [LICENSE-MIT.md](LICENSE-MI
 - FORCE framework inspired by advanced software development practices
 - Agent architecture based on proven autonomous systems
 - Diagrams created with [PlantUML](https://plantuml.com/)
-</edit_file>

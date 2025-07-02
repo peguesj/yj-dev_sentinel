@@ -46,6 +46,14 @@ Welcome to the Dev Sentinel documentation. This documentation covers all aspects
 - Installation
 - Usage examples
 
+### [Deployment](./deployment.md) ⭐ **New**
+
+- Git repository deployment
+- Docker and container deployment  
+- Cloud platform deployment
+- CI/CD integration
+- Production configuration
+
 ### [Developer Guide](./developer/index.md)
 
 - Contributing
@@ -62,6 +70,8 @@ Welcome to the Dev Sentinel documentation. This documentation covers all aspects
 
 - [Getting Started](./user/getting-started.md)
 - [Installation](./user/installation.md)
+- [🆕 Deployment Guide](./deployment.md) ⭐ **New**
+- [🆕 MCP Configuration Examples](../examples/mcp-configurations/) ⭐ **New**
 - [🆕 MCP Integration Guide](./integration/mcp-integration.md) ⭐ **New**
 - [🆕 Extended Schema System](./integration/extended-schema-system.md) ⭐ **New**
 - [Force v0.3.0 Update Guide](./force-v0.3.0-update.md) ⭐ **Updated**

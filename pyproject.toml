@@ -57,6 +57,8 @@ Homepage = "https://github.com/peguesj/yj-dev_sentinel"
 Repository = "https://github.com/peguesj/yj-dev_sentinel.git"
 Documentation = "https://dev-sentinel.readthedocs.io"
 "Bug Tracker" = "https://github.com/peguesj/yj-dev_sentinel/issues"
+"Deployment Guide" = "https://github.com/peguesj/yj-dev_sentinel/blob/main/docs/deployment.md"
+"MCP Configuration" = "https://github.com/peguesj/yj-dev_sentinel/tree/main/examples/mcp-configurations"
 
 [project.scripts]
 dev-sentinel = "dev_sentinel.cli:main"
