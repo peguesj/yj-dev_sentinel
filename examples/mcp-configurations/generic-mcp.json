@@ -1,0 +1,106 @@
+{
+  "name": "Dev Sentinel MCP Servers",
+  "version": "0.3.0",
+  "description": "Generic MCP server configurations for Dev Sentinel package",
+  "servers": {
+    "force-mcp-stdio": {
+      "transport": "stdio",
+      "command": "force-mcp-stdio",
+      "args": [],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      },
+      "capabilities": [
+        "tools",
+        "resources",
+        "prompts"
+      ],
+      "description": "Force MCP server with comprehensive development tools",
+      "tags": ["development", "automation", "force", "ai"]
+    },
+    "dev-sentinel-stdio": {
+      "transport": "stdio", 
+      "command": "dev-sentinel-stdio",
+      "args": ["--mcp-port", "8090"],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      },
+      "capabilities": [
+        "tools",
+        "resources",
+        "prompts"
+      ],
+      "description": "Dev Sentinel MCP server with AI agents",
+      "tags": ["ai", "agents", "development", "automation"]
+    },
+    "force-mcp-http": {
+      "transport": "http",
+      "url": "http://localhost:8080",
+      "command": "force-mcp-http",
+      "args": ["--port", "8080"],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      },
+      "capabilities": [
+        "tools",
+        "resources",
+        "prompts"
+      ],
+      "description": "Force MCP server with HTTP transport",
+      "tags": ["http", "web", "force", "development"]
+    },
+    "dev-sentinel-http": {
+      "transport": "http",
+      "url": "http://localhost:8000",
+      "command": "dev-sentinel-http", 
+      "args": ["--http-port", "8000", "--mcp-port", "8090"],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      },
+      "capabilities": [
+        "tools",
+        "resources",
+        "prompts"
+      ],
+      "description": "Dev Sentinel HTTP server with dual endpoints",
+      "tags": ["http", "api", "mcp", "ai", "development"]
+    }
+  },
+  "examples": {
+    "basic_usage": {
+      "description": "Basic Force MCP server with default settings",
+      "command": "force-mcp-stdio",
+      "use_case": "Development automation with Force tools"
+    },
+    "debug_mode": {
+      "description": "Force MCP server with debug logging enabled",
+      "command": "force-mcp-stdio --debug",
+      "use_case": "Troubleshooting and development"
+    },
+    "validation_only": {
+      "description": "Run Force validation without starting MCP server",
+      "command": "force-mcp-stdio --validation-only",
+      "use_case": "Force component validation and health checks"
+    },
+    "http_server": {
+      "description": "HTTP-based MCP server for web integration",
+      "command": "force-mcp-http --port 9000",
+      "use_case": "Web applications and HTTP-based integrations"
+    },
+    "custom_force_dir": {
+      "description": "Force MCP server with custom Force directory",
+      "command": "force-mcp-stdio --force-dir /custom/path/.force",
+      "use_case": "Projects with non-standard Force directory locations"
+    }
+  },
+  "installation": {
+    "pip": "pip install dev-sentinel",
+    "development": "pip install -e .",
+    "requirements": ["python>=3.10", "pip"]
+  },
+  "documentation": {
+    "homepage": "https://github.com/peguesj/yj-dev_sentinel",
+    "api_docs": "https://dev-sentinel.readthedocs.io",
+    "mcp_protocol": "https://modelcontextprotocol.io"
+  }
+}

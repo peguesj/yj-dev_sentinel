@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "dev-sentinel": {
+      "command": "force-mcp-stdio",
+      "args": [],
+      "cwd": "/path/to/your/project",
+      "env": {
+        "PATH": "/path/to/your/project/.venv/bin:$PATH",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "dev-sentinel-advanced": {
+      "command": "force-mcp-stdio",
+      "args": ["--debug", "--force-dir", "/custom/force/directory"],
+      "cwd": "/path/to/your/project",
+      "env": {
+        "PATH": "/path/to/your/project/.venv/bin:$PATH",
+        "PYTHONUNBUFFERED": "1",
+        "FORCE_DEBUG": "1"
+      }
+    },
+    "dev-sentinel-validation": {
+      "command": "force-mcp-stdio",
+      "args": ["--validation-only"],
+      "cwd": "/path/to/your/project",
+      "env": {
+        "PATH": "/path/to/your/project/.venv/bin:$PATH"
+      }
+    }
+  }
+}

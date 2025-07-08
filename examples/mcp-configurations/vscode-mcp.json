@@ -1,21 +1,23 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/workbench/contrib/debug/common/debugger.contribution.json",
-  "servers": {
+  "mcpServers": {
     "force_mcp_stdio": {
       "command": "force-mcp-stdio",
-      "args": [],
+      "args": ["--debug"],
       "cwd": "${workspaceFolder}",
       "env": {
         "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
-        "PYTHONUNBUFFERED": "1"
+        "PYTHONUNBUFFERED": "1",
+        "FORCE_DEBUG": "1"
       },
       "pattern": ".*(?:Force MCP server|Starting Force MCP server|Listening).*",
       "transport": "stdio",
-      "timeout": 30000
+      "timeout": 30000,
+      "description": "Force MCP server with Force framework tools and patterns"
     },
     "dev_sentinel_stdio": {
       "command": "dev-sentinel-stdio",
-      "args": ["--mcp-port", "8090"],
+      "args": ["--mcp-port", "8090", "--verbose"],
       "cwd": "${workspaceFolder}",
       "env": {
         "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
@@ -23,11 +25,12 @@
       },
       "pattern": ".*(?:Dev Sentinel|MCP Server).*",
       "transport": "stdio",
-      "timeout": 30000
+      "timeout": 30000,
+      "description": "Dev Sentinel MCP server with AI agents and development automation"
     },
     "force_mcp_http": {
       "command": "force-mcp-http",
-      "args": ["--port", "8080"],
+      "args": ["--port", "8080", "--debug"],
       "cwd": "${workspaceFolder}",
       "env": {
         "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
@@ -35,11 +38,13 @@
       },
       "pattern": ".*(?:Force MCP|HTTP server).*",
       "transport": "http",
-      "timeout": 30000
+      "url": "http://localhost:8080",
+      "timeout": 30000,
+      "description": "Force MCP server with HTTP transport for web integration"
     },
     "dev_sentinel_http": {
       "command": "dev-sentinel-http",
-      "args": ["--http-port", "8000", "--mcp-port", "8090"],
+      "args": ["--http-port", "8000", "--mcp-port", "8090", "--verbose"],
       "cwd": "${workspaceFolder}",
       "env": {
         "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
@@ -47,8 +52,16 @@
       },
       "pattern": ".*(?:Dev Sentinel|HTTP API).*",
       "transport": "http",
-      "timeout": 30000
+      "url": "http://localhost:8000",
+      "timeout": 30000,
+      "description": "Dev Sentinel HTTP server with dual API and MCP endpoints"
     }
+  },
+  "defaultServer": "force_mcp_stdio",
+  "settings": {
+    "autoStart": false,
+    "reconnectAttempts": 3,
+    "reconnectDelay": 2000,
+    "logLevel": "info"
   }
 }
-

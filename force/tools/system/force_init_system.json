@@ -1,0 +1,71 @@
+{
+  "id": "force_init_system",
+  "name": "Force System Initializer",
+  "description": "Initializes a complete FORCE directory structure in a project, setting up all required directories, configuration files, and default schemas for agentic development.",
+  "category": "implementation",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "project_path",
+        "type": "string",
+        "description": "Path to the project root where .force directory should be created",
+        "default": "."
+      },
+      {
+        "name": "project_name",
+        "type": "string",
+        "description": "Name of the project for configuration",
+        "default": "Unknown Project"
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "create_directory_structure",
+        "description": "Create Force directory structure with all required subdirectories"
+      },
+      {
+        "action": "generate_configuration",
+        "description": "Generate force.config.json with project-specific settings"
+      },
+      {
+        "action": "create_documentation",
+        "description": "Create README.md and initial documentation"
+      },
+      {
+        "action": "setup_gitignore",
+        "description": "Update .gitignore with Force-specific entries"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Project directory exists and is writable",
+        "No existing .force directory conflicts"
+      ],
+      "post_conditions": [
+        "Force directory structure created successfully",
+        "Configuration files are valid JSON",
+        "All required subdirectories exist"
+      ],
+      "error_handling": [
+        {
+          "condition": "directory_exists",
+          "strategy": "abort",
+          "message": "Force directory already exists"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-02T00:00:00Z",
+    "updated": "2025-07-02T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": ["initialization", "setup", "system"],
+    "author": "Force System"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "event-driven-messaging-handler",
+  "name": "Event-Driven Messaging Handler",
+  "version": "1.0.0",
+  "category": "messaging",
+  "type": "handler",
+  "description": "Asynchronous event processing with message queuing and delivery",
+  "implementation": {
+    "filePath": "/Users/jeremiah/Developer/vantage-evo/portal/src/lib/force/event-driven-messaging-handler.ts",
+    "status": "implemented",
+    "lastUpdated": "2025-07-01T20:22:14Z"
+  },
+  "capabilities": [
+    "event-processing",
+    "message-queuing",
+    "cross-service-communication",
+    "event-sourcing",
+    "replay-capabilities"
+  ],
+  "dependencies": [
+    "@supabase/supabase-js",
+    "tenant-isolation-middleware"
+  ],
+  "patterns": [
+    "event-sourcing",
+    "publisher-subscriber",
+    "command-query-separation"
+  ],
+  "learnings": [
+    "Database-based event storage provides reliability",
+    "JSON event payloads enable flexible data structures",
+    "Tenant isolation must extend to event processing",
+    "Event replay capabilities are crucial for debugging"
+  ],
+  "metrics": {
+    "complexity": "high",
+    "testCoverage": 75,
+    "performanceScore": 82,
+    "securityScore": 94
+  },
+  "refinements": [
+    "Add event deduplication mechanisms",
+    "Implement event schema validation",
+    "Add dead letter queue handling",
+    "Enhance event filtering and routing"
+  ]
+}

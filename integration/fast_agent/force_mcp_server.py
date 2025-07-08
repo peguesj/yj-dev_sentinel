@@ -740,20 +740,108 @@ class ForceMCPServer:
             )]
         pattern = patterns[pattern_id]
         results = []
-        for step in pattern.get("implementation", {}).get("steps", []):
-            tool_id = step.get("toolId")
-            if tool_id:
-                step_params = {**step.get("parameters", {}), **parameters}
-                result = await self.force_engine.execute_tool(tool_id, step_params, context)
-                results.append({
-                    "step": step["name"],
-                    "result": result
-                })
+        implementation = pattern.get("implementation", {})
+        
+        # Check for executable steps first
+        executable_steps = implementation.get("executable_steps", [])
+        if executable_steps:
+            # Execute tool-based steps
+            for step in executable_steps:
+                if isinstance(step, dict) and "toolId" in step:
+                    tool_id = step.get("toolId")
+                    if tool_id:  # Ensure tool_id is not None
+                        step_name = step.get("name", f"Step with {tool_id}")
+                        step_params = {**step.get("parameters", {}), **parameters}
+                        try:
+                            result = await self.force_engine.execute_tool(tool_id, step_params, context)
+                            results.append({
+                                "step": step_name,
+                                "tool_id": tool_id,
+                                "result": result,
+                                "status": "executed"
+                            })
+                        except Exception as e:
+                            results.append({
+                                "step": step_name,
+                                "tool_id": tool_id,
+                                "error": str(e),
+                                "status": "failed"
+                            })
+                    else:
+                        results.append({
+                            "step": step.get("name", "Unnamed step"),
+                            "error": "Missing toolId",
+                            "status": "failed"
+                        })
+        else:
+            # Handle descriptive steps (non-executable)
+            steps = implementation.get("steps", [])
+            if steps:
+                for i, step in enumerate(steps):
+                    if isinstance(step, str):
+                        results.append({
+                            "step": f"Step {i+1}",
+                            "description": step,
+                            "status": "documented",
+                            "note": "This is a descriptive step - manual execution required"
+                        })
+                    elif isinstance(step, dict):
+                        # Handle step objects
+                        step_name = step.get("name", f"Step {i+1}")
+                        if "toolId" in step:
+                            tool_id = step.get("toolId")
+                            if tool_id:  # Ensure tool_id is not None
+                                step_params = {**step.get("parameters", {}), **parameters}
+                                try:
+                                    result = await self.force_engine.execute_tool(tool_id, step_params, context)
+                                    results.append({
+                                        "step": step_name,
+                                        "tool_id": tool_id,
+                                        "result": result,
+                                        "status": "executed"
+                                    })
+                                except Exception as e:
+                                    results.append({
+                                        "step": step_name,
+                                        "tool_id": tool_id,
+                                        "error": str(e),
+                                        "status": "failed"
+                                    })
+                            else:
+                                results.append({
+                                    "step": step_name,
+                                    "error": "Missing toolId",
+                                    "status": "failed"
+                                })
+                        else:
+                            results.append({
+                                "step": step_name,
+                                "description": step.get("description", "No description provided"),
+                                "status": "documented",
+                                "note": "This is a descriptive step - manual execution required"
+                            })
+            
+        # If no steps found at all
+        if not results:
+            results.append({
+                "step": "Pattern Application",
+                "status": "completed",
+                "note": f"Pattern '{pattern_id}' applied successfully but contains no executable steps"
+            })
+        
+
         return [MCPCompat.TextContent(
             type="text",
             text=json.dumps({
                 "success": True,
                 "pattern": pattern_id,
+                "pattern_name": pattern.get("name", pattern_id),
+                "description": pattern.get("description", ""),
+                "total_steps": len(results),
+                "executed_steps": len([r for r in results if r.get("status") == "executed"]),
+                "documented_steps": len([r for r in results if r.get("status") == "documented"]),
+                "failed_steps": len([r for r in results if r.get("status") == "failed"]),
+
                 "steps": results
             }, indent=2, default=str)
         )]
@@ -820,7 +908,17 @@ class ForceMCPServer:
             try:
                 with open(learning_file, 'r') as f:
                     learning_data = json.load(f)
-                    insights = learning_data.get("learningInsights", insights)
+                    # Handle both list format (execution analytics) and dict format (insights)
+                    if isinstance(learning_data, list):
+                        # Extract insights from execution analytics
+                        extracted_insights = []
+                        for entry in learning_data:
+                            if entry.get("insights"):
+                                extracted_insights.extend(entry["insights"])
+                        insights = {"insights": extracted_insights, "recommendations": []}
+                    else:
+                        insights = learning_data.get("learningInsights", insights)
+
             except Exception as e:
                 logger.warning(f"Could not load learning data: {e}")
         

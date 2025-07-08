@@ -1,0 +1,54 @@
+{
+  "id": "branch_completion_summary",
+  "name": "Branch Completion Summary Generator",
+  "version": "1.0.0",
+  "description": "Generates comprehensive summary of work completed on a feature branch including commits, changes, learning insights, and validation improvements",
+  "category": "git_workflow",
+  "complexity": "medium",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "branch_name": {
+        "type": "string",
+        "description": "Name of the branch to summarize"
+      },
+      "include_validation_metrics": {
+        "type": "boolean", 
+        "default": true,
+        "description": "Include before/after validation metrics"
+      },
+      "include_learning_insights": {
+        "type": "boolean",
+        "default": true, 
+        "description": "Include learning insights and new components created"
+      }
+    },
+    "required": ["branch_name"]
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "branch_summary": {
+        "type": "object",
+        "properties": {
+          "commits": {"type": "array"},
+          "files_changed": {"type": "array"},
+          "components_created": {"type": "array"},
+          "validation_improvements": {"type": "object"},
+          "learning_insights": {"type": "array"}
+        }
+      },
+      "recommendations": {"type": "array"}
+    }
+  },
+  "implementation": {
+    "executor": "python",
+    "entryPoint": "force.tools.git_workflow.branch_completion_summary",
+    "timeout": 45
+  },
+  "metadata": {
+    "created": "2025-07-02T20:20:00.000Z",
+    "author": "Force Development Team",
+    "tags": ["git", "branch", "summary", "workflow", "completion"]
+  }
+}
