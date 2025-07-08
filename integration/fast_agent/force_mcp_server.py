@@ -829,6 +829,7 @@ class ForceMCPServer:
                 "note": f"Pattern '{pattern_id}' applied successfully but contains no executable steps"
             })
         
+
         return [MCPCompat.TextContent(
             type="text",
             text=json.dumps({
@@ -840,6 +841,7 @@ class ForceMCPServer:
                 "executed_steps": len([r for r in results if r.get("status") == "executed"]),
                 "documented_steps": len([r for r in results if r.get("status") == "documented"]),
                 "failed_steps": len([r for r in results if r.get("status") == "failed"]),
+
                 "steps": results
             }, indent=2, default=str)
         )]
@@ -916,6 +918,7 @@ class ForceMCPServer:
                         insights = {"insights": extracted_insights, "recommendations": []}
                     else:
                         insights = learning_data.get("learningInsights", insights)
+
             except Exception as e:
                 logger.warning(f"Could not load learning data: {e}")
         

@@ -23,6 +23,7 @@ Welcome to the Dev Sentinel documentation. This documentation covers all aspects
 - Extended Schema System
 - Client Setup and Configuration
 
+
 ### [Architecture](./architecture/overview.md)
 
 - System architecture and design
@@ -75,6 +76,7 @@ Welcome to the Dev Sentinel documentation. This documentation covers all aspects
 - [🆕 MCP Integration Guide](./integration/mcp-integration.md) ⭐ **New**
 - [🆕 Extended Schema System](./integration/extended-schema-system.md) ⭐ **New**
 - [Force v0.3.0 Update Guide](./force-v0.3.0-update.md) ⭐ **Updated**
+
 - [System Architecture Overview](./architecture/overview.md)
 - [FORCE Framework](./components/force/index.md)
 - [Autonomous Agents](./components/agents/index.md)

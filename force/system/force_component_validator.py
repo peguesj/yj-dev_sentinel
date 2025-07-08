@@ -34,6 +34,7 @@ class ForceValidator:
         else:
             self.logger = logging.getLogger("ForceValidator")
             raise FileNotFoundError("No Force schema found (neither extended nor standard)")
+
         
         # Load schema
         self.schema = self._load_schema()

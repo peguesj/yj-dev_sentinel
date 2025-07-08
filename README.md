@@ -290,6 +290,7 @@ Comprehensive documentation is available in the `docs/` directory:
 
 ## Architecture
 
+
 <details>
 <summary>Core System Architecture</summary>
 
@@ -320,6 +321,7 @@ package "Dev Sentinel" {
     SAA --> MB
 }
 @enduml
+
 ```
 
 ```mermaid
@@ -343,39 +345,7 @@ flowchart TB
     CDIA --> MB
     RDIA --> MB
     SAA --> MB
-```
-</details>
 
-<details>
-<summary>FORCE Framework Architecture</summary>
-
-```plantuml
-@startuml FORCE Framework
-skinparam backgroundColor transparent
-
-package "FORCE Framework" {
-    [Tool Manager] as TM
-    [Pattern Manager] as PM
-    [Constraint Manager] as CM
-    [Learning Manager] as LM
-    [Governance Manager] as GM
-    
-    database "Tool Registry" as TR
-    database "Pattern Registry" as PR
-    database "Constraint Registry" as CR
-    
-    TM --> TR
-    PM --> PR
-    CM --> CR
-    
-    TM <-- LM
-    PM <-- LM
-    CM <-- LM
-    
-    TM <-- GM
-    PM <-- GM
-    CM <-- GM
-}
 @enduml
 ```
 
@@ -461,3 +431,5 @@ This project is licensed under the MIT License - see [LICENSE-MIT.md](LICENSE-MI
 - FORCE framework inspired by advanced software development practices
 - Agent architecture based on proven autonomous systems
 - Diagrams created with [PlantUML](https://plantuml.com/)
+
+

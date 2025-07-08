@@ -105,6 +105,7 @@ The Force system now operates with a dual tool registry:
 - User confirmation workflows for complex operations
 - Step-by-step execution with progress reporting
 
+
 #### FastAgent Integration
 
 - Seamless workflow integration
@@ -143,6 +144,7 @@ The Force system now operates with a dual tool registry:
    - Review existing pattern implementations
    - Update pattern configurations for new schema
    - Test pattern execution with enhanced capabilities
+
 
 3. **Schema Migration** ⭐ **New**
    - Extended schema automatically detected and used

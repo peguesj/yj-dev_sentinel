@@ -139,6 +139,7 @@ class ForceEngine:
                     logger.info("Loaded standard Force schema")
             else:
                 raise ForceEngineError(f"No schema found. Checked: {extended_schema_path}, {schema_path}")
+
         
         return self._master_schema
     
