@@ -5,17 +5,22 @@
   "category": "documentation",
   "version": "1.0.0",
   "parameters": {
-    "sinceCommit": {
-      "type": "string",
-      "description": "Commit hash or ref to compare from"
-    },
-    "focusAreas": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    "required": [
+      {
+        "name": "since_commit",
+        "type": "string",
+        "description": "Commit hash or ref to compare from"
       },
-      "description": "Areas of code to focus analysis on (e.g., api, interfaces)"
-    }
+      {
+        "name": "focus_areas",
+        "type": "array",
+        "description": "Areas of code to focus analysis on (e.g., api, interfaces)",
+        "items": {
+          "type": "string"
+        }
+      }
+    ],
+    "optional": []
   },
   "execution": {
     "strategy": "sequential",

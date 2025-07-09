@@ -1,0 +1,56 @@
+{
+  "id": "git_branch_create",
+  "name": "Git Branch Create",
+  "description": "Creates a new git branch for development.",
+  "category": "git",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "branchType",
+        "type": "string",
+        "description": "Type of branch (feature, bugfix, etc.)"
+      },
+      {
+        "name": "baseBranch",
+        "type": "string",
+        "description": "Base branch to create from"
+      }
+    ],
+    "optional": [
+      {
+        "name": "switchToBranch",
+        "type": "boolean",
+        "description": "Parameter switchToBranch",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:07.609466Z",
+    "updated": "2025-07-01T03:54:07.609467Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
+  }
+}

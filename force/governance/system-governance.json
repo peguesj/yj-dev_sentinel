@@ -23,8 +23,14 @@
         "auto_fix": false
       },
       "scope": {
-        "applies_to": ["tools"],
-        "environments": ["development", "staging", "production"],
+        "applies_to": [
+          "tools"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -32,7 +38,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["validation", "quality", "tools"],
+        "tags": [
+          "validation",
+          "quality",
+          "tools"
+        ],
         "priority": "high"
       }
     },
@@ -55,8 +65,14 @@
         "auto_fix": false
       },
       "scope": {
-        "applies_to": ["patterns"],
-        "environments": ["development", "staging", "production"],
+        "applies_to": [
+          "patterns"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -64,7 +80,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["review", "patterns", "effectiveness"],
+        "tags": [
+          "review",
+          "patterns",
+          "effectiveness"
+        ],
         "priority": "medium"
       }
     },
@@ -87,8 +107,14 @@
         "auto_fix": true
       },
       "scope": {
-        "applies_to": ["constraints"],
-        "environments": ["development", "staging", "production"],
+        "applies_to": [
+          "constraints"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -96,7 +122,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["compliance", "constraints", "audit"],
+        "tags": [
+          "compliance",
+          "constraints",
+          "audit"
+        ],
         "priority": "high"
       }
     },
@@ -125,8 +155,16 @@
         "auto_fix": false
       },
       "scope": {
-        "applies_to": ["learning_records", "tools", "patterns"],
-        "environments": ["development", "staging", "production"],
+        "applies_to": [
+          "learning_records",
+          "tools",
+          "patterns"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -134,7 +172,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["data", "privacy", "learning"],
+        "tags": [
+          "data",
+          "privacy",
+          "learning"
+        ],
         "priority": "critical"
       }
     },
@@ -166,8 +208,14 @@
         ]
       },
       "scope": {
-        "applies_to": ["learning", "models"],
-        "environments": ["staging", "production"],
+        "applies_to": [
+          "learning",
+          "models"
+        ],
+        "environments": [
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -175,7 +223,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["models", "learning", "updates"],
+        "tags": [
+          "models",
+          "learning",
+          "updates"
+        ],
         "priority": "high"
       }
     },
@@ -209,8 +261,14 @@
         }
       },
       "scope": {
-        "applies_to": ["tools"],
-        "environments": ["development", "staging", "production"],
+        "applies_to": [
+          "tools"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -218,7 +276,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["guidelines", "tools", "selection"],
+        "tags": [
+          "guidelines",
+          "tools",
+          "selection"
+        ],
         "priority": "medium"
       }
     },
@@ -247,8 +309,14 @@
         ]
       },
       "scope": {
-        "applies_to": ["patterns"],
-        "environments": ["development", "staging", "production"],
+        "applies_to": [
+          "patterns"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -256,7 +324,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["guidelines", "patterns", "application"],
+        "tags": [
+          "guidelines",
+          "patterns",
+          "application"
+        ],
         "priority": "medium"
       }
     },
@@ -286,8 +358,17 @@
         "approval_required": true
       },
       "scope": {
-        "applies_to": ["schemas", "tools", "patterns", "constraints"],
-        "environments": ["development", "staging", "production"],
+        "applies_to": [
+          "schemas",
+          "tools",
+          "patterns",
+          "constraints"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -295,7 +376,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["schema", "evolution", "compatibility"],
+        "tags": [
+          "schema",
+          "evolution",
+          "compatibility"
+        ],
         "priority": "high"
       }
     },
@@ -338,8 +423,14 @@
         }
       },
       "scope": {
-        "applies_to": ["tools"],
-        "environments": ["development", "staging", "production"],
+        "applies_to": [
+          "tools"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -347,7 +438,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["lifecycle", "tools", "management"],
+        "tags": [
+          "lifecycle",
+          "tools",
+          "management"
+        ],
         "priority": "medium"
       }
     },
@@ -376,8 +471,13 @@
         "frequency": "weekly"
       },
       "scope": {
-        "applies_to": ["system", "reporting"],
-        "environments": ["production"],
+        "applies_to": [
+          "system",
+          "reporting"
+        ],
+        "environments": [
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -385,7 +485,11 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["reporting", "health", "monitoring"],
+        "tags": [
+          "reporting",
+          "health",
+          "monitoring"
+        ],
         "priority": "medium"
       }
     },
@@ -414,8 +518,13 @@
         "frequency": "monthly"
       },
       "scope": {
-        "applies_to": ["learning", "reporting"],
-        "environments": ["production"],
+        "applies_to": [
+          "learning",
+          "reporting"
+        ],
+        "environments": [
+          "production"
+        ],
         "exceptions": []
       },
       "metadata": {
@@ -423,9 +532,22 @@
         "updated": "2025-07-01T05:00:00Z",
         "version": "1.0.0",
         "author": "development-team",
-        "tags": ["learning", "insights", "reporting"],
+        "tags": [
+          "learning",
+          "insights",
+          "reporting"
+        ],
         "priority": "medium"
       }
     }
-  ]
+  ],
+  "id": "Generated id",
+  "timestamp": "2025-07-09T00:54:29.457225Z",
+  "event_type": "policy_update",
+  "data": {},
+  "metadata": {
+    "created": "2025-07-09T00:54:29.457228Z",
+    "updated": "2025-07-09T00:54:29.457229Z",
+    "version": "1.0.0"
+  }
 }

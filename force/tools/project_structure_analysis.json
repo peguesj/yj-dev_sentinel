@@ -5,22 +5,33 @@
   "category": "analysis",
   "version": "1.0.0",
   "parameters": {
-    "projectType": {
-      "type": "string",
-      "description": "Type of project to analyze"
-    },
-    "checkNaming": {
-      "type": "boolean",
-      "default": true
-    },
-    "checkStructure": {
-      "type": "boolean",
-      "default": true
-    },
-    "suggestImprovements": {
-      "type": "boolean",
-      "default": true
-    }
+    "required": [
+      {
+        "name": "project_type",
+        "type": "string",
+        "description": "Type of project to analyze"
+      }
+    ],
+    "optional": [
+      {
+        "name": "check_naming",
+        "type": "boolean",
+        "description": "Parameter checkNaming",
+        "default": true
+      },
+      {
+        "name": "check_structure",
+        "type": "boolean",
+        "description": "Parameter checkStructure",
+        "default": true
+      },
+      {
+        "name": "suggest_improvements",
+        "type": "boolean",
+        "description": "Parameter suggestImprovements",
+        "default": true
+      }
+    ]
   },
   "execution": {
     "strategy": "sequential",

@@ -1,0 +1,146 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "id": "force_mcp_integration",
+  "name": "Force MCP Integration",
+  "description": "Integration layer between Force component validation and MCP server startup process. Validates Force components and determines which can be safely loaded into the MCP server.",
+  "category": "validation",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "project_root",
+        "type": "directory_path",
+        "description": "Path to the project root directory containing .force"
+      }
+    ],
+    "optional": [
+      {
+        "name": "fail_on_invalid",
+        "type": "boolean",
+        "description": "Exit with error code if any components are invalid (non-blocking)",
+        "default": false
+      },
+      {
+        "name": "startup_mode",
+        "type": "string",
+        "description": "Mode for MCP startup validation",
+        "default": "production",
+        "validation": {
+          "enum": ["development", "staging", "production"]
+        }
+      },
+      {
+        "name": "enable_detailed_logging",
+        "type": "boolean",
+        "description": "Enable detailed logging for debugging validation issues",
+        "default": false
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "setup_mcp_integration",
+        "description": "Initialize Force MCP integration with project configuration"
+      },
+      {
+        "action": "check_force_availability",
+        "description": "Check if Force system is available and properly configured",
+        "parameters": {
+          "force_root": "{{project_root}}/.force"
+        }
+      },
+      {
+        "action": "run_comprehensive_validation",
+        "description": "Run comprehensive Force component validation using ForceComponentValidator",
+        "parameters": {
+          "validation_mode": "mcp_startup"
+        }
+      },
+      {
+        "action": "check_blocking_issues",
+        "description": "Check for critical validation failures that would block MCP startup"
+      },
+      {
+        "action": "filter_valid_components",
+        "description": "Extract lists of valid tools, patterns, and constraints for MCP loading"
+      },
+      {
+        "action": "generate_startup_report",
+        "description": "Generate comprehensive startup report for MCP server logs"
+      },
+      {
+        "action": "make_startup_decision",
+        "description": "Determine if MCP server can proceed with startup",
+        "parameters": {
+          "mode": "{{startup_mode}}"
+        }
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Project root directory exists and is accessible",
+        "Force component validator is available",
+        "Python logging system is configured",
+        "MCP server is in startup phase"
+      ],
+      "post_conditions": [
+        "Validation results are available for MCP decision making",
+        "Valid components are identified for loading",
+        "Startup decision has been made (proceed/block)",
+        "Detailed report is available for debugging"
+      ],
+      "error_handling": [
+        {
+          "error_type": "force_not_available",
+          "strategy": "fallback",
+          "action": "Continue MCP startup without Force integration",
+          "escalation": false
+        },
+        {
+          "error_type": "critical_tools_invalid",
+          "strategy": "abort",
+          "action": "Block MCP startup until critical Force tools are fixed",
+          "escalation": true
+        },
+        {
+          "error_type": "schema_validation_failure",
+          "strategy": "abort",
+          "action": "Block MCP startup due to schema system failure",
+          "escalation": true
+        },
+        {
+          "error_type": "partial_component_failure",
+          "strategy": "fallback",
+          "action": "Load only valid components and log warnings for invalid ones",
+          "escalation": false
+        },
+        {
+          "error_type": "validation_timeout",
+          "strategy": "fallback",
+          "action": "Switch to basic validation if comprehensive validation takes too long",
+          "escalation": false
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-01T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "high",
+    "tags": ["integration", "mcp", "startup", "validation", "system", "force"],
+    "dependencies": [
+      "force_component_validator",
+      "logging",
+      "pathlib",
+      "typing"
+    ],
+    "performance_metrics": {
+      "avg_execution_time": 3.8,
+      "success_rate": 0.99,
+      "usage_count": 0
+    }
+  }
+}

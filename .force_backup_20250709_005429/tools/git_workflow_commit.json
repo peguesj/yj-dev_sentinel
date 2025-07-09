@@ -1,0 +1,48 @@
+{
+  "id": "git_workflow_commit",
+  "name": "Git Workflow Commit",
+  "description": "Commits changes with semantic versioning and scope.",
+  "category": "git",
+  "version": "1.0.0",
+  "parameters": {
+    "scope": {
+      "type": "string",
+      "description": "Scope of the commit (feature, docs, etc.)"
+    },
+    "semanticVersionIncrement": {
+      "type": "string",
+      "enum": [
+        "major",
+        "minor",
+        "patch"
+      ]
+    }
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:07.609751Z",
+    "updated": "2025-07-01T03:54:07.609752Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
+  }
+}

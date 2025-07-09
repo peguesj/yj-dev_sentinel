@@ -9,225 +9,32 @@
     "author": "Force System",
     "created": "2025-07-02T00:00:00Z",
     "updated": "2025-07-02T00:00:00Z",
-    "tags": ["generator", "constraint-creation", "quality", "validation"]
+    "tags": [
+      "generator",
+      "constraint-creation",
+      "quality",
+      "validation"
+    ],
+    "version": "1.0.0"
   },
   "parameters": {
-    "type": "object",
-    "properties": {
-      "constraint_id": {
+    "required": [
+      {
+        "name": "properties",
         "type": "string",
-        "description": "Unique identifier for the constraint",
-        "pattern": "^[a-z0-9_]+$"
-      },
-      "constraint_name": {
-        "type": "string",
-        "description": "Human-readable name for the constraint"
-      },
-      "description": {
-        "type": "string",
-        "description": "Detailed description of what the constraint enforces"
-      },
-      "category": {
-        "type": "string",
-        "description": "Category for the constraint",
-        "enum": ["code_quality", "documentation", "security", "performance", "architecture", "testing", "deployment", "governance"]
-      },
-      "severity": {
-        "type": "string",
-        "description": "Severity level of constraint violations",
-        "enum": ["error", "warning", "info"],
-        "default": "warning"
-      },
-      "scope": {
-        "type": "array",
-        "description": "File patterns or scopes where this constraint applies",
-        "items": {"type": "string"},
-        "default": ["**/*"]
-      },
-      "validation_rules": {
-        "type": "array",
-        "description": "List of validation rules to check",
-        "items": {
-          "type": "object",
-          "properties": {
-            "name": {"type": "string"},
-            "description": {"type": "string"},
-            "type": {"type": "string", "enum": ["regex", "file_exists", "line_count", "complexity", "custom"]},
-            "parameters": {"type": "object"}
-          }
-        },
-        "default": []
-      },
-      "auto_fix": {
-        "type": "boolean",
-        "description": "Whether this constraint can automatically fix violations",
-        "default": false
-      },
-      "fix_implementation": {
-        "type": "array",
-        "description": "Implementation code for auto-fix functionality",
-        "items": {"type": "string"},
-        "default": []
-      },
-      "exemptions": {
-        "type": "array",
-        "description": "File patterns that are exempt from this constraint",
-        "items": {"type": "string"},
-        "default": []
-      },
-      "output_directory": {
-        "type": "string",
-        "description": "Directory to save the generated constraint",
-        "default": "constraints"
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the constraint enforces"
+        }
       }
-    },
-    "required": ["constraint_id", "constraint_name", "description", "category"]
-  },
-  "implementation": {
-    "type": "python",
-    "executor": "force.tool_executor.execute_python_tool",
-    "code": [
-      "import os",
-      "import json",
-      "import re",
-      "from pathlib import Path",
-      "from datetime import datetime, timezone",
-      "",
-      "def execute(parameters, context):",
-      "    \"\"\"Generate a new Force constraint definition.\"\"\"",
-      "    constraint_id = parameters['constraint_id']",
-      "    constraint_name = parameters['constraint_name']",
-      "    description = parameters['description']",
-      "    category = parameters['category']",
-      "    severity = parameters.get('severity', 'warning')",
-      "    scope = parameters.get('scope', ['**/*'])",
-      "    validation_rules = parameters.get('validation_rules', [])",
-      "    auto_fix = parameters.get('auto_fix', False)",
-      "    fix_implementation = parameters.get('fix_implementation', [])",
-      "    exemptions = parameters.get('exemptions', [])",
-      "    output_dir = parameters.get('output_directory', 'constraints')",
-      "    ",
-      "    # Validate constraint_id format",
-      "    if not re.match(r'^[a-z0-9_]+$', constraint_id):",
-      "        return {'success': False, 'error': 'constraint_id must contain only lowercase letters, numbers, and underscores'}",
-      "    ",
-      "    # Set default validation rules if not provided",
-      "    if not validation_rules:",
-      "        if category == 'code_quality':",
-      "            validation_rules = [",
-      "                {",
-      "                    'name': 'basic_syntax_check',",
-      "                    'description': 'Check for basic syntax compliance',",
-      "                    'type': 'custom',",
-      "                    'parameters': {'check_type': 'syntax'}",
-      "                }",
-      "            ]",
-      "        elif category == 'documentation':",
-      "            validation_rules = [",
-      "                {",
-      "                    'name': 'readme_exists',",
-      "                    'description': 'Check if README file exists',",
-      "                    'type': 'file_exists',",
-      "                    'parameters': {'file_pattern': 'README.md'}",
-      "                }",
-      "            ]",
-      "        elif category == 'security':",
-      "            validation_rules = [",
-      "                {",
-      "                    'name': 'no_hardcoded_secrets',",
-      "                    'description': 'Check for hardcoded secrets or credentials',",
-      "                    'type': 'regex',",
-      "                    'parameters': {",
-      "                        'pattern': '(password|secret|key)\\\\s*=\\\\s*[\"\\']\\\\w+[\"\\']',",
-      "                        'flags': 'i'",
-      "                    }",
-      "                }",
-      "            ]",
-      "        else:",
-      "            validation_rules = [",
-      "                {",
-      "                    'name': 'basic_check',",
-      "                    'description': f'Basic {category} validation',",
-      "                    'type': 'custom',",
-      "                    'parameters': {'category': category}",
-      "                }",
-      "            ]",
-      "    ",
-      "    # Create validation section",
-      "    validation = {",
-      "        'rules': validation_rules,",
-      "        'severity': severity,",
-      "        'scope': scope",
-      "    }",
-      "    ",
-      "    if exemptions:",
-      "        validation['exemptions'] = exemptions",
-      "    ",
-      "    # Create enforcement section",
-      "    enforcement = {",
-      "        'auto_fix': auto_fix,",
-      "        'require_approval': not auto_fix,",
-      "        'blocking': severity == 'error'",
-      "    }",
-      "    ",
-      "    if auto_fix and fix_implementation:",
-      "        enforcement['fix_implementation'] = {",
-      "            'type': 'python',",
-      "            'code': fix_implementation",
-      "        }",
-      "    ",
-      "    # Create the constraint definition",
-      "    constraint_definition = {",
-      "        '$schema': '../schemas/force-schema.json',",
-      "        'id': constraint_id,",
-      "        'name': constraint_name,",
-      "        'description': description,",
-      "        'category': category,",
-      "        'version': '1.0.0',",
-      "        'metadata': {",
-      "            'author': 'Force Constraint Generator',",
-      "            'created': datetime.now(timezone.utc).isoformat(),",
-      "            'updated': datetime.now(timezone.utc).isoformat(),",
-      "            'tags': [category, 'generated']",
-      "        },",
-      "        'validation': validation,",
-      "        'enforcement': enforcement",
-      "    }",
-      "    ",
-      "    # Determine output file path",
-      "    current_dir = Path.cwd()",
-      "    force_dir = current_dir / '.force' if (current_dir / '.force').exists() else current_dir",
-      "    output_path = force_dir / output_dir",
-      "    output_path.mkdir(parents=True, exist_ok=True)",
-      "    ",
-      "    constraint_file = output_path / f'{constraint_id}.json'",
-      "    ",
-      "    # Check if file already exists",
-      "    if constraint_file.exists():",
-      "        return {",
-      "            'success': False,",
-      "            'error': f'Constraint file already exists: {constraint_file}',",
-      "            'existing_file': str(constraint_file)",
-      "        }",
-      "    ",
-      "    # Write the constraint definition",
-      "    with open(constraint_file, 'w') as f:",
-      "        json.dump(constraint_definition, f, indent=2)",
-      "    ",
-      "    return {",
-      "        'success': True,",
-      "        'message': f'Generated Force constraint: {constraint_name}',",
-      "        'constraint_id': constraint_id,",
-      "        'constraint_file': str(constraint_file),",
-      "        'category': category,",
-      "        'severity': severity,",
-      "        'auto_fix_enabled': auto_fix,",
-      "        'constraint_definition': constraint_definition",
-      "    }"
-    ]
+    ],
+    "optional": []
   },
   "requirements": {
-    "permissions": ["filesystem_write", "filesystem_read"],
+    "permissions": [
+      "filesystem_write",
+      "filesystem_read"
+    ],
     "dependencies": [],
     "runtime": "python3"
   },
@@ -248,5 +55,19 @@
         }
       }
     ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
   }
 }

@@ -5,18 +5,24 @@
   "category": "git",
   "version": "1.0.0",
   "parameters": {
-    "scope": {
-      "type": "string",
-      "description": "Scope of the commit (feature, docs, etc.)"
-    },
-    "semanticVersionIncrement": {
-      "type": "string",
-      "enum": [
-        "major",
-        "minor",
-        "patch"
-      ]
-    }
+    "required": [
+      {
+        "name": "scope",
+        "type": "string",
+        "description": "Scope of the commit (feature, docs, etc.)"
+      },
+      {
+        "name": "semantic_version_increment",
+        "type": "string",
+        "description": "Parameter semanticVersionIncrement",
+        "enum": [
+          "major",
+          "minor",
+          "patch"
+        ]
+      }
+    ],
+    "optional": []
   },
   "execution": {
     "strategy": "sequential",

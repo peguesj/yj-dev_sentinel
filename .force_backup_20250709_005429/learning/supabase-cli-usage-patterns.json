@@ -1,0 +1,73 @@
+{
+  "id": "supabase-cli-usage-patterns",
+  "event_type": "technical-learning",
+  "context": {
+    "project_phase": "development",
+    "tools_used": ["supabase-cli"],
+    "complexity_level": "medium",
+    "team_size": 1,
+    "discovery_context": "Phase 2 core features implementation - setting up proper Supabase CLI workflow",
+    "session_id": "phase-2-core-features-implementation"
+  },
+  "outcome": {
+    "success": true,
+    "metrics": {
+      "patterns_identified": 4,
+      "anti_patterns_found": 4,
+      "implementation_improvements": 5
+    },
+    "key_learnings": [
+      {
+        "pattern": "Database Operations with --linked",
+        "correct_format": "supabase db <subcommand> --linked",
+        "examples": [
+          "supabase db push --linked",
+          "supabase db pull --linked",
+          "supabase db diff --linked",
+          "supabase db reset --linked"
+        ],
+        "constraint": "Only db subcommands support the --linked flag"
+      },
+      {
+        "pattern": "Non-Database Operations",
+        "correct_format": "supabase <command> (no --linked flag)",
+        "examples": [
+          "supabase functions deploy <function-name>",
+          "supabase projects list",
+          "supabase link --project-ref <ref>",
+          "supabase login"
+        ],
+        "constraint": "These commands use the linked project context automatically"
+      },
+      {
+        "pattern": "Environment Context",
+        "learning": "Authentication and linking must be done in the correct project environment, not with npx",
+        "correct_approach": "Use direct supabase commands in project directory after proper authentication"
+      },
+      {
+        "pattern": "Project Configuration",
+        "learning": "Project linking replaces the need for config.toml when using web Supabase (not local Docker)",
+        "implementation": "Rely on 'supabase link' for project context rather than config files"
+      }
+    ],
+    "anti_patterns": [
+      "Using --linked with non-db commands",
+      "Using npx for authentication in project context",
+      "Creating config.toml for linked web projects",
+      "Running supabase status when not using local Docker"
+    ]
+  },
+  "timestamp": "2025-06-24T16:50:00Z",
+  "insights": [
+    {
+      "type": "pattern-recognition",
+      "description": "Identified clear distinction between db commands that need --linked and other commands that don't",
+      "confidence": 0.9
+    },
+    {
+      "type": "anti-pattern-identification",
+      "description": "Using --linked with non-database commands causes errors and confusion",
+      "confidence": 0.95
+    }
+  ]
+}

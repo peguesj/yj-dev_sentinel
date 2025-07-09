@@ -5,23 +5,30 @@
   "category": "security",
   "version": "1.0.0",
   "parameters": {
-    "configFiles": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    "required": [
+      {
+        "name": "config_files",
+        "type": "array",
+        "description": "List of configuration files to check",
+        "items": {
+          "type": "string"
+        }
+      }
+    ],
+    "optional": [
+      {
+        "name": "check_secrets",
+        "type": "boolean",
+        "description": "Whether to check for secrets in config",
+        "default": true
       },
-      "description": "List of configuration files to check"
-    },
-    "checkSecrets": {
-      "type": "boolean",
-      "default": true,
-      "description": "Whether to check for secrets in config"
-    },
-    "checkPermissions": {
-      "type": "boolean",
-      "default": true,
-      "description": "Whether to check for insecure permissions"
-    }
+      {
+        "name": "check_permissions",
+        "type": "boolean",
+        "description": "Whether to check for insecure permissions",
+        "default": true
+      }
+    ]
   },
   "execution": {
     "strategy": "sequential",

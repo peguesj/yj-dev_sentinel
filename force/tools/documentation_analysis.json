@@ -5,24 +5,36 @@
   "category": "documentation",
   "version": "1.0.0",
   "parameters": {
-    "checkLinks": {
-      "type": "boolean",
-      "default": true
-    },
-    "checkCodeExamples": {
-      "type": "boolean",
-      "default": true
-    },
-    "generateReport": {
-      "type": "boolean",
-      "default": true
-    },
-    "targetFiles": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    "required": [
+      {
+        "name": "target_files",
+        "type": "array",
+        "description": "Parameter targetFiles",
+        "items": {
+          "type": "string"
+        }
       }
-    }
+    ],
+    "optional": [
+      {
+        "name": "check_links",
+        "type": "boolean",
+        "description": "Parameter checkLinks",
+        "default": true
+      },
+      {
+        "name": "check_code_examples",
+        "type": "boolean",
+        "description": "Parameter checkCodeExamples",
+        "default": true
+      },
+      {
+        "name": "generate_report",
+        "type": "boolean",
+        "description": "Parameter generateReport",
+        "default": true
+      }
+    ]
   },
   "execution": {
     "strategy": "sequential",

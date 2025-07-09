@@ -5,28 +5,14 @@
   "category": "analysis",
   "version": "1.1.0",
   "parameters": {
-    "type": "object",
-    "properties": {
-      "sync_mode": {
+    "required": [
+      {
+        "name": "properties",
         "type": "string",
-        "enum": [
-          "scan",
-          "update",
-          "full"
-        ],
-        "description": "Sync mode: scan (report only), update (create/update missing/incomplete), full (scan and update)",
-        "default": "full"
-      },
-      "directory_strategy": {
-        "type": "string",
-        "enum": [
-          "flat",
-          "nested"
-        ],
-        "description": "Directory structure for tool JSONs: flat (default) or nested by scope",
-        "default": "flat"
+        "description": "Parameter properties"
       }
-    }
+    ],
+    "optional": []
   },
   "steps": [
     {

@@ -1,5 +1,4 @@
 {
-  "$schema": "../schemas/force-schema.json",
   "id": "branch_task_end_tasks",
   "name": "Branch Task End Tasks",
   "description": "Comprehensive pattern for handling end-of-branch tasks including quality checks, documentation updates, and release preparation.",
@@ -42,13 +41,13 @@
       {
         "name": "Branch End Task Checklist",
         "checklist": [
-          "\u2705 Code quality score > 80%",
-          "\u2705 Security scan passed",
-          "\u2705 Documentation updated",
-          "\u2705 Tests passing",
-          "\u2705 Changelog updated",
-          "\u2705 Version tagged",
-          "\u2705 Ready for merge"
+          "✅ Code quality score > 80%",
+          "✅ Security scan passed",
+          "✅ Documentation updated",
+          "✅ Tests passing",
+          "✅ Changelog updated",
+          "✅ Version tagged",
+          "✅ Ready for merge"
         ]
       },
       {
@@ -68,5 +67,10 @@
         "template": "#!/bin/bash\\n# Branch End Tasks for {branch_name}\\n\\n# Quality Checks\\nforce-execute code-quality-check\\nforce-execute security-analysis\\n\\n# Documentation\\nforce-execute docs-analysis\\nforce-execute generate-docs-update-summary\\n\\n# Release Preparation\\nforce-execute check-release-readiness\\nforce-execute generate-changelog\\n\\n# Version Management\\nforce-execute validate-version\\ngit tag -a v{version} -m \"Release {version}\""
       }
     ]
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.450903Z",
+    "updated": "2025-07-09T00:54:29.450906Z",
+    "version": "1.0.0"
   }
 }

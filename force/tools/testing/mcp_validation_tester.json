@@ -5,52 +5,34 @@
   "description": "Tool to test MCP server validation improvements and measure success rates after fixes",
   "category": "testing",
   "complexity": "medium",
-  "inputSchema": {
-    "type": "object",
-    "properties": {
-      "test_type": {
-        "type": "string",
-        "enum": ["validation_success_rate", "module_initialization", "schema_preference", "all"],
-        "description": "Type of test to run"
-      },
-      "generate_report": {
-        "type": "boolean",
-        "default": true,
-        "description": "Generate detailed test report"
-      }
-    },
-    "required": ["test_type"]
-  },
-  "outputSchema": {
-    "type": "object",
-    "properties": {
-      "test_results": {
-        "type": "object",
-        "properties": {
-          "validation_success_rate": {"type": "number"},
-          "modules_initialized": {"type": "boolean"},
-          "schema_used": {"type": "string"},
-          "components_loaded": {"type": "number"}
-        }
-      },
-      "comparison": {
-        "type": "object",
-        "properties": {
-          "before_fixes": {"type": "object"},
-          "after_fixes": {"type": "object"},
-          "improvement": {"type": "object"}
-        }
-      }
-    }
-  },
-  "implementation": {
-    "executor": "python",
-    "entryPoint": "force.tools.testing.mcp_validation_tester",
-    "timeout": 30
-  },
   "metadata": {
     "created": "2025-07-02T20:15:00.000Z",
     "author": "Force Development Team",
-    "tags": ["testing", "mcp", "validation", "measurement"]
+    "tags": [
+      "testing",
+      "mcp",
+      "validation",
+      "measurement"
+    ],
+    "updated": "2025-07-09T00:54:29.446666Z",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
   }
 }

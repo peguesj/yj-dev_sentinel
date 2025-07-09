@@ -1,0 +1,63 @@
+{
+  "id": "project_structure_analysis",
+  "name": "Project Structure Analysis",
+  "description": "Analyzes current project structure and identifies areas for improvement.",
+  "category": "analysis",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "projectType",
+        "type": "string",
+        "description": "Type of project to analyze"
+      }
+    ],
+    "optional": [
+      {
+        "name": "checkNaming",
+        "type": "boolean",
+        "description": "Parameter checkNaming",
+        "default": true
+      },
+      {
+        "name": "checkStructure",
+        "type": "boolean",
+        "description": "Parameter checkStructure",
+        "default": true
+      },
+      {
+        "name": "suggestImprovements",
+        "type": "boolean",
+        "description": "Parameter suggestImprovements",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:07.609347Z",
+    "updated": "2025-07-01T03:54:07.609348Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
+  }
+}

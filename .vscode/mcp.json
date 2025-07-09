@@ -1,7 +1,7 @@
 {
-  "$schema": "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/workbench/contrib/debug/common/debugger.contribution.json",
-  "servers": {
-    "force_mcp_stdio": {
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/refs/heads/main/schema/2025-06-18/schema.json",
+      "servers": {
+        "force_mcp_stdio": {
       "command": "force-mcp-stdio",
       "args": [],
       "cwd": "${workspaceFolder}",

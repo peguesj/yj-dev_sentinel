@@ -27,5 +27,17 @@
     "validation_rules": [
       "Validation rule description"
     ]
+  },
+  "name": "Generated name",
+  "scope": {
+    "applies_to": [
+      "**/*"
+    ],
+    "excludes": []
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.456228Z",
+    "updated": "2025-07-09T00:54:29.456230Z",
+    "version": "1.0.0"
   }
 }

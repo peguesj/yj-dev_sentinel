@@ -1,5 +1,4 @@
 {
-  "$schema": "../schemas/force-schema.json",
   "id": "handoff_documentation_pattern",
   "name": "Handoff Documentation Pattern",
   "description": "Creates comprehensive knowledge transfer documentation that preserves technical and business context for seamless team transitions and stakeholder communication.",
@@ -65,5 +64,10 @@
         "template": "# Project Handoff: {project_name}\\n\\n## Executive Summary\\n{executive_summary}\\n\\n## Technical Context\\n{technical_context}\\n\\n## Current Status\\n{current_status}\\n\\n## Critical Dependencies\\n{dependencies}\\n\\n## Next Steps\\n{next_steps}\\n\\n## Knowledge Transfer\\n{knowledge_transfer}\\n\\n## Handoff Checklist\\n{checklist}"
       }
     ]
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.453485Z",
+    "updated": "2025-07-09T00:54:29.453487Z",
+    "version": "1.0.0"
   }
 }

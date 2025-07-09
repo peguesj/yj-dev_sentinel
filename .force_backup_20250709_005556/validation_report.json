@@ -1,0 +1,680 @@
+{
+  "success": true,
+  "validation_timestamp": "2025-07-09T00:54:48.479108",
+  "schema_path": "schemas/force-extended-schema.json",
+  "summary": {
+    "total_components": 66,
+    "valid_components": 45,
+    "invalid_components": 21,
+    "ready_for_loading": false
+  },
+  "tools": {
+    "type": "tools",
+    "total": 51,
+    "valid": [
+      {
+        "file": "code-quality-check.json",
+        "path": "tools/code-quality-check.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "code_quality_check",
+        "tool_name": "Code Quality Check"
+      },
+      {
+        "file": "force_init_system.json",
+        "path": "tools/force_init_system.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_init_system",
+        "tool_name": "Force System Initializer"
+      },
+      {
+        "file": "test-execution.json",
+        "path": "tools/test-execution.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "test_execution",
+        "tool_name": "Test Execution"
+      },
+      {
+        "file": "generate-docs-update-summary.json",
+        "path": "tools/generate-docs-update-summary.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "generate_docs_update_summary",
+        "tool_name": "Generate Docs Update Summary"
+      },
+      {
+        "file": "compliance-check.json",
+        "path": "tools/compliance-check.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "compliance_check",
+        "tool_name": "Compliance Check"
+      },
+      {
+        "file": "versioned_project_management.json",
+        "path": "tools/versioned_project_management.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "versioned_project_management",
+        "tool_name": "Versioned Project Management Pattern"
+      },
+      {
+        "file": "project-structure-analysis.json",
+        "path": "tools/project-structure-analysis.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "project_structure_analysis",
+        "tool_name": "Project Structure Analysis"
+      },
+      {
+        "file": "generate-changelog.json",
+        "path": "tools/generate-changelog.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "generate_changelog",
+        "tool_name": "Generate Changelog"
+      },
+      {
+        "file": "docs-analysis.json",
+        "path": "tools/docs-analysis.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "docs_analysis",
+        "tool_name": "Documentation Analysis"
+      },
+      {
+        "file": "git-diff.json",
+        "path": "tools/git-diff.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "git_diff",
+        "tool_name": "Git Diff"
+      },
+      {
+        "file": "infrastructure-security-check.json",
+        "path": "tools/infrastructure-security-check.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "infrastructure_security_check",
+        "tool_name": "Infrastructure Security Check"
+      },
+      {
+        "file": "readme-analysis.json",
+        "path": "tools/readme-analysis.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "readme_analysis",
+        "tool_name": "README Analysis"
+      },
+      {
+        "file": "force-report-generator.json",
+        "path": "tools/force-report-generator.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_report_generator",
+        "tool_name": "Force Report Generator"
+      },
+      {
+        "file": "force_sync.json",
+        "path": "tools/force_sync.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_sync",
+        "tool_name": "Force Directory Synchronizer"
+      },
+      {
+        "file": "docs-extraction.json",
+        "path": "tools/docs-extraction.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "docs_extraction",
+        "tool_name": "Docs Extraction"
+      },
+      {
+        "file": "static-analysis.json",
+        "path": "tools/static-analysis.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "static_analysis",
+        "tool_name": "Static Analysis"
+      },
+      {
+        "file": "dependency-analysis.json",
+        "path": "tools/dependency-analysis.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "dependency_analysis",
+        "tool_name": "Dependency Analysis"
+      },
+      {
+        "file": "anchor_based_cross_referencing.json",
+        "path": "tools/anchor_based_cross_referencing.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "anchor_based_cross_referencing",
+        "tool_name": "Anchor Based Cross Referencing"
+      },
+      {
+        "file": "security-analysis.json",
+        "path": "tools/security-analysis.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "security_analysis",
+        "tool_name": "Security Analysis"
+      },
+      {
+        "file": "git-commit.json",
+        "path": "tools/git-commit.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "git_commit",
+        "tool_name": "Git Commit"
+      },
+      {
+        "file": "force_component_fix_system.json",
+        "path": "tools/force_component_fix_system.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_component_fix_system",
+        "tool_name": "Force Component Fix System"
+      },
+      {
+        "file": "validate-version.json",
+        "path": "tools/validate-version.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "validate_version",
+        "tool_name": "Validate Version"
+      },
+      {
+        "file": "git-status.json",
+        "path": "tools/git-status.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "git_status",
+        "tool_name": "Git Status"
+      },
+      {
+        "file": "performance-analysis.json",
+        "path": "tools/performance-analysis.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "performance_analysis",
+        "tool_name": "Performance Analysis"
+      },
+      {
+        "file": "check-release-readiness.json",
+        "path": "tools/check-release-readiness.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "check_release_readiness",
+        "tool_name": "Check Release Readiness"
+      },
+      {
+        "file": "generate-review-feedback.json",
+        "path": "tools/generate-review-feedback.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "generate_review_feedback",
+        "tool_name": "Generate Review Feedback"
+      },
+      {
+        "file": "force_component_validator.json",
+        "path": "tools/force_component_validator.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_component_validator",
+        "tool_name": "Force Component Validator"
+      },
+      {
+        "file": "update-release-documentation.json",
+        "path": "tools/update-release-documentation.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "update_release_documentation",
+        "tool_name": "Update Release Documentation"
+      },
+      {
+        "file": "modular_documentation_structure.json",
+        "path": "tools/modular_documentation_structure.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "modular_documentation_structure",
+        "tool_name": "Modular Documentation Structure"
+      },
+      {
+        "file": "handoff_documentation_pattern.json",
+        "path": "tools/handoff_documentation_pattern.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "handoff_documentation_pattern",
+        "tool_name": "Handoff Documentation Pattern"
+      },
+      {
+        "file": "docs-validation.json",
+        "path": "tools/docs-validation.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "docs_validation",
+        "tool_name": "Docs Validation"
+      },
+      {
+        "file": "force_schema_manager.json",
+        "path": "tools/force_schema_manager.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_schema_manager",
+        "tool_name": "Force Schema Manager"
+      },
+      {
+        "file": "force_mcp_integration.json",
+        "path": "tools/force_mcp_integration.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_mcp_integration",
+        "tool_name": "Force MCP Integration"
+      },
+      {
+        "file": "update-api-docs.json",
+        "path": "tools/update-api-docs.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "update_api_docs",
+        "tool_name": "Update API Docs"
+      },
+      {
+        "file": "secrets-scan.json",
+        "path": "tools/secrets-scan.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "secrets_scan",
+        "tool_name": "Secrets Scan"
+      },
+      {
+        "file": "mcp_debug_troubleshooter.json",
+        "path": "tools/debugging/mcp_debug_troubleshooter.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "mcp_debug_troubleshooter",
+        "tool_name": "MCP Debug Troubleshooter"
+      },
+      {
+        "file": "mcp_validation_tester.json",
+        "path": "tools/testing/mcp_validation_tester.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "mcp_validation_tester",
+        "tool_name": "MCP Validation Tester"
+      },
+      {
+        "file": "force_mcp_component_generator.json",
+        "path": "tools/system/force_mcp_component_generator.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "force_mcp_component_generator",
+        "tool_name": "Force MCP Component Generator"
+      },
+      {
+        "file": "branch_completion_summary.json",
+        "path": "tools/git_workflow/branch_completion_summary.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "branch_completion_summary",
+        "tool_name": "Branch Completion Summary Generator"
+      },
+      {
+        "file": "system_health_checker.json",
+        "path": "tools/system_monitoring/system_health_checker.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "system_health_checker",
+        "tool_name": "Force System Health Checker"
+      }
+    ],
+    "invalid": [
+      {
+        "file": "documentation_analysis.json",
+        "path": "tools/documentation_analysis.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 0 -> name': 'targetFiles' does not match '^[a-z][a-z0-9_]*$'"
+        ],
+        "tool_id": "documentation_analysis",
+        "tool_name": "Documentation Analysis"
+      },
+      {
+        "file": "code_quality_check.json",
+        "path": "tools/code_quality_check.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 1 -> name': 'targetFiles' does not match '^[a-z][a-z0-9_]*$'"
+        ],
+        "tool_id": "code_quality_check",
+        "tool_name": "Code Quality Check"
+      },
+      {
+        "file": "project_structure_analysis.json",
+        "path": "tools/project_structure_analysis.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 0 -> name': 'projectType' does not match '^[a-z][a-z0-9_]*$'"
+        ],
+        "tool_id": "project_structure_analysis",
+        "tool_name": "Project Structure Analysis"
+      },
+      {
+        "file": "git_branch_create.json",
+        "path": "tools/git_branch_create.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 1 -> name': 'baseBranch' does not match '^[a-z][a-z0-9_]*$'"
+        ],
+        "tool_id": "git_branch_create",
+        "tool_name": "Git Branch Create"
+      },
+      {
+        "file": "git_workflow_commit.json",
+        "path": "tools/git_workflow_commit.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 1 -> name': 'semanticVersionIncrement' does not match '^[a-z][a-z0-9_]*$'"
+        ],
+        "tool_id": "git_workflow_commit",
+        "tool_name": "Git Workflow Commit"
+      },
+      {
+        "file": "security-configuration-check.json",
+        "path": "tools/security-configuration-check.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 0 -> name': 'configFiles' does not match '^[a-z][a-z0-9_]*$'"
+        ],
+        "tool_id": "security_configuration_check",
+        "tool_name": "Security Configuration Check"
+      },
+      {
+        "file": "analyze-code-changes.json",
+        "path": "tools/analyze-code-changes.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 1 -> name': 'focusAreas' does not match '^[a-z][a-z0-9_]*$'"
+        ],
+        "tool_id": "analyze_code_changes",
+        "tool_name": "Analyze Code Changes"
+      },
+      {
+        "file": "force_init_system.json",
+        "path": "tools/system/force_init_system.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'execution -> validation -> error_handling -> 0': 'error_type' is a required property"
+        ],
+        "tool_id": "force_init_system",
+        "tool_name": "Force System Initializer"
+      },
+      {
+        "file": "force_pattern_generator.json",
+        "path": "tools/system/force_pattern_generator.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 0 -> description': {'type': 'string', 'description': 'Detailed description of what the pattern accomplishes'} is not of type 'string'"
+        ],
+        "tool_id": "force_pattern_generator",
+        "tool_name": "Force Pattern Generator"
+      },
+      {
+        "file": "force_tool_generator.json",
+        "path": "tools/system/force_tool_generator.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 0 -> description': {'type': 'string', 'description': 'Detailed description of what the tool does'} is not of type 'string'"
+        ],
+        "tool_id": "force_tool_generator",
+        "tool_name": "Force Tool Generator"
+      },
+      {
+        "file": "force_constraint_generator.json",
+        "path": "tools/system/force_constraint_generator.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'parameters -> required -> 0 -> description': {'type': 'string', 'description': 'Detailed description of what the constraint enforces'} is not of type 'string'"
+        ],
+        "tool_id": "force_constraint_generator",
+        "tool_name": "Force Constraint Generator"
+      }
+    ],
+    "enabled": true
+  },
+  "patterns": {
+    "type": "patterns",
+    "total": 8,
+    "valid": [
+      {
+        "file": "continuous_changelog_pattern.json",
+        "path": "patterns/continuous_changelog_pattern.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "continuous_changelog_pattern",
+        "tool_name": "Continuous Changelog Pattern"
+      },
+      {
+        "file": "branch_task_end_tasks.json",
+        "path": "patterns/branch_task_end_tasks.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "branch_task_end_tasks",
+        "tool_name": "Branch Task End Tasks"
+      },
+      {
+        "file": "atomic_commit_grouping.json",
+        "path": "patterns/atomic_commit_grouping.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "atomic_commit_grouping",
+        "tool_name": "Atomic Commit Grouping"
+      },
+      {
+        "file": "grouped_commit_workflow.json",
+        "path": "patterns/grouped_commit_workflow.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "grouped_commit_workflow",
+        "tool_name": "Grouped Commit Workflow"
+      },
+      {
+        "file": "handoff_documentation_pattern.json",
+        "path": "patterns/handoff_documentation_pattern.json",
+        "valid": true,
+        "error": null,
+        "detailed_errors": [],
+        "tool_id": "handoff_documentation_pattern",
+        "tool_name": "Handoff Documentation Pattern"
+      }
+    ],
+    "invalid": [
+      {
+        "file": "documentation-patterns.json",
+        "path": "patterns/documentation-patterns.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'id': 'Generated id' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'"
+        ],
+        "tool_id": "Generated id",
+        "tool_name": "Generated name"
+      },
+      {
+        "file": "supabase-web-deployment.json",
+        "path": "patterns/supabase-web-deployment.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'id': 'supabase-web-deployment-pattern' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'"
+        ],
+        "tool_id": "supabase-web-deployment-pattern",
+        "tool_name": "Supabase Web Instance Deployment Pattern"
+      },
+      {
+        "file": "atomic_commit_workflow.json",
+        "path": "patterns/atomic_commit_workflow.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Pattern implementation should include examples"
+        ],
+        "tool_id": "atomic_commit_workflow",
+        "tool_name": "Atomic Commit Workflow Pattern"
+      }
+    ],
+    "enabled": true
+  },
+  "constraints": {
+    "type": "constraints",
+    "total": 6,
+    "valid": [],
+    "invalid": [
+      {
+        "file": "atomic_commit_constraint.json",
+        "path": "constraints/atomic_commit_constraint.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Invalid enforcement level: None"
+        ],
+        "tool_id": "atomic_commit_constraint",
+        "tool_name": "Atomic Commit Quality Constraint"
+      },
+      {
+        "file": "development-constraints.json",
+        "path": "constraints/development-constraints.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': 'category' is a required property"
+        ],
+        "tool_id": "Generated id",
+        "tool_name": "Generated name"
+      },
+      {
+        "file": "docker-requirement-for-functions.json",
+        "path": "constraints/docker-requirement-for-functions.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': 'category' is a required property"
+        ],
+        "tool_id": "docker-requirement-for-functions",
+        "tool_name": "Generated name"
+      },
+      {
+        "file": "supabase-project-access-constraint.json",
+        "path": "constraints/supabase-project-access-constraint.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': 'category' is a required property"
+        ],
+        "tool_id": "supabase-project-access-constraint",
+        "tool_name": "Generated name"
+      },
+      {
+        "file": "supabase-deployment.json",
+        "path": "constraints/supabase-deployment.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'id': 'supabase-deployment-constraint' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'"
+        ],
+        "tool_id": "supabase-deployment-constraint",
+        "tool_name": "Supabase Web Instance Deployment Constraint"
+      },
+      {
+        "file": "supabase-cli-linked-constraint.json",
+        "path": "constraints/supabase-cli-linked-constraint.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': 'category' is a required property"
+        ],
+        "tool_id": "supabase-cli-linked-constraint",
+        "tool_name": "Generated name"
+      }
+    ],
+    "enabled": true
+  },
+  "governance": {
+    "type": "governance",
+    "total": 1,
+    "valid": [],
+    "invalid": [
+      {
+        "file": "system-governance.json",
+        "path": "governance/system-governance.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'id': 'Generated id' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'"
+        ],
+        "tool_id": "Generated id"
+      }
+    ],
+    "enabled": true
+  }
+}

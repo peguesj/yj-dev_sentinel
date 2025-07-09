@@ -1,5 +1,4 @@
 {
-  "$schema": "../schemas/force-schema.json",
   "title": "Development Patterns for Agentic Workflows",
   "description": "Proven patterns for efficient agentic development workflows, documentation management, and project structure organization",
   "version": "1.0.0",
@@ -327,5 +326,11 @@
     "examples": [
       {}
     ]
+  },
+  "category": "Generated category",
+  "metadata": {
+    "created": "2025-07-09T00:54:29.450078Z",
+    "updated": "2025-07-09T00:54:29.450082Z",
+    "version": "1.0.0"
   }
 }

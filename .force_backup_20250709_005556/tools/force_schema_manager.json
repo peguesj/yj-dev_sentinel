@@ -1,0 +1,76 @@
+{
+  "id": "force_schema_manager",
+  "name": "Force Schema Manager",
+  "description": "Manages Force schema validation modes, switches between standard and extended schemas, and provides schema validation reports.",
+  "category": "system",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "action",
+        "type": "string",
+        "description": "Action to perform: info, validate, switch, report",
+        "default": "info"
+      },
+      {
+        "name": "schema_type",
+        "type": "string", 
+        "description": "Schema type to use: standard, extended, auto",
+        "default": "auto"
+      },
+      {
+        "name": "component_path",
+        "type": "string",
+        "description": "Path to component file to validate"
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "check_schema_status",
+        "description": "Check current schema configuration and available schemas"
+      },
+      {
+        "action": "perform_requested_action",
+        "description": "Execute the requested schema management action"
+      },
+      {
+        "action": "generate_report",
+        "description": "Generate schema validation report"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Force directory exists",
+        "Schemas directory is accessible"
+      ],
+      "post_conditions": [
+        "Schema operation completed successfully",
+        "Report generated if requested"
+      ],
+      "error_handling": [
+        {
+          "error_type": "schema_not_found",
+          "strategy": "abort",
+          "action": "Stop if required schema file is missing"
+        },
+        {
+          "error_type": "validation_failed",
+          "strategy": "continue",
+          "action": "Continue processing and report validation errors"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-02T00:00:00Z",
+    "updated": "2025-07-02T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": ["schema", "validation", "management", "system"],
+    "author": "Force System"
+  }
+}

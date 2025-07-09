@@ -5,18 +5,26 @@
   "category": "git",
   "version": "1.0.0",
   "parameters": {
-    "branchType": {
-      "type": "string",
-      "description": "Type of branch (feature, bugfix, etc.)"
-    },
-    "baseBranch": {
-      "type": "string",
-      "description": "Base branch to create from"
-    },
-    "switchToBranch": {
-      "type": "boolean",
-      "default": true
-    }
+    "required": [
+      {
+        "name": "branch_type",
+        "type": "string",
+        "description": "Type of branch (feature, bugfix, etc.)"
+      },
+      {
+        "name": "base_branch",
+        "type": "string",
+        "description": "Base branch to create from"
+      }
+    ],
+    "optional": [
+      {
+        "name": "switch_to_branch",
+        "type": "boolean",
+        "description": "Parameter switchToBranch",
+        "default": true
+      }
+    ]
   },
   "execution": {
     "strategy": "sequential",
