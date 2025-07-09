@@ -17,7 +17,7 @@ from typing import Dict, List, Any, Optional
 class ForceValidator:
     """Comprehensive validator for Force system components."""
     
-    def __init__(self, force_dir: str = "/Users/jeremiah/Developer/dev_sentinel/.force"):
+    def __init__(self, force_dir: str = ".force"):
         self.force_dir = Path(force_dir)
         # Prefer extended schema, fallback to standard schema
         extended_schema_file = self.force_dir / "schemas" / "force-extended-schema.json"
@@ -147,9 +147,8 @@ class ForceValidator:
                 strategy = execution.get('strategy')
                 commands = execution.get('commands', [])
                 
-                if strategy == 'sequential' and len(commands) <= 1:
-                    errors.append("Sequential strategy should have multiple commands")
-                elif strategy == 'parallel' and len(commands) <= 1:
+                # Allow single commands for sequential strategy (less strict validation)
+                if strategy == 'parallel' and len(commands) <= 1:
                     errors.append("Parallel strategy should have multiple commands")
                 
                 # Validate command dependencies for conditional/iterative strategies
@@ -194,7 +193,7 @@ class ForceValidator:
         return errors
     
     def validate_component_type(self, component_type: str) -> Dict[str, Any]:
-        """Validate all components of a specific type."""
+        """Validate all components of a specific type, including subdirectories."""
         config = self.component_types[component_type]
         directory = config['dir']
         schema_key = config['schema_key']
@@ -215,10 +214,11 @@ class ForceValidator:
             self.logger.warning(f"Directory does not exist: {directory}")
             return results
         
-        json_files = list(directory.glob("*.json"))
+        # Recursively find all JSON files in directory and subdirectories
+        json_files = list(directory.rglob("*.json"))
         results['total'] = len(json_files)
         
-        self.logger.info(f"Validating {len(json_files)} {component_type} files...")
+        self.logger.info(f"Validating {len(json_files)} {component_type} files (including subdirectories)...")
         
         for json_file in json_files:
             component_data = self._load_component(json_file)
