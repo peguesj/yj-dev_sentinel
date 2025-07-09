@@ -162,6 +162,7 @@ class ForceMCPServer:
             
             # Initialize validator
             validator = ForceValidator(force_root)
+            logger.info(f"📋 Using schema: {validator.schema_file.name}")
             
             # Run validation
             validation_result = validator.validate_all()
@@ -170,14 +171,34 @@ class ForceMCPServer:
             report = validator.generate_validation_report(validation_result)
             logger.info(f"Validation output:\n{report}")
             
+            # Save detailed validation report
+            report_path = validator.save_validation_report(validation_result)
+            logger.info(f"📄 Detailed validation report saved to: {report_path}")
+            
             # Check for blocking issues
             blocking_issues = validator.check_blocking_issues(validation_result)
             if blocking_issues:
                 logger.error("🚨 BLOCKING ISSUES DETECTED:")
                 for issue in blocking_issues:
                     logger.error(f"  • {issue}")
-                logger.error("❌ Force component validation failed - blocking MCP server startup")
+                logger.error("❌ MCP server startup blocked until issues are resolved")
                 return False
+            
+            # Check validation summary
+            summary = validation_result.get('summary', {})
+            invalid_count = summary.get('invalid_components', 0)
+            total_count = summary.get('total_components', 0)
+            
+            if invalid_count > 0:
+                logger.warning(f"⚠️  {invalid_count}/{total_count} Force components have validation errors")
+                logger.warning("💡 Components with validation errors will be skipped during loading")
+                logger.warning("🔧 Consider updating components to match current schema format")
+                logger.warning(f"📖 Schema reference: {validator.schema_file.relative_to(Path(force_root))}")
+                
+                if self._auto_fix:
+                    logger.info("🔧 Auto-fix is enabled - invalid components could be automatically repaired")
+                else:
+                    logger.info("🔧 Auto-fix is disabled - use --auto-fix to enable automatic component repair")
             
             # No blocking issues found - validation passes even with some invalid components
             logger.info("✅ Force component validation passed - MCP server can proceed")
@@ -219,23 +240,52 @@ class ForceMCPServer:
             if not validation_success and self._auto_fix:
                 logger.info("🔧 Validation failed, attempting automatic fixes...")
                 
-                # For now, we'll use a simple approach since ForceValidator doesn't have auto-fix
-                # In the future, this could be enhanced with actual auto-fix logic
-                logger.info("Auto-fix output:\n🔧 Auto-fix functionality is not yet implemented in ForceValidator")
-                logger.info("Manual intervention may be required for invalid components.")
-                
-                # Re-run validation after attempted fixes
-                validation_result = validator.validate_all()
-                report = validator.generate_validation_report(validation_result)
-                logger.info(f"Re-validation output:\n{report}")
-                
-                # Check for blocking issues again
-                blocking_issues = validator.check_blocking_issues(validation_result)
-                if blocking_issues:
-                    logger.error("❌ Auto-fix failed, manual intervention required")
+                # Import and use the auto-fixer
+                try:
+                    from force.system.force_component_auto_fixer import ForceComponentAutoFixer
+                    
+                    auto_fixer = ForceComponentAutoFixer(force_root)
+                    fix_results = auto_fixer.auto_fix_all_components()
+                    
+                    if fix_results['success']:
+                        logger.info(f"🔧 Auto-fix results: {fix_results['files_fixed']}/{fix_results['total_files_processed']} files fixed")
+                        if fix_results.get('backup_created'):
+                            logger.info(f"📁 Backup created at: {fix_results['backup_location']}")
+                        
+                        # Log specific fixes applied
+                        for fix in fix_results.get('fixes_applied', []):
+                            logger.debug(f"Fixed {fix['file']}: {', '.join(fix['fixes'])}")
+                        
+                        # Re-run validation after auto-fix
+                        validation_result = validator.validate_all()
+                        report = validator.generate_validation_report(validation_result)
+                        logger.info(f"Re-validation output:\n{report}")
+                        
+                        # Check for blocking issues again
+                        blocking_issues = validator.check_blocking_issues(validation_result)
+                        if blocking_issues:
+                            logger.error("❌ Auto-fix failed to resolve blocking issues")
+                            for issue in blocking_issues:
+                                logger.error(f"  • {issue}")
+                            return False
+                        
+                        validation_success = validation_result.get('summary', {}).get('ready_for_loading', True)
+                        if validation_success:
+                            logger.info("✅ Auto-fix successful - validation now passes")
+                        else:
+                            logger.warning("⚠️ Auto-fix partial - some issues remain but not blocking")
+                    else:
+                        logger.error(f"❌ Auto-fix failed: {fix_results.get('error', 'Unknown error')}")
+                        return False
+                        
+                except ImportError as e:
+                    logger.error(f"❌ Auto-fixer not available: {e}")
+                    logger.info("Auto-fix output:\n🔧 Auto-fix functionality requires force_component_auto_fixer module")
+                    logger.info("Manual intervention may be required for invalid components.")
                     return False
-                
-                validation_success = validation_result.get('summary', {}).get('ready_for_loading', True)
+                except Exception as e:
+                    logger.error(f"❌ Auto-fix error: {e}")
+                    return False
             elif not validation_success:
                 logger.error("❌ Validation failed and auto-fix is disabled")
                 return False
