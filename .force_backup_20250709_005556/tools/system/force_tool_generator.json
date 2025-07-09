@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/force-schema.json",
+  "id": "force_tool_generator",
+  "name": "Force Tool Generator",
+  "description": "Generates new Force tools based on specifications and requirements, creating properly structured JSON tool definitions with validation schemas and implementation code.",
+  "category": "implementation",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "Force System",
+    "created": "2025-07-02T00:00:00Z",
+    "updated": "2025-07-02T00:00:00Z",
+    "tags": [
+      "generator",
+      "tool-creation",
+      "development",
+      "automation"
+    ],
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "required": [
+      {
+        "name": "properties",
+        "type": "string",
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the tool does"
+        }
+      }
+    ],
+    "optional": []
+  },
+  "requirements": {
+    "permissions": [
+      "filesystem_write",
+      "filesystem_read"
+    ],
+    "dependencies": [],
+    "runtime": "python3"
+  },
+  "testing": {
+    "test_cases": [
+      {
+        "name": "generate_basic_python_tool",
+        "description": "Generate a basic Python tool",
+        "parameters": {
+          "tool_id": "test_tool",
+          "tool_name": "Test Tool",
+          "description": "A test tool for validation",
+          "category": "system"
+        },
+        "expected_outcome": {
+          "success": true,
+          "tool_created": true
+        }
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  }
+}

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dev-sentinel"
-version = "0.3.0"
+version = "0.4.0"
 description = "AI-powered development sentinel with Force framework and MCP integration"
 readme = "README.md"
 license = {file = "LICENSE-MIT.md"}

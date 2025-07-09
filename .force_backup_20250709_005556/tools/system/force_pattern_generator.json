@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/force-schema.json",
+  "id": "force_pattern_generator",
+  "name": "Force Pattern Generator",
+  "description": "Generates new Force patterns based on workflow specifications, creating reusable development patterns with proper structure and documentation.",
+  "category": "implementation",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "Force System",
+    "created": "2025-07-02T00:00:00Z",
+    "updated": "2025-07-02T00:00:00Z",
+    "tags": [
+      "generator",
+      "pattern-creation",
+      "workflow",
+      "reusability"
+    ],
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "required": [
+      {
+        "name": "properties",
+        "type": "string",
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the pattern accomplishes"
+        }
+      }
+    ],
+    "optional": []
+  },
+  "requirements": {
+    "permissions": [
+      "filesystem_write",
+      "filesystem_read"
+    ],
+    "dependencies": [],
+    "runtime": "python3"
+  },
+  "testing": {
+    "test_cases": [
+      {
+        "name": "generate_basic_workflow_pattern",
+        "description": "Generate a basic workflow pattern",
+        "parameters": {
+          "pattern_id": "test_workflow",
+          "pattern_name": "Test Workflow Pattern",
+          "description": "A test workflow pattern for validation",
+          "category": "workflow"
+        },
+        "expected_outcome": {
+          "success": true,
+          "pattern_created": true
+        }
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  }
+}

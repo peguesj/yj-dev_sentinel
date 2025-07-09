@@ -1,0 +1,553 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "title": "Force System Governance and Management",
+  "description": "Governance policies, quality gates, and management procedures for the Force agentic development assistance system",
+  "version": "1.0.0",
+  "governance_policies": [
+    {
+      "id": "tool_definition_validation_policy",
+      "name": "Tool Definition Validation Policy",
+      "category": "quality",
+      "description": "Governance policy for validating new tool definitions against schema and quality standards",
+      "policy_type": "mandatory",
+      "enforcement": {
+        "level": "blocking",
+        "automated": true,
+        "validation_rules": [
+          "Tool must validate against force-schema.json",
+          "All required properties must be present",
+          "Tool complexity must be justified",
+          "Performance metrics must be initialized",
+          "Error handling must be comprehensive"
+        ],
+        "auto_fix": false
+      },
+      "scope": {
+        "applies_to": [
+          "tools"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "validation",
+          "quality",
+          "tools"
+        ],
+        "priority": "high"
+      }
+    },
+    {
+      "id": "pattern_effectiveness_review_policy",
+      "name": "Pattern Effectiveness Review Policy",
+      "category": "quality",
+      "description": "Governance policy for reviewing pattern effectiveness based on usage data and outcomes",
+      "policy_type": "recommended",
+      "enforcement": {
+        "level": "advisory",
+        "automated": false,
+        "validation_rules": [
+          "Pattern must have documented implementation examples",
+          "Success rate must be >70% for patterns marked as stable",
+          "Pattern must show measurable benefits over alternatives",
+          "Trade-offs must be clearly documented"
+        ],
+        "review_frequency": "monthly",
+        "auto_fix": false
+      },
+      "scope": {
+        "applies_to": [
+          "patterns"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "review",
+          "patterns",
+          "effectiveness"
+        ],
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "constraint_compliance_audit_policy",
+      "name": "Constraint Compliance Audit Policy",
+      "category": "compliance",
+      "description": "Governance policy for auditing system compliance with defined development constraints",
+      "policy_type": "mandatory",
+      "enforcement": {
+        "level": "monitoring",
+        "automated": true,
+        "validation_rules": [
+          "All error-level constraints must have 100% compliance",
+          "Warning-level constraints must have >90% compliance",
+          "Auto-fix mechanisms must be functional",
+          "Constraint violations must be tracked and analyzed"
+        ],
+        "audit_frequency": "weekly",
+        "auto_fix": true
+      },
+      "scope": {
+        "applies_to": [
+          "constraints"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "compliance",
+          "constraints",
+          "audit"
+        ],
+        "priority": "high"
+      }
+    },
+    {
+      "id": "data_collection_policy",
+      "name": "Learning Data Collection Policy",
+      "category": "security",
+      "description": "Governance policy defining what data is collected for machine learning and continuous improvement",
+      "policy_type": "mandatory",
+      "enforcement": {
+        "level": "strict",
+        "automated": true,
+        "validation_rules": [
+          "Only approved data types may be collected",
+          "Retention period must not exceed 2 years",
+          "Anonymization must be enabled",
+          "Sensitive data must be excluded"
+        ],
+        "data_types": [
+          "tool_execution_metrics",
+          "pattern_application_outcomes",
+          "constraint_violation_patterns",
+          "error_resolution_strategies",
+          "performance_optimization_results"
+        ],
+        "auto_fix": false
+      },
+      "scope": {
+        "applies_to": [
+          "learning_records",
+          "tools",
+          "patterns"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "data",
+          "privacy",
+          "learning"
+        ],
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "model_update_policy",
+      "name": "Learning Model Update Policy",
+      "category": "quality",
+      "description": "Governance policy defining how learning models are updated and validated",
+      "policy_type": "mandatory",
+      "enforcement": {
+        "level": "blocking",
+        "automated": false,
+        "validation_rules": [
+          "A/B testing with control group required",
+          "Performance regression testing must pass",
+          "Quality metrics validation required",
+          "Stakeholder review and approval mandatory"
+        ],
+        "update_triggers": [
+          "significant_performance_change",
+          "new_pattern_emergence",
+          "constraint_effectiveness_change",
+          "manual_review_request"
+        ],
+        "rollback_criteria": [
+          "performance_degradation > 10%",
+          "error_rate_increase > 5%",
+          "user_satisfaction_decrease > 15%"
+        ]
+      },
+      "scope": {
+        "applies_to": [
+          "learning",
+          "models"
+        ],
+        "environments": [
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "models",
+          "learning",
+          "updates"
+        ],
+        "priority": "high"
+      }
+    },
+    {
+      "id": "tool_selection_guidelines_policy",
+      "name": "Tool Selection Guidelines Policy",
+      "category": "quality",
+      "description": "Governance policy for selecting appropriate tools for development tasks",
+      "policy_type": "recommended",
+      "enforcement": {
+        "level": "advisory",
+        "automated": false,
+        "validation_rules": [
+          "Select tools based on proven effectiveness for similar tasks",
+          "Consider tool complexity relative to problem complexity",
+          "Evaluate potential risks and mitigation strategies",
+          "Validate tool compatibility with current project context"
+        ],
+        "decision_matrix": {
+          "complexity_mapping": {
+            "low": "simple_operations",
+            "medium": "standard_workflows",
+            "high": "complex_integrations",
+            "expert": "system_critical_operations"
+          },
+          "success_rate_thresholds": {
+            "production_use": 0.95,
+            "development_use": 0.85,
+            "experimental_use": 0.7
+          }
+        }
+      },
+      "scope": {
+        "applies_to": [
+          "tools"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "guidelines",
+          "tools",
+          "selection"
+        ],
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "pattern_application_guidelines_policy",
+      "name": "Pattern Application Guidelines Policy",
+      "category": "quality",
+      "description": "Governance policy for applying development patterns effectively",
+      "policy_type": "recommended",
+      "enforcement": {
+        "level": "advisory",
+        "automated": false,
+        "validation_rules": [
+          "Apply patterns consistently across similar contexts",
+          "Document deviations from standard patterns with justification",
+          "Evaluate pattern effectiveness regularly",
+          "Adapt patterns to specific project needs when necessary"
+        ],
+        "application_process": [
+          "Identify applicable patterns for current context",
+          "Evaluate pattern fit and potential benefits",
+          "Plan implementation with consideration of trade-offs",
+          "Execute pattern implementation",
+          "Monitor and evaluate outcomes",
+          "Document lessons learned and improvements"
+        ]
+      },
+      "scope": {
+        "applies_to": [
+          "patterns"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "guidelines",
+          "patterns",
+          "application"
+        ],
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "schema_evolution_policy",
+      "name": "Schema Evolution Procedure Policy",
+      "category": "maintainability",
+      "description": "Governance policy for evolving the Force schema while maintaining backward compatibility",
+      "policy_type": "mandatory",
+      "enforcement": {
+        "level": "blocking",
+        "automated": false,
+        "validation_rules": [
+          "Backward compatibility must be maintained",
+          "Migration strategy required for existing data",
+          "Schema changes must be tested with existing tools",
+          "Versioning must follow semantic versioning standards"
+        ],
+        "procedure_steps": [
+          "Propose schema changes with justification",
+          "Create migration strategy for existing data",
+          "Implement backward compatibility mechanisms",
+          "Test schema changes with existing tools",
+          "Update all tool definitions to new schema",
+          "Deploy schema changes with versioning"
+        ],
+        "approval_required": true
+      },
+      "scope": {
+        "applies_to": [
+          "schemas",
+          "tools",
+          "patterns",
+          "constraints"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "schema",
+          "evolution",
+          "compatibility"
+        ],
+        "priority": "high"
+      }
+    },
+    {
+      "id": "tool_lifecycle_management_policy",
+      "name": "Tool Lifecycle Management Policy",
+      "category": "maintainability",
+      "description": "Governance policy for managing tools from creation to deprecation",
+      "policy_type": "mandatory",
+      "enforcement": {
+        "level": "monitoring",
+        "automated": true,
+        "validation_rules": [
+          "Tools must progress through defined lifecycle stages",
+          "Usage and performance metrics must be tracked",
+          "Deprecation warnings must be provided",
+          "Retirement process must preserve data integrity"
+        ],
+        "lifecycle_stages": {
+          "experimental": {
+            "criteria": "new_tool_under_development",
+            "validation_required": false,
+            "usage_restrictions": "development_only"
+          },
+          "stable": {
+            "criteria": "success_rate > 85% and usage_count > 10",
+            "validation_required": true,
+            "usage_restrictions": "none"
+          },
+          "deprecated": {
+            "criteria": "better_alternative_available or low_usage",
+            "validation_required": false,
+            "usage_restrictions": "discouraged_with_warnings"
+          },
+          "retired": {
+            "criteria": "deprecated_for > 6_months and usage_count < 5",
+            "validation_required": false,
+            "usage_restrictions": "removed_from_system"
+          }
+        }
+      },
+      "scope": {
+        "applies_to": [
+          "tools"
+        ],
+        "environments": [
+          "development",
+          "staging",
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "lifecycle",
+          "tools",
+          "management"
+        ],
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "system_health_reporting_policy",
+      "name": "Force System Health Reporting Policy",
+      "category": "performance",
+      "description": "Governance policy for regular system performance and health reporting",
+      "policy_type": "mandatory",
+      "enforcement": {
+        "level": "monitoring",
+        "automated": true,
+        "validation_rules": [
+          "Reports must be generated weekly",
+          "All defined metrics must be included",
+          "Reports must be distributed to stakeholders",
+          "Trend analysis must be provided"
+        ],
+        "reporting_metrics": [
+          "tool_usage_statistics",
+          "pattern_application_success_rates",
+          "constraint_compliance_levels",
+          "learning_model_performance",
+          "system_error_rates"
+        ],
+        "frequency": "weekly"
+      },
+      "scope": {
+        "applies_to": [
+          "system",
+          "reporting"
+        ],
+        "environments": [
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "reporting",
+          "health",
+          "monitoring"
+        ],
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "learning_insights_reporting_policy",
+      "name": "Learning Insights Reporting Policy",
+      "category": "performance",
+      "description": "Governance policy for monthly analysis of learning data and improvement opportunities",
+      "policy_type": "recommended",
+      "enforcement": {
+        "level": "advisory",
+        "automated": false,
+        "validation_rules": [
+          "Monthly analysis must be comprehensive",
+          "Actionable recommendations must be provided",
+          "Trend analysis must cover all defined areas",
+          "Insights must drive system improvements"
+        ],
+        "analysis_areas": [
+          "tool_performance_trends",
+          "pattern_effectiveness_changes",
+          "common_error_patterns",
+          "optimization_opportunities",
+          "emerging_best_practices"
+        ],
+        "frequency": "monthly"
+      },
+      "scope": {
+        "applies_to": [
+          "learning",
+          "reporting"
+        ],
+        "environments": [
+          "production"
+        ],
+        "exceptions": []
+      },
+      "metadata": {
+        "created": "2025-06-24T07:47:00Z",
+        "updated": "2025-07-01T05:00:00Z",
+        "version": "1.0.0",
+        "author": "development-team",
+        "tags": [
+          "learning",
+          "insights",
+          "reporting"
+        ],
+        "priority": "medium"
+      }
+    }
+  ],
+  "id": "Generated id",
+  "timestamp": "2025-07-09T00:54:29.457225Z",
+  "event_type": "policy_update",
+  "data": {},
+  "metadata": {
+    "created": "2025-07-09T00:54:29.457228Z",
+    "updated": "2025-07-09T00:54:29.457229Z",
+    "version": "1.0.0"
+  }
+}

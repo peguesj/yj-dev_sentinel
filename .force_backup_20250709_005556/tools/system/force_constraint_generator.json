@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/force-schema.json",
+  "id": "force_constraint_generator",
+  "name": "Force Constraint Generator",
+  "description": "Generates new Force constraints for enforcing quality standards, validation rules, and governance policies in development workflows.",
+  "category": "implementation",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "Force System",
+    "created": "2025-07-02T00:00:00Z",
+    "updated": "2025-07-02T00:00:00Z",
+    "tags": [
+      "generator",
+      "constraint-creation",
+      "quality",
+      "validation"
+    ],
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "required": [
+      {
+        "name": "properties",
+        "type": "string",
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the constraint enforces"
+        }
+      }
+    ],
+    "optional": []
+  },
+  "requirements": {
+    "permissions": [
+      "filesystem_write",
+      "filesystem_read"
+    ],
+    "dependencies": [],
+    "runtime": "python3"
+  },
+  "testing": {
+    "test_cases": [
+      {
+        "name": "generate_code_quality_constraint",
+        "description": "Generate a code quality constraint",
+        "parameters": {
+          "constraint_id": "test_code_quality",
+          "constraint_name": "Test Code Quality",
+          "description": "A test constraint for code quality validation",
+          "category": "code_quality"
+        },
+        "expected_outcome": {
+          "success": true,
+          "constraint_created": true
+        }
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  }
+}

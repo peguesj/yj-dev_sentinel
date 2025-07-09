@@ -1,0 +1,124 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "id": "anchor_based_cross_referencing",
+  "name": "Anchor Based Cross Referencing",
+  "description": "Creates and maintains consistent anchor-based cross-references throughout documentation to enable seamless navigation and context preservation.",
+  "category": "analysis",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "docs_directory",
+        "type": "directory_path",
+        "description": "Root directory containing documentation files"
+      }
+    ],
+    "optional": [
+      {
+        "name": "anchor_patterns",
+        "type": "object",
+        "description": "Custom anchor naming patterns",
+        "default": {
+          "phase": "#phase-{number}-{name}",
+          "section": "#section-{category}-{topic}",
+          "implementation": "#impl-{feature}-{component}"
+        }
+      },
+      {
+        "name": "file_patterns",
+        "type": "array",
+        "description": "File patterns to process",
+        "default": ["*.md", "*.markdown", "*.rst"]
+      },
+      {
+        "name": "validate_links",
+        "type": "boolean",
+        "description": "Validate existing cross-references",
+        "default": true
+      },
+      {
+        "name": "auto_generate_anchors",
+        "type": "boolean",
+        "description": "Automatically generate missing anchors",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "scan_documentation_files",
+        "description": "Scan all documentation files for existing anchors and headings"
+      },
+      {
+        "action": "extract_anchor_references",
+        "description": "Extract all anchor references and cross-links"
+      },
+      {
+        "action": "validate_existing_links",
+        "description": "Validate that all referenced anchors exist",
+        "condition": "validate_links == true"
+      },
+      {
+        "action": "generate_missing_anchors",
+        "description": "Generate anchors for headings that don't have them",
+        "condition": "auto_generate_anchors == true"
+      },
+      {
+        "action": "create_anchor_map",
+        "description": "Create comprehensive map of all anchors and their locations"
+      },
+      {
+        "action": "update_cross_references",
+        "description": "Update or create cross-references between related content"
+      },
+      {
+        "action": "generate_navigation_aids",
+        "description": "Create table of contents and navigation helpers"
+      },
+      {
+        "action": "validate_final_structure",
+        "description": "Validate final cross-reference structure"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Documentation directory exists",
+        "Files match specified patterns",
+        "Directory is readable and writable"
+      ],
+      "post_conditions": [
+        "All headings have consistent anchors",
+        "Cross-references are valid and functional",
+        "Navigation aids are generated",
+        "Anchor map is complete"
+      ],
+      "error_handling": [
+        {
+          "error_type": "broken_reference",
+          "strategy": "manual_intervention",
+          "action": "Report broken references for manual review"
+        },
+        {
+          "error_type": "duplicate_anchor",
+          "strategy": "auto_fix",
+          "action": "Append unique suffix to duplicate anchors"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-01T00:00:00Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": ["documentation", "cross-reference", "navigation", "anchors"],
+    "dependencies": ["markdown-parser", "file-system-access"],
+    "performance_metrics": {
+      "avg_execution_time": 12.0,
+      "success_rate": 0.88,
+      "usage_count": 0
+    }
+  }
+}

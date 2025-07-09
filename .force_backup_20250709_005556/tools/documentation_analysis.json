@@ -1,0 +1,66 @@
+{
+  "id": "documentation_analysis",
+  "name": "Documentation Analysis",
+  "description": "Analyzes documentation for completeness and accuracy.",
+  "category": "documentation",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [
+      {
+        "name": "target_files",
+        "type": "array",
+        "description": "Parameter targetFiles",
+        "items": {
+          "type": "string"
+        }
+      }
+    ],
+    "optional": [
+      {
+        "name": "check_links",
+        "type": "boolean",
+        "description": "Parameter checkLinks",
+        "default": true
+      },
+      {
+        "name": "check_code_examples",
+        "type": "boolean",
+        "description": "Parameter checkCodeExamples",
+        "default": true
+      },
+      {
+        "name": "generate_report",
+        "type": "boolean",
+        "description": "Parameter generateReport",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:07.608967Z",
+    "updated": "2025-07-01T03:54:07.608975Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "supabase-project-access-constraint",
+  "type": "technical-constraint",
+  "title": "Supabase Account Environment Mismatch",
+  "description": "The authenticated Supabase CLI account doesn't have access to project 'iqivodptfhiatllakuap' which is configured in the application code. Currently logged into wrong Supabase account. Available project is 'vantagepoint' (zavhkarubghowkkdswye) but we need access to 'iqivodptfhiatllakuap'.",
+  "discovery_context": "While attempting to link the Supabase CLI to the correct project for Phase 2 implementation",
+  "impact": "Cannot execute database migrations or Edge Function deployments with current CLI setup",
+  "resolution_options": [
+    "Use the available 'vantagepoint' project and update application configuration",
+    "Switch to the correct Supabase account that has access to 'iqivodptfhiatllakuap' project",
+    "Create a new project that matches the application requirements"
+  ],
+  "chosen_approach": "Switch to the correct Supabase account via environment isolation",
+  "environment_strategy": "Exit current CLI session and create project-specific authentication environment",
+  "created_at": "2025-06-24T16:30:00Z",
+  "updated_at": "2025-06-24T16:35:00Z",
+  "session_id": "phase-2-core-features-implementation",
+  "force_pattern": "environment-isolation-solution",
+  "enforcement": {
+    "level": "warning",
+    "validation_rules": [
+      "Validation rule description"
+    ]
+  },
+  "name": "Generated name",
+  "scope": {
+    "applies_to": [
+      "**/*"
+    ],
+    "excludes": []
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.455436Z",
+    "updated": "2025-07-09T00:54:29.455437Z",
+    "version": "1.0.0"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "security_analysis",
+  "name": "Security Analysis",
+  "description": "Performs security analysis on the codebase.",
+  "category": "security",
+  "version": "1.0.0",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command description"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T03:54:59.844707Z",
+    "updated": "2025-07-01T03:54:59.844708Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [],
+    "dependencies": [],
+    "performance_metrics": {
+      "avg_execution_time": 0.0,
+      "success_rate": 0.0,
+      "usage_count": 0
+    }
+  }
+}

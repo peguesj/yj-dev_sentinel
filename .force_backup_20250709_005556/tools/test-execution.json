@@ -1,0 +1,105 @@
+{
+  "id": "test_execution",
+  "name": "Test Execution",
+  "description": "Intelligently executes relevant tests for changed code or comprehensive test suites with coverage analysis and reporting.",
+  "category": "testing",
+  "parameters": {
+    "required": [
+      {
+        "name": "test_scope",
+        "type": "string",
+        "description": "Scope of tests to execute",
+        "enum": ["changed_files", "related_tests", "full_suite", "smoke_tests"]
+      }
+    ],
+    "optional": [
+      {
+        "name": "test_types",
+        "type": "array",
+        "description": "Types of tests to include",
+        "default": ["unit", "integration"],
+        "items": {
+          "type": "string",
+          "enum": ["unit", "integration", "e2e", "performance", "security"]
+        }
+      },
+      {
+        "name": "coverage_threshold",
+        "type": "number",
+        "description": "Minimum coverage percentage required",
+        "default": 80,
+        "minimum": 0,
+        "maximum": 100
+      },
+      {
+        "name": "parallel_execution",
+        "type": "boolean",
+        "description": "Execute tests in parallel",
+        "default": true
+      },
+      {
+        "name": "generate_reports",
+        "type": "boolean",
+        "description": "Generate test and coverage reports",
+        "default": true
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "setup_test_environment",
+        "description": "Set up test environment and dependencies",
+        "parameters": {
+          "test_types": "{{test_types}}",
+          "parallel": "{{parallel_execution}}"
+        }
+      },
+      {
+        "action": "execute_tests",
+        "description": "Execute the selected test suite",
+        "parameters": {
+          "scope": "{{test_scope}}",
+          "coverage_threshold": "{{coverage_threshold}}"
+        }
+      },
+      {
+        "action": "generate_reports",
+        "description": "Generate test and coverage reports",
+        "condition": "{{generate_reports}}",
+        "parameters": {
+          "output_format": "html"
+        }
+      }
+    ],
+    "validation": {
+      "pre_conditions": [
+        "Test framework is configured",
+        "Test files exist in project",
+        "Dependencies are installed"
+      ],
+      "post_conditions": [
+        "All selected tests executed",
+        "Coverage threshold met or reported",
+        "Test reports generated if requested"
+      ],
+      "error_handling": [
+        {
+          "error_type": "test_failure",
+          "strategy": "continue",
+          "action": "continue",
+          "escalation": false
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-08T23:25:00Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": ["testing", "coverage", "quality", "validation"],
+    "author": "Force Development Team"
+  }
+}

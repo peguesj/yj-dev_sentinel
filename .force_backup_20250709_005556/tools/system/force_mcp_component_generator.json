@@ -1,0 +1,70 @@
+{
+  "$schema": "../../schemas/force-schema.json",
+  "id": "force_mcp_component_generator",
+  "name": "Force MCP Component Generator",
+  "description": "Generates complete Force component sets (tools, patterns, constraints) for MCP integration, creating structured development environments with proper schema validation.",
+  "category": "implementation",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "Force System",
+    "created": "2025-07-02T00:00:00Z",
+    "updated": "2025-07-02T00:00:00Z",
+    "tags": [
+      "generator",
+      "mcp",
+      "integration",
+      "component-creation"
+    ],
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "required": [
+      {
+        "name": "properties",
+        "type": "string",
+        "description": "Parameter properties"
+      }
+    ],
+    "optional": []
+  },
+  "requirements": {
+    "permissions": [
+      "filesystem_write",
+      "filesystem_read"
+    ],
+    "dependencies": [],
+    "runtime": "python3"
+  },
+  "testing": {
+    "test_cases": [
+      {
+        "name": "generate_complete_git_workflow_set",
+        "description": "Generate a complete set of components for git workflow",
+        "parameters": {
+          "component_type": "complete_set",
+          "domain": "git_workflow",
+          "use_case": "automated_commits",
+          "complexity": "intermediate"
+        },
+        "expected_outcome": {
+          "success": true,
+          "components_generated": 3
+        }
+      }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  }
+}

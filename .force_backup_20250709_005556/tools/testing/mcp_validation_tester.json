@@ -1,0 +1,38 @@
+{
+  "id": "mcp_validation_tester",
+  "name": "MCP Validation Tester",
+  "version": "1.0.0",
+  "description": "Tool to test MCP server validation improvements and measure success rates after fixes",
+  "category": "testing",
+  "complexity": "medium",
+  "metadata": {
+    "created": "2025-07-02T20:15:00.000Z",
+    "author": "Force Development Team",
+    "tags": [
+      "testing",
+      "mcp",
+      "validation",
+      "measurement"
+    ],
+    "updated": "2025-07-09T00:54:29.446666Z",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
+  }
+}

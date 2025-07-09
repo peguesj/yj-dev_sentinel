@@ -1,0 +1,107 @@
+{
+  "id": "atomic_commit_constraint",
+  "name": "Atomic Commit Quality Constraint",
+  "category": "quality",
+  "description": "Enforces atomic commit practices by validating that commits contain logically related changes and follow conventional commit message format.",
+  "validation": {
+    "rules": [
+      {
+        "id": "single_logical_purpose",
+        "description": "Each commit should have a single, clear logical purpose",
+        "check": "commit_contains_single_concern",
+        "severity": "error"
+      },
+      {
+        "id": "conventional_commit_format",
+        "description": "Commit messages must follow conventional commit format",
+        "check": "commit_message_format",
+        "pattern": "^(feat|fix|docs|style|refactor|perf|test|chore)(\\(.+\\))?: .{1,50}",
+        "severity": "error"
+      },
+      {
+        "id": "no_mixed_concerns",
+        "description": "Commits should not mix unrelated changes",
+        "check": "changes_are_related",
+        "severity": "warning"
+      },
+      {
+        "id": "meaningful_description",
+        "description": "Commit messages should be descriptive and informative",
+        "check": "commit_message_quality",
+        "min_length": 10,
+        "severity": "warning"
+      },
+      {
+        "id": "buildable_commit",
+        "description": "Each commit should leave the codebase in a buildable state",
+        "check": "commit_builds_successfully",
+        "severity": "error"
+      }
+    ],
+    "severity": "error",
+    "scope": [
+      "git_commits",
+      "commit_messages",
+      "staged_changes"
+    ]
+  },
+  "enforcement": {
+    "auto_fix": false,
+    "require_approval": false,
+    "blocking": true,
+    "pre_commit_hook": true,
+    "suggestions": [
+      "Use 'git add' selectively instead of 'git add .'",
+      "Group related changes into single commits",
+      "Write descriptive commit messages with context",
+      "Test build after each commit to ensure stability"
+    ]
+  },
+  "examples": {
+    "good_commits": [
+      "feat: add MCP integration for Force tools",
+      "docs: update README with extended schema benefits",
+      "fix: resolve schema validation error in security tools",
+      "refactor: extract common validation logic to utility"
+    ],
+    "bad_commits": [
+      "update stuff",
+      "fix various issues and add new features",
+      "wip",
+      "temp commit"
+    ]
+  },
+  "integration": {
+    "git_hooks": [
+      "pre-commit",
+      "commit-msg"
+    ],
+    "ci_checks": [
+      "commit_lint",
+      "build_verification"
+    ],
+    "ide_warnings": true
+  },
+  "metadata": {
+    "created": "2025-07-02T16:20:00Z",
+    "updated": "2025-07-02T16:20:00Z",
+    "version": "1.0.0",
+    "complexity": "medium",
+    "tags": [
+      "git",
+      "quality",
+      "commits",
+      "atomic",
+      "workflow"
+    ],
+    "author": "Force Learning System",
+    "learning_source": "Atomic commit workflow lesson from MCP stdio documentation",
+    "enforcement_level": "strict"
+  },
+  "scope": {
+    "applies_to": [
+      "**/*"
+    ],
+    "excludes": []
+  }
+}

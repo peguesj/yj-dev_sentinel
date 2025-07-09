@@ -1,0 +1,121 @@
+{
+  "id": "grouped_commit_workflow",
+  "name": "Grouped Commit Workflow",
+  "description": "Advanced pattern for managing complex workflows with multiple atomic commits, semantic versioning, and automated quality gates.",
+  "category": "workflow",
+  "version": "1.0.0",
+  "context": {
+    "when_to_use": "For complex development workflows requiring multiple related commits with different scopes and impacts",
+    "benefits": [
+      "Systematic commit organization",
+      "Automated quality validation",
+      "Consistent versioning strategy",
+      "Improved workflow repeatability",
+      "Enhanced collaboration"
+    ],
+    "trade_offs": [
+      "Increased workflow complexity",
+      "Requires initial setup effort",
+      "May be overkill for simple projects",
+      "Needs team coordination"
+    ],
+    "anti_patterns": [
+      "Random commit ordering",
+      "Inconsistent commit messages",
+      "Missing quality gates",
+      "No workflow documentation"
+    ]
+  },
+  "implementation": {
+    "steps": [
+      "Define workflow phases and commit groups",
+      "Establish quality gates for each phase",
+      "Configure automated validation checks",
+      "Set up semantic versioning rules",
+      "Create commit message templates",
+      "Implement rollback procedures",
+      "Document workflow execution"
+    ],
+    "examples": [
+      {
+        "name": "Workflow Phases",
+        "phases": [
+          {
+            "name": "preparation",
+            "description": "Setup and configuration changes",
+            "quality_gates": [
+              "syntax_check",
+              "dependency_validation"
+            ]
+          },
+          {
+            "name": "implementation",
+            "description": "Core functionality development",
+            "quality_gates": [
+              "unit_tests",
+              "integration_tests",
+              "code_coverage"
+            ]
+          },
+          {
+            "name": "documentation",
+            "description": "Documentation updates and validation",
+            "quality_gates": [
+              "docs_validation",
+              "link_check",
+              "spelling_check"
+            ]
+          },
+          {
+            "name": "finalization",
+            "description": "Version tagging and release preparation",
+            "quality_gates": [
+              "release_readiness",
+              "security_scan",
+              "performance_check"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Quality Gate Configuration",
+        "gates": {
+          "code_quality": {
+            "threshold": 80,
+            "tools": [
+              "eslint",
+              "pylint",
+              "sonarqube"
+            ]
+          },
+          "test_coverage": {
+            "threshold": 90,
+            "exclude_patterns": [
+              "test/**",
+              "spec/**"
+            ]
+          },
+          "security": {
+            "tools": [
+              "snyk",
+              "bandit",
+              "safety"
+            ],
+            "severity_threshold": "medium"
+          }
+        }
+      }
+    ],
+    "code_templates": [
+      {
+        "name": "Workflow Execution Script",
+        "template": "#!/bin/bash\\n# Grouped Commit Workflow\\n\\nset -e\\n\\nfor phase in preparation implementation documentation finalization; do\\n  echo \"Executing phase: $phase\"\\n  \\n  # Execute phase-specific commits\\n  execute-phase-commits $phase\\n  \\n  # Run quality gates\\n  run-quality-gates $phase\\n  \\n  # Validate phase completion\\n  validate-phase-completion $phase\\ndone\\n\\necho \"Workflow completed successfully\""
+      }
+    ]
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.452227Z",
+    "updated": "2025-07-09T00:54:29.452229Z",
+    "version": "1.0.0"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": "atomic_commit_grouping",
+  "name": "Atomic Commit Grouping",
+  "description": "Pattern for intelligently grouping related changes into atomic, logical commits with proper semantic versioning and meaningful commit messages.",
+  "category": "workflow",
+  "version": "1.0.0",
+  "context": {
+    "when_to_use": "When you have multiple unrelated changes that need to be committed separately for clarity and maintainability",
+    "benefits": [
+      "Clear development history",
+      "Easier code reviews",
+      "Better rollback capabilities",
+      "Logical change tracking",
+      "Improved collaboration"
+    ],
+    "trade_offs": [
+      "More time-intensive commit process",
+      "Requires careful change analysis",
+      "May complicate simple workflows",
+      "Needs tooling support"
+    ],
+    "anti_patterns": [
+      "Single large commits with mixed changes",
+      "Vague commit messages",
+      "No logical grouping of changes",
+      "Missing semantic versioning"
+    ]
+  },
+  "implementation": {
+    "steps": [
+      "Analyze current working directory changes",
+      "Group related files by logical functionality",
+      "Determine semantic version impact per group",
+      "Generate meaningful commit messages",
+      "Create atomic commits for each group",
+      "Apply appropriate version tags",
+      "Validate commit history integrity"
+    ],
+    "examples": [
+      {
+        "name": "Change Grouping Logic",
+        "groups": [
+          {
+            "type": "feature",
+            "pattern": "new functionality or capabilities",
+            "version_impact": "minor",
+            "commit_prefix": "feat:"
+          },
+          {
+            "type": "bugfix",
+            "pattern": "error corrections and fixes",
+            "version_impact": "patch",
+            "commit_prefix": "fix:"
+          },
+          {
+            "type": "documentation",
+            "pattern": "documentation updates",
+            "version_impact": "patch",
+            "commit_prefix": "docs:"
+          },
+          {
+            "type": "refactor",
+            "pattern": "code structure improvements",
+            "version_impact": "patch",
+            "commit_prefix": "refactor:"
+          }
+        ]
+      },
+      {
+        "name": "Commit Message Format",
+        "format": "{type}({scope}): {description}\\n\\n{body}\\n\\n{footer}"
+      }
+    ],
+    "code_templates": [
+      {
+        "name": "Atomic Commit Script",
+        "template": "#!/bin/bash\\n# Atomic Commit Grouping\\n\\n# Analyze changes\\nchanges=$(git status --porcelain)\\n\\n# Group by change type\\nfor group in $(analyze-change-groups); do\\n  git add $group\\n  git commit -m \"$(generate-commit-message $group)\"\\ndone\\n\\n# Tag version if needed\\nif [ \"$version_increment\" != \"none\" ]; then\\n  git tag -a v$(calculate-next-version) -m \"Release $(calculate-next-version)\"\\nfi"
+      }
+    ]
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.451686Z",
+    "updated": "2025-07-09T00:54:29.451688Z",
+    "version": "1.0.0"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "continuous_changelog_pattern",
+  "name": "Continuous Changelog Pattern",
+  "description": "Maintains real-time project progress tracking through timestamped changelog entries with implementation anchors and cross-references for transparent development visibility.",
+  "category": "documentation",
+  "version": "1.0.0",
+  "context": {
+    "when_to_use": "For projects requiring transparent progress tracking, stakeholder updates, or knowledge transfer documentation",
+    "benefits": [
+      "Real-time progress visibility",
+      "Historical development context",
+      "Improved stakeholder communication",
+      "Knowledge transfer facilitation",
+      "Development velocity tracking"
+    ],
+    "trade_offs": [
+      "Requires discipline to maintain",
+      "Can become verbose if not managed",
+      "Time investment for documentation",
+      "Potential for inconsistent formatting"
+    ],
+    "anti_patterns": [
+      "Only updating changelog at release time",
+      "Vague or uninformative entries",
+      "Missing timestamps or context",
+      "No cross-references to related work"
+    ]
+  },
+  "implementation": {
+    "steps": [
+      "Establish changelog format with timestamp standards",
+      "Create implementation anchor reference system",
+      "Set up automated timestamp generation",
+      "Implement cross-reference linking",
+      "Create status tracking conventions",
+      "Establish update frequency guidelines"
+    ],
+    "examples": [
+      {
+        "name": "Changelog Entry Format",
+        "format": {
+          "timestamp": "HH:MM PST - Entry Title",
+          "phase": "**Phase:** [Phase Name] `#phase-anchor`",
+          "type": "**Type:** [Category] | [Subcategory]",
+          "impact": "**Impact:** [High|Medium|Low]",
+          "changes": "**Changes Made:** - ✅ Completed items",
+          "references": "**Implementation References:** - [Links]"
+        }
+      }
+    ],
+    "code_templates": [
+      {
+        "name": "Changelog Entry Template",
+        "template": "### {timestamp} - {title}\\n**Phase:** {phase} `#{anchor}`\\n**Type:** {type}\\n**Impact:** {impact}\\n\\n**Changes Made:**\\n- ✅ {completed_items}\\n\\n**Implementation References:**\\n- [{ref_title}]({ref_link})"
+      }
+    ]
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.449565Z",
+    "updated": "2025-07-09T00:54:29.449566Z",
+    "version": "1.0.0"
+  }
+}

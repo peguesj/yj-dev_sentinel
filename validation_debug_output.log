@@ -1,0 +1,272 @@
+DEBUG:mcp.server.lowlevel.server:Initializing server 'dev-sentinel-force'
+DEBUG:mcp.server.lowlevel.server:Registering handler for ListToolsRequest
+DEBUG:mcp.server.lowlevel.server:Registering handler for CallToolRequest
+INFO:force_mcp_server:🔍 Starting Force component validation at MCP server startup...
+INFO:ForceValidator:Using extended Force schema for validation
+INFO:ForceValidator:✅ Force schema loaded and validated successfully
+INFO:ForceValidator:🔍 Starting comprehensive Force component validation...
+INFO:ForceValidator:Validating 51 tools files (including subdirectories)...
+WARNING:ForceValidator:❌ Invalid tools: test-execution.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: mcp_debug_troubleshooter.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: mcp_validation_tester.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: force_init_system.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: force_pattern_generator.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: force_tool_generator.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: force_constraint_generator.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: force_mcp_component_generator.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: branch_completion_summary.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid tools: system_health_checker.json - Validation failed with 1 errors
+INFO:ForceValidator:Validating 8 patterns files (including subdirectories)...
+WARNING:ForceValidator:❌ Invalid patterns: continuous_changelog_pattern.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid patterns: documentation-patterns.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid patterns: branch_task_end_tasks.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid patterns: supabase-web-deployment.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid patterns: atomic_commit_grouping.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid patterns: grouped_commit_workflow.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid patterns: handoff_documentation_pattern.json - Validation failed with 1 errors
+INFO:ForceValidator:Validating 6 constraints files (including subdirectories)...
+WARNING:ForceValidator:❌ Invalid constraints: atomic_commit_constraint.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid constraints: development-constraints.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid constraints: docker-requirement-for-functions.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid constraints: supabase-project-access-constraint.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid constraints: supabase-deployment.json - Validation failed with 1 errors
+WARNING:ForceValidator:❌ Invalid constraints: supabase-cli-linked-constraint.json - Validation failed with 1 errors
+INFO:ForceValidator:Validating 1 governance files (including subdirectories)...
+WARNING:ForceValidator:❌ Invalid governance: system-governance.json - Validation failed with 1 errors
+INFO:force_mcp_server:Validation output:
+🔍 FORCE COMPONENT VALIDATION REPORT\n\n================================================================================\nValidation Time: 2025-07-08T23:55:44.970741\nSchema Path: schemas/force-extended-schema.json\n\n📊 VALIDATION SUMMARY\n----------------------------------------\nTotal Components: 66\nValid Components: 42 (63.6%)\nInvalid Components: 24\nReady for Loading: ❌ NO\n\n🔧 TOOLS\n----------------------------------------\nTotal: 51\nValid: 41\nInvalid: 10\n\n❌ Invalid tools:\n  • test-execution.json: Validation failed with 1 errors\n  • mcp_debug_troubleshooter.json: Validation failed with 1 errors\n  • mcp_validation_tester.json: Validation failed with 1 errors\n  • force_init_system.json: Validation failed with 1 errors\n  • force_pattern_generator.json: Validation failed with 1 errors\n  • force_tool_generator.json: Validation failed with 1 errors\n  • force_constraint_generator.json: Validation failed with 1 errors\n  • force_mcp_component_generator.json: Validation failed with 1 errors\n  • branch_completion_summary.json: Validation failed with 1 errors\n  • system_health_checker.json: Validation failed with 1 errors\n\n✅ Valid tools:\n  • Documentation Analysis\n  • Code Quality Check\n  • Force System Initializer\n  • Generate Docs Update Summary\n  • Compliance Check\n  ... and 36 more\n\n🔧 PATTERNS\n----------------------------------------\nTotal: 8\nValid: 1\nInvalid: 7\n\n❌ Invalid patterns:\n  • continuous_changelog_pattern.json: Validation failed with 1 errors\n  • documentation-patterns.json: Validation failed with 1 errors\n  • branch_task_end_tasks.json: Validation failed with 1 errors\n  • supabase-web-deployment.json: Validation failed with 1 errors\n  • atomic_commit_grouping.json: Validation failed with 1 errors\n  • grouped_commit_workflow.json: Validation failed with 1 errors\n  • handoff_documentation_pattern.json: Validation failed with 1 errors\n\n✅ Valid patterns:\n  • Atomic Commit Workflow Pattern\n\n🔧 CONSTRAINTS\n----------------------------------------\nTotal: 6\nValid: 0\nInvalid: 6\n\n❌ Invalid constraints:\n  • atomic_commit_constraint.json: Validation failed with 1 errors\n  • development-constraints.json: Validation failed with 1 errors\n  • docker-requirement-for-functions.json: Validation failed with 1 errors\n  • supabase-project-access-constraint.json: Validation failed with 1 errors\n  • supabase-deployment.json: Validation failed with 1 errors\n  • supabase-cli-linked-constraint.json: Validation failed with 1 errors\n\n🔧 GOVERNANCE\n----------------------------------------\nTotal: 1\nValid: 0\nInvalid: 1\n\n❌ Invalid governance:\n  • system-governance.json: Validation failed with 1 errors
+INFO:force_mcp_server:✅ Force component validation passed - MCP server can proceed
+INFO:force:Found Force directory: /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force
+INFO:force:Imported tools module
+DEBUG:force.patterns:Loaded pattern: continuous_changelog_pattern
+DEBUG:force.patterns:Loaded pattern: Generated id
+DEBUG:force.patterns:Loaded pattern: branch_task_end_tasks
+DEBUG:force.patterns:Loaded pattern: supabase-web-deployment-pattern
+DEBUG:force.patterns:Loaded pattern: atomic_commit_grouping
+DEBUG:force.patterns:Loaded pattern: grouped_commit_workflow
+DEBUG:force.patterns:Loaded pattern: atomic_commit_workflow
+DEBUG:force.patterns:Loaded pattern: handoff_documentation_pattern
+INFO:force.patterns:Loaded 8 patterns
+INFO:force:Initialized patterns module
+INFO:force:Imported constraints module
+INFO:force:Initialized learning module
+DEBUG:force.governance:Loaded governance policy: system-governance
+INFO:force.governance:Loaded 1 governance policies
+INFO:force:Initialized governance module
+INFO:force.tools:Loading tool definitions from /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/documentation_analysis.json
+INFO:force.tools:Registered tool definition for documentation_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/code-quality-check.json
+INFO:force.tools:Registered tool definition for code_quality_check
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/force_init_system.json
+INFO:force.tools:Registered tool definition for force_init_system
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/test-execution.json
+INFO:force.tools:Registered tool definition for test_execution
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/generate-docs-update-summary.json
+INFO:force.tools:Registered tool definition for generate_docs_update_summary
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/compliance-check.json
+INFO:force.tools:Registered tool definition for compliance_check
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/versioned_project_management.json
+INFO:force.tools:Registered tool definition for versioned_project_management
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/code_quality_check.json
+WARNING:force.tools:Tool definition for code_quality_check already registered, overriding
+INFO:force.tools:Registered tool definition for code_quality_check
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/project-structure-analysis.json
+INFO:force.tools:Registered tool definition for project_structure_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/project_structure_analysis.json
+WARNING:force.tools:Tool definition for project_structure_analysis already registered, overriding
+INFO:force.tools:Registered tool definition for project_structure_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/generate-changelog.json
+INFO:force.tools:Registered tool definition for generate_changelog
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/docs-analysis.json
+INFO:force.tools:Registered tool definition for docs_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/git-diff.json
+INFO:force.tools:Registered tool definition for git_diff
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/infrastructure-security-check.json
+INFO:force.tools:Registered tool definition for infrastructure_security_check
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/git_branch_create.json
+INFO:force.tools:Registered tool definition for git_branch_create
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/readme-analysis.json
+INFO:force.tools:Registered tool definition for readme_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/force-report-generator.json
+INFO:force.tools:Registered tool definition for force_report_generator
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/force_sync.json
+INFO:force.tools:Registered tool definition for force_sync
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/docs-extraction.json
+INFO:force.tools:Registered tool definition for docs_extraction
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/static-analysis.json
+INFO:force.tools:Registered tool definition for static_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/dependency-analysis.json
+INFO:force.tools:Registered tool definition for dependency_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/anchor_based_cross_referencing.json
+INFO:force.tools:Registered tool definition for anchor_based_cross_referencing
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/security-analysis.json
+INFO:force.tools:Registered tool definition for security_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/git_workflow_commit.json
+INFO:force.tools:Registered tool definition for git_workflow_commit
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/git-commit.json
+INFO:force.tools:Registered tool definition for git_commit
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/force_component_fix_system.json
+INFO:force.tools:Registered tool definition for force_component_fix_system
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/validate-version.json
+INFO:force.tools:Registered tool definition for validate_version
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/security-configuration-check.json
+INFO:force.tools:Registered tool definition for security_configuration_check
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/analyze-code-changes.json
+INFO:force.tools:Registered tool definition for analyze_code_changes
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/git-status.json
+INFO:force.tools:Registered tool definition for git_status
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/performance-analysis.json
+INFO:force.tools:Registered tool definition for performance_analysis
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/check-release-readiness.json
+INFO:force.tools:Registered tool definition for check_release_readiness
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/generate-review-feedback.json
+INFO:force.tools:Registered tool definition for generate_review_feedback
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/force_component_validator.json
+INFO:force.tools:Registered tool definition for force_component_validator
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/update-release-documentation.json
+INFO:force.tools:Registered tool definition for update_release_documentation
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/modular_documentation_structure.json
+INFO:force.tools:Registered tool definition for modular_documentation_structure
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/handoff_documentation_pattern.json
+INFO:force.tools:Registered tool definition for handoff_documentation_pattern
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/docs-validation.json
+INFO:force.tools:Registered tool definition for docs_validation
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/force_schema_manager.json
+INFO:force.tools:Registered tool definition for force_schema_manager
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/force_mcp_integration.json
+INFO:force.tools:Registered tool definition for force_mcp_integration
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/update-api-docs.json
+INFO:force.tools:Registered tool definition for update_api_docs
+INFO:force.tools:Found single tool definition in /Users/jeremiah/Documents/GitHub/yj-dev_sentinel/.force/tools/secrets-scan.json
+INFO:force.tools:Registered tool definition for secrets_scan
+INFO:force:Loaded tool definitions from .force directory
+WARNING:force:Pattern definition loader not available
+WARNING:force:Constraint definition loader not available
+DEBUG:force.tools:Registered tool executor for git_status
+DEBUG:force.tools:Registered tool executor for grouped_commit_workflow
+DEBUG:force.tools:Registered tool executor for force_sync
+DEBUG:force.tools:Registered tool executor for documentation_analysis
+INFO:force.tools:Registered JSON tool executor for documentation_analysis
+DEBUG:force.tools:Registered tool executor for code_quality_check
+INFO:force.tools:Registered JSON tool executor for code_quality_check
+DEBUG:force.tools:Registered tool executor for force_init_system
+INFO:force.tools:Registered JSON tool executor for force_init_system
+DEBUG:force.tools:Registered tool executor for test_execution
+INFO:force.tools:Registered JSON tool executor for test_execution
+DEBUG:force.tools:Registered tool executor for generate_docs_update_summary
+INFO:force.tools:Registered JSON tool executor for generate_docs_update_summary
+DEBUG:force.tools:Registered tool executor for compliance_check
+INFO:force.tools:Registered JSON tool executor for compliance_check
+DEBUG:force.tools:Registered tool executor for versioned_project_management
+INFO:force.tools:Registered JSON tool executor for versioned_project_management
+DEBUG:force.tools:Registered tool executor for project_structure_analysis
+INFO:force.tools:Registered JSON tool executor for project_structure_analysis
+DEBUG:force.tools:Registered tool executor for generate_changelog
+INFO:force.tools:Registered JSON tool executor for generate_changelog
+DEBUG:force.tools:Registered tool executor for docs_analysis
+INFO:force.tools:Registered JSON tool executor for docs_analysis
+DEBUG:force.tools:Registered tool executor for git_diff
+INFO:force.tools:Registered JSON tool executor for git_diff
+DEBUG:force.tools:Registered tool executor for infrastructure_security_check
+INFO:force.tools:Registered JSON tool executor for infrastructure_security_check
+DEBUG:force.tools:Registered tool executor for git_branch_create
+INFO:force.tools:Registered JSON tool executor for git_branch_create
+DEBUG:force.tools:Registered tool executor for readme_analysis
+INFO:force.tools:Registered JSON tool executor for readme_analysis
+DEBUG:force.tools:Registered tool executor for force_report_generator
+INFO:force.tools:Registered JSON tool executor for force_report_generator
+DEBUG:force.tools:Native executor already exists for force_sync, skipping JSON registration
+DEBUG:force.tools:Registered tool executor for docs_extraction
+INFO:force.tools:Registered JSON tool executor for docs_extraction
+DEBUG:force.tools:Registered tool executor for static_analysis
+INFO:force.tools:Registered JSON tool executor for static_analysis
+DEBUG:force.tools:Registered tool executor for dependency_analysis
+INFO:force.tools:Registered JSON tool executor for dependency_analysis
+DEBUG:force.tools:Registered tool executor for anchor_based_cross_referencing
+INFO:force.tools:Registered JSON tool executor for anchor_based_cross_referencing
+DEBUG:force.tools:Registered tool executor for security_analysis
+INFO:force.tools:Registered JSON tool executor for security_analysis
+DEBUG:force.tools:Registered tool executor for git_workflow_commit
+INFO:force.tools:Registered JSON tool executor for git_workflow_commit
+DEBUG:force.tools:Registered tool executor for git_commit
+INFO:force.tools:Registered JSON tool executor for git_commit
+DEBUG:force.tools:Registered tool executor for force_component_fix_system
+INFO:force.tools:Registered JSON tool executor for force_component_fix_system
+DEBUG:force.tools:Registered tool executor for validate_version
+INFO:force.tools:Registered JSON tool executor for validate_version
+DEBUG:force.tools:Registered tool executor for security_configuration_check
+INFO:force.tools:Registered JSON tool executor for security_configuration_check
+DEBUG:force.tools:Registered tool executor for analyze_code_changes
+INFO:force.tools:Registered JSON tool executor for analyze_code_changes
+DEBUG:force.tools:Native executor already exists for git_status, skipping JSON registration
+DEBUG:force.tools:Registered tool executor for performance_analysis
+INFO:force.tools:Registered JSON tool executor for performance_analysis
+DEBUG:force.tools:Registered tool executor for check_release_readiness
+INFO:force.tools:Registered JSON tool executor for check_release_readiness
+DEBUG:force.tools:Registered tool executor for generate_review_feedback
+INFO:force.tools:Registered JSON tool executor for generate_review_feedback
+DEBUG:force.tools:Registered tool executor for force_component_validator
+INFO:force.tools:Registered JSON tool executor for force_component_validator
+DEBUG:force.tools:Registered tool executor for update_release_documentation
+INFO:force.tools:Registered JSON tool executor for update_release_documentation
+DEBUG:force.tools:Registered tool executor for modular_documentation_structure
+INFO:force.tools:Registered JSON tool executor for modular_documentation_structure
+DEBUG:force.tools:Registered tool executor for handoff_documentation_pattern
+INFO:force.tools:Registered JSON tool executor for handoff_documentation_pattern
+DEBUG:force.tools:Registered tool executor for docs_validation
+INFO:force.tools:Registered JSON tool executor for docs_validation
+DEBUG:force.tools:Registered tool executor for force_schema_manager
+INFO:force.tools:Registered JSON tool executor for force_schema_manager
+DEBUG:force.tools:Registered tool executor for force_mcp_integration
+INFO:force.tools:Registered JSON tool executor for force_mcp_integration
+DEBUG:force.tools:Registered tool executor for update_api_docs
+INFO:force.tools:Registered JSON tool executor for update_api_docs
+DEBUG:force.tools:Registered tool executor for secrets_scan
+INFO:force.tools:Registered JSON tool executor for secrets_scan
+INFO:force.tools:Discovered 41 tool executors
+DEBUG:force.tools:Native executor already exists for documentation_analysis, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for code_quality_check, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for force_init_system, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for test_execution, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for generate_docs_update_summary, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for compliance_check, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for versioned_project_management, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for project_structure_analysis, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for generate_changelog, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for docs_analysis, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for git_diff, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for infrastructure_security_check, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for git_branch_create, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for readme_analysis, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for force_report_generator, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for force_sync, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for docs_extraction, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for static_analysis, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for dependency_analysis, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for anchor_based_cross_referencing, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for security_analysis, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for git_workflow_commit, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for git_commit, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for force_component_fix_system, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for validate_version, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for security_configuration_check, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for analyze_code_changes, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for git_status, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for performance_analysis, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for check_release_readiness, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for generate_review_feedback, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for force_component_validator, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for update_release_documentation, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for modular_documentation_structure, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for handoff_documentation_pattern, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for docs_validation, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for force_schema_manager, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for force_mcp_integration, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for update_api_docs, skipping JSON registration
+DEBUG:force.tools:Native executor already exists for secrets_scan, skipping JSON registration
+INFO:force:Extended tool registry with JSON tool definitions
+INFO:force_mcp_server:Force engine initialized successfully
+INFO:force_mcp_server:Initial project-to-project force sync completed
+INFO:force_mcp_server:Legacy command processor initialized
+INFO:force_mcp_server:Starting Force MCP server...

@@ -1,0 +1,72 @@
+{
+  "$schema": "../schemas/force-schema.json",
+  "id": "branch_task_end_tasks",
+  "name": "Branch Task End Tasks",
+  "description": "Comprehensive pattern for handling end-of-branch tasks including quality checks, documentation updates, and release preparation.",
+  "category": "workflow",
+  "version": "1.0.0",
+  "context": {
+    "when_to_use": "When completing feature branches, preparing for merges, or finishing development milestones",
+    "benefits": [
+      "Consistent branch completion process",
+      "Automated quality validation",
+      "Comprehensive documentation updates",
+      "Release readiness assessment",
+      "Knowledge preservation"
+    ],
+    "trade_offs": [
+      "Additional time investment per branch",
+      "May slow down rapid iteration",
+      "Requires tooling setup",
+      "May be overkill for small changes"
+    ],
+    "anti_patterns": [
+      "Merging without quality checks",
+      "Missing documentation updates",
+      "No release readiness validation",
+      "Inconsistent branch completion"
+    ]
+  },
+  "implementation": {
+    "steps": [
+      "Execute code quality analysis",
+      "Run security and compliance checks",
+      "Analyze code changes for documentation impact",
+      "Update documentation as needed",
+      "Generate changelog entries",
+      "Perform release readiness assessment",
+      "Create atomic commits with proper messages",
+      "Tag version increments if applicable"
+    ],
+    "examples": [
+      {
+        "name": "Branch End Task Checklist",
+        "checklist": [
+          "\u2705 Code quality score > 80%",
+          "\u2705 Security scan passed",
+          "\u2705 Documentation updated",
+          "\u2705 Tests passing",
+          "\u2705 Changelog updated",
+          "\u2705 Version tagged",
+          "\u2705 Ready for merge"
+        ]
+      },
+      {
+        "name": "Quality Gate Validation",
+        "gates": [
+          "static_analysis",
+          "security_scan",
+          "test_coverage",
+          "documentation_completeness",
+          "performance_validation"
+        ]
+      }
+    ],
+    "code_templates": [
+      {
+        "name": "Branch End Script Template",
+        "template": "#!/bin/bash\\n# Branch End Tasks for {branch_name}\\n\\n# Quality Checks\\nforce-execute code-quality-check\\nforce-execute security-analysis\\n\\n# Documentation\\nforce-execute docs-analysis\\nforce-execute generate-docs-update-summary\\n\\n# Release Preparation\\nforce-execute check-release-readiness\\nforce-execute generate-changelog\\n\\n# Version Management\\nforce-execute validate-version\\ngit tag -a v{version} -m \"Release {version}\""
+      }
+    ]
+  }
+}
