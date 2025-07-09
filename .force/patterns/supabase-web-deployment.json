@@ -41,7 +41,8 @@
       "Changes visible in Supabase web dashboard",
       "No local Docker containers affected",
       "Data persistence confirmed"
-    ]
+    ],
+    "examples": []
   },
   "usage_examples": {
     "database_migrations": {
@@ -92,5 +93,10 @@
       "any",
       "trade_offs"
     ]
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.451257Z",
+    "updated": "2025-07-09T00:54:29.451260Z",
+    "version": "1.0.0"
   }
 }

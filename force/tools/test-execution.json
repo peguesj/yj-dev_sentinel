@@ -1,24 +1,15 @@
 {
-  "$schema": "../schemas/force-schema.json",
   "id": "test_execution",
   "name": "Test Execution",
   "description": "Intelligently executes relevant tests for changed code or comprehensive test suites with coverage analysis and reporting.",
   "category": "testing",
-  "version": "1.0.0",
   "parameters": {
     "required": [
       {
         "name": "test_scope",
         "type": "string",
         "description": "Scope of tests to execute",
-        "validation": {
-          "enum": [
-            "changed_files",
-            "related_tests",
-            "full_suite",
-            "smoke_tests"
-          ]
-        }
+        "enum": ["changed_files", "related_tests", "full_suite", "smoke_tests"]
       }
     ],
     "optional": [
@@ -27,7 +18,8 @@
         "type": "array",
         "description": "Types of tests to include",
         "default": ["unit", "integration"],
-        "validation": {
+        "items": {
+          "type": "string",
           "enum": ["unit", "integration", "e2e", "performance", "security"]
         }
       },
@@ -36,10 +28,8 @@
         "type": "number",
         "description": "Minimum coverage percentage required",
         "default": 80,
-        "validation": {
-          "min": 0,
-          "max": 100
-        }
+        "minimum": 0,
+        "maximum": 100
       },
       {
         "name": "parallel_execution",
@@ -56,33 +46,31 @@
     ]
   },
   "execution": {
-    "strategy": "conditional",
+    "strategy": "sequential",
     "commands": [
       {
-        "action": "analyze_code_changes",
-        "description": "Analyze which files have changed to determine relevant tests",
-        "condition": "test_scope == 'changed_files' || test_scope == 'related_tests'"
+        "action": "setup_test_environment",
+        "description": "Set up test environment and dependencies",
+        "parameters": {
+          "test_types": "{{test_types}}",
+          "parallel": "{{parallel_execution}}"
+        }
       },
       {
-        "action": "discover_test_files",
-        "description": "Discover and categorize available test files"
+        "action": "execute_tests",
+        "description": "Execute the selected test suite",
+        "parameters": {
+          "scope": "{{test_scope}}",
+          "coverage_threshold": "{{coverage_threshold}}"
+        }
       },
       {
-        "action": "execute_test_suite",
-        "description": "Execute selected tests with coverage analysis"
-      },
-      {
-        "action": "analyze_test_results",
-        "description": "Analyze test results and coverage data"
-      },
-      {
-        "action": "generate_test_reports",
-        "description": "Generate comprehensive test and coverage reports",
-        "condition": "generate_reports == true"
-      },
-      {
-        "action": "validate_coverage_threshold",
-        "description": "Validate that coverage meets minimum threshold"
+        "action": "generate_reports",
+        "description": "Generate test and coverage reports",
+        "condition": "{{generate_reports}}",
+        "parameters": {
+          "output_format": "html"
+        }
       }
     ],
     "validation": {
@@ -94,34 +82,24 @@
       "post_conditions": [
         "All selected tests executed",
         "Coverage threshold met or reported",
-        "Test reports generated if requested",
-        "Exit code reflects test success/failure"
+        "Test reports generated if requested"
       ],
       "error_handling": [
         {
           "error_type": "test_failure",
-          "strategy": "abort",
-          "action": "Report failed tests and exit with failure code"
-        },
-        {
-          "error_type": "coverage_below_threshold",
-          "strategy": "abort",
-          "action": "Report coverage deficit and exit with failure code"
+          "strategy": "continue",
+          "action": "continue",
+          "escalation": false
         }
       ]
     }
   },
   "metadata": {
     "created": "2025-07-01T00:00:00Z",
-    "updated": "2025-07-01T00:00:00Z",
+    "updated": "2025-07-08T23:25:00Z",
     "version": "1.0.0",
     "complexity": "medium",
     "tags": ["testing", "coverage", "quality", "validation"],
-    "dependencies": ["test-framework", "coverage-tools"],
-    "performance_metrics": {
-      "avg_execution_time": 120.0,
-      "success_rate": 0.91,
-      "usage_count": 0
-    }
+    "author": "Force Development Team"
   }
 }

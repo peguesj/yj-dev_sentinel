@@ -5,26 +5,38 @@
   "category": "validation",
   "version": "1.0.0",
   "parameters": {
-    "linters": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    "required": [
+      {
+        "name": "linters",
+        "type": "array",
+        "description": "Parameter linters",
+        "items": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "target_files",
+        "type": "array",
+        "description": "Parameter targetFiles",
+        "items": {
+          "type": "string"
+        }
       }
-    },
-    "autoFix": {
-      "type": "boolean",
-      "default": false
-    },
-    "generateReport": {
-      "type": "boolean",
-      "default": true
-    },
-    "targetFiles": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    ],
+    "optional": [
+      {
+        "name": "auto_fix",
+        "type": "boolean",
+        "description": "Parameter autoFix",
+        "default": false
+      },
+      {
+        "name": "generate_report",
+        "type": "boolean",
+        "description": "Parameter generateReport",
+        "default": true
       }
-    }
+    ]
   },
   "execution": {
     "strategy": "sequential",

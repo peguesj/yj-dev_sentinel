@@ -64,5 +64,16 @@
     "validation_rules": [
       "Validation rule description"
     ]
+  },
+  "scope": {
+    "applies_to": [
+      "**/*"
+    ],
+    "excludes": []
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.455743Z",
+    "updated": "2025-07-09T00:54:29.455745Z",
+    "version": "1.0.0"
   }
 }

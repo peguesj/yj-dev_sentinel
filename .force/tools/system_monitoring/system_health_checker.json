@@ -5,53 +5,35 @@
   "description": "Comprehensive health check for Force system including component validation, schema status, MCP server readiness, and performance metrics",
   "category": "system_monitoring",
   "complexity": "high",
-  "inputSchema": {
-    "type": "object",
-    "properties": {
-      "check_level": {
-        "type": "string",
-        "enum": ["basic", "comprehensive", "pre_deployment"],
-        "default": "comprehensive",
-        "description": "Level of health checking to perform"
-      },
-      "auto_fix_issues": {
-        "type": "boolean",
-        "default": false,
-        "description": "Automatically fix issues where possible"
-      },
-      "generate_report": {
-        "type": "boolean",
-        "default": true,
-        "description": "Generate detailed health report"
-      }
-    }
-  },
-  "outputSchema": {
-    "type": "object",
-    "properties": {
-      "health_status": {
-        "type": "object",
-        "properties": {
-          "overall_status": {"type": "string"},
-          "component_validation": {"type": "object"},
-          "schema_status": {"type": "object"},
-          "mcp_readiness": {"type": "object"},
-          "performance_metrics": {"type": "object"}
-        }
-      },
-      "issues_found": {"type": "array"},
-      "fixes_applied": {"type": "array"},
-      "recommendations": {"type": "array"}
-    }
-  },
-  "implementation": {
-    "executor": "python",
-    "entryPoint": "force.tools.system_monitoring.system_health_checker",
-    "timeout": 90
-  },
   "metadata": {
     "created": "2025-07-02T20:25:00.000Z",
     "author": "Force Development Team",
-    "tags": ["system", "health", "monitoring", "validation", "performance"]
+    "tags": [
+      "system",
+      "health",
+      "monitoring",
+      "validation",
+      "performance"
+    ],
+    "updated": "2025-07-09T00:54:29.449174Z",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
   }
 }

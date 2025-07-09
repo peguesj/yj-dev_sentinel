@@ -12,7 +12,7 @@
         "severity": "error"
       },
       {
-        "id": "conventional_commit_format", 
+        "id": "conventional_commit_format",
         "description": "Commit messages must follow conventional commit format",
         "check": "commit_message_format",
         "pattern": "^(feat|fix|docs|style|refactor|perf|test|chore)(\\(.+\\))?: .{1,50}",
@@ -39,7 +39,11 @@
       }
     ],
     "severity": "error",
-    "scope": ["git_commits", "commit_messages", "staged_changes"]
+    "scope": [
+      "git_commits",
+      "commit_messages",
+      "staged_changes"
+    ]
   },
   "enforcement": {
     "auto_fix": false,
@@ -56,7 +60,7 @@
   "examples": {
     "good_commits": [
       "feat: add MCP integration for Force tools",
-      "docs: update README with extended schema benefits", 
+      "docs: update README with extended schema benefits",
       "fix: resolve schema validation error in security tools",
       "refactor: extract common validation logic to utility"
     ],
@@ -68,8 +72,14 @@
     ]
   },
   "integration": {
-    "git_hooks": ["pre-commit", "commit-msg"],
-    "ci_checks": ["commit_lint", "build_verification"],
+    "git_hooks": [
+      "pre-commit",
+      "commit-msg"
+    ],
+    "ci_checks": [
+      "commit_lint",
+      "build_verification"
+    ],
     "ide_warnings": true
   },
   "metadata": {
@@ -77,9 +87,21 @@
     "updated": "2025-07-02T16:20:00Z",
     "version": "1.0.0",
     "complexity": "medium",
-    "tags": ["git", "quality", "commits", "atomic", "workflow"],
+    "tags": [
+      "git",
+      "quality",
+      "commits",
+      "atomic",
+      "workflow"
+    ],
     "author": "Force Learning System",
     "learning_source": "Atomic commit workflow lesson from MCP stdio documentation",
     "enforcement_level": "strict"
+  },
+  "scope": {
+    "applies_to": [
+      "**/*"
+    ],
+    "excludes": []
   }
 }

@@ -1,5 +1,4 @@
 {
-  "$schema": "../schemas/force-schema.json",
   "id": "grouped_commit_workflow",
   "name": "Grouped Commit Workflow",
   "description": "Advanced pattern for managing complex workflows with multiple atomic commits, semantic versioning, and automated quality gates.",
@@ -44,7 +43,10 @@
           {
             "name": "preparation",
             "description": "Setup and configuration changes",
-            "quality_gates": ["syntax_check", "dependency_validation"]
+            "quality_gates": [
+              "syntax_check",
+              "dependency_validation"
+            ]
           },
           {
             "name": "implementation",
@@ -58,7 +60,11 @@
           {
             "name": "documentation",
             "description": "Documentation updates and validation",
-            "quality_gates": ["docs_validation", "link_check", "spelling_check"]
+            "quality_gates": [
+              "docs_validation",
+              "link_check",
+              "spelling_check"
+            ]
           },
           {
             "name": "finalization",
@@ -76,14 +82,25 @@
         "gates": {
           "code_quality": {
             "threshold": 80,
-            "tools": ["eslint", "pylint", "sonarqube"]
+            "tools": [
+              "eslint",
+              "pylint",
+              "sonarqube"
+            ]
           },
           "test_coverage": {
             "threshold": 90,
-            "exclude_patterns": ["test/**", "spec/**"]
+            "exclude_patterns": [
+              "test/**",
+              "spec/**"
+            ]
           },
           "security": {
-            "tools": ["snyk", "bandit", "safety"],
+            "tools": [
+              "snyk",
+              "bandit",
+              "safety"
+            ],
             "severity_threshold": "medium"
           }
         }
@@ -95,5 +112,10 @@
         "template": "#!/bin/bash\\n# Grouped Commit Workflow\\n\\nset -e\\n\\nfor phase in preparation implementation documentation finalization; do\\n  echo \"Executing phase: $phase\"\\n  \\n  # Execute phase-specific commits\\n  execute-phase-commits $phase\\n  \\n  # Run quality gates\\n  run-quality-gates $phase\\n  \\n  # Validate phase completion\\n  validate-phase-completion $phase\\ndone\\n\\necho \"Workflow completed successfully\""
       }
     ]
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.452227Z",
+    "updated": "2025-07-09T00:54:29.452229Z",
+    "version": "1.0.0"
   }
 }

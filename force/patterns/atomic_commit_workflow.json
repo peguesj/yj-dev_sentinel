@@ -39,28 +39,37 @@
       {
         "name": "Analyze changes for logical groupings",
         "toolId": "git_status_analyzer",
-        "parameters": {"format": "grouped"},
+        "parameters": {
+          "format": "grouped"
+        },
         "optional": true
       },
       {
         "name": "Stage first logical group",
         "toolId": "git_selective_stage",
-        "parameters": {"scope": "logical_group_1"},
+        "parameters": {
+          "scope": "logical_group_1"
+        },
         "optional": false
       },
       {
         "name": "Create atomic commit with descriptive message",
         "toolId": "git_atomic_commit",
-        "parameters": {"message_type": "conventional"},
+        "parameters": {
+          "message_type": "conventional"
+        },
         "optional": false
       },
       {
         "name": "Repeat for remaining groups iteratively",
         "toolId": "git_iterative_commit",
-        "parameters": {"strategy": "one_group_at_a_time"},
+        "parameters": {
+          "strategy": "one_group_at_a_time"
+        },
         "optional": false
       }
-    ]
+    ],
+    "examples": []
   },
   "examples": [
     {
@@ -89,10 +98,16 @@
   },
   "metadata": {
     "created": "2025-07-02T16:15:00Z",
-    "updated": "2025-07-02T16:15:00Z", 
+    "updated": "2025-07-02T16:15:00Z",
     "version": "1.0.0",
     "complexity": "medium",
-    "tags": ["git", "workflow", "commits", "atomic", "best-practices"],
+    "tags": [
+      "git",
+      "workflow",
+      "commits",
+      "atomic",
+      "best-practices"
+    ],
     "author": "Force Learning System",
     "learning_source": "Real-world Force MCP stdio documentation workflow",
     "effectiveness_rating": "high"

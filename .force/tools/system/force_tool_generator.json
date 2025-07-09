@@ -9,191 +9,32 @@
     "author": "Force System",
     "created": "2025-07-02T00:00:00Z",
     "updated": "2025-07-02T00:00:00Z",
-    "tags": ["generator", "tool-creation", "development", "automation"]
+    "tags": [
+      "generator",
+      "tool-creation",
+      "development",
+      "automation"
+    ],
+    "version": "1.0.0"
   },
   "parameters": {
-    "type": "object",
-    "properties": {
-      "tool_id": {
+    "required": [
+      {
+        "name": "properties",
         "type": "string",
-        "description": "Unique identifier for the new tool",
-        "pattern": "^[a-z0-9_]+$"
-      },
-      "tool_name": {
-        "type": "string",
-        "description": "Human-readable name for the tool"
-      },
-      "description": {
-        "type": "string",
-        "description": "Detailed description of what the tool does"
-      },
-      "category": {
-        "type": "string",
-        "description": "Category for the tool",
-        "enum": ["git", "documentation", "analysis", "system", "project", "deployment", "testing", "security"]
-      },
-      "implementation_type": {
-        "type": "string",
-        "description": "Type of implementation",
-        "enum": ["python", "shell", "javascript", "mixed"],
-        "default": "python"
-      },
-      "parameters_spec": {
-        "type": "object",
-        "description": "JSON Schema specification for tool parameters",
-        "default": {}
-      },
-      "implementation_code": {
-        "type": "array",
-        "description": "Implementation code lines",
-        "items": {"type": "string"},
-        "default": []
-      },
-      "requirements": {
-        "type": "object",
-        "description": "Tool requirements (permissions, dependencies, etc.)",
-        "default": {}
-      },
-      "generate_basic_implementation": {
-        "type": "boolean",
-        "description": "Whether to generate a basic implementation template",
-        "default": true
-      },
-      "output_directory": {
-        "type": "string",
-        "description": "Directory to save the generated tool",
-        "default": "tools"
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the tool does"
+        }
       }
-    },
-    "required": ["tool_id", "tool_name", "description", "category"]
-  },
-  "implementation": {
-    "type": "python",
-    "executor": "force.tool_executor.execute_python_tool",
-    "code": [
-      "import os",
-      "import json",
-      "import re",
-      "from pathlib import Path",
-      "from datetime import datetime, timezone",
-      "",
-      "def execute(parameters, context):",
-      "    \"\"\"Generate a new Force tool definition.\"\"\"",
-      "    tool_id = parameters['tool_id']",
-      "    tool_name = parameters['tool_name']",
-      "    description = parameters['description']",
-      "    category = parameters['category']",
-      "    impl_type = parameters.get('implementation_type', 'python')",
-      "    params_spec = parameters.get('parameters_spec', {})",
-      "    impl_code = parameters.get('implementation_code', [])",
-      "    requirements = parameters.get('requirements', {})",
-      "    generate_basic = parameters.get('generate_basic_implementation', True)",
-      "    output_dir = parameters.get('output_directory', 'tools')",
-      "    ",
-      "    # Validate tool_id format",
-      "    if not re.match(r'^[a-z0-9_]+$', tool_id):",
-      "        return {'success': False, 'error': 'tool_id must contain only lowercase letters, numbers, and underscores'}",
-      "    ",
-      "    # Create basic parameters schema if not provided",
-      "    if not params_spec:",
-      "        params_spec = {",
-      "            'type': 'object',",
-      "            'properties': {",
-      "                'input': {",
-      "                    'type': 'string',",
-      "                    'description': 'Input for the tool'",
-      "                }",
-      "            },",
-      "            'required': []",
-      "        }",
-      "    ",
-      "    # Generate basic implementation if requested",
-      "    if generate_basic and not impl_code:",
-      "        if impl_type == 'python':",
-      "            impl_code = [",
-      "                'def execute(parameters, context):',",
-      "                '    \"\"\"Execute the tool with given parameters.\"\"\"',",
-      "                '    # TODO: Implement tool logic here',",
-      "                '    result = {\"success\": True}',",
-      "                '    ',",
-      "                '    # Access parameters',",
-      "                '    # input_value = parameters.get(\"input\", \"\")',",
-      "                '    ',",
-      "                '    # Add your implementation logic',",
-      "                '    ',",
-      "                '    return result'",
-      "            ]",
-      "        elif impl_type == 'shell':",
-      "            impl_code = [",
-      "                '#!/bin/bash',",
-      "                '# TODO: Implement shell script logic here',",
-      "                'echo \"Tool executed successfully\"'",
-      "            ]",
-      "    ",
-      "    # Set default requirements",
-      "    if not requirements:",
-      "        requirements = {",
-      "            'permissions': ['filesystem_read'],",
-      "            'dependencies': [],",
-      "            'runtime': impl_type if impl_type in ['python3', 'node', 'bash'] else 'python3'",
-      "        }",
-      "    ",
-      "    # Create the tool definition",
-      "    tool_definition = {",
-      "        '$schema': '../../schemas/force-schema.json' if '/' in output_dir else '../schemas/force-schema.json',",
-      "        'id': tool_id,",
-      "        'name': tool_name,",
-      "        'description': description,",
-      "        'category': category,",
-      "        'version': '1.0.0',",
-      "        'metadata': {",
-      "            'author': 'Force Tool Generator',",
-      "            'created': datetime.now(timezone.utc).isoformat(),",
-      "            'updated': datetime.now(timezone.utc).isoformat(),",
-      "            'tags': [category, 'generated']",
-      "        },",
-      "        'parameters': params_spec,",
-      "        'implementation': {",
-      "            'type': impl_type,",
-      "            'executor': f'force.tool_executor.execute_{impl_type}_tool',",
-      "            'code': impl_code",
-      "        },",
-      "        'requirements': requirements",
-      "    }",
-      "    ",
-      "    # Determine output file path",
-      "    current_dir = Path.cwd()",
-      "    force_dir = current_dir / '.force' if (current_dir / '.force').exists() else current_dir",
-      "    output_path = force_dir / output_dir / category",
-      "    output_path.mkdir(parents=True, exist_ok=True)",
-      "    ",
-      "    tool_file = output_path / f'{tool_id}.json'",
-      "    ",
-      "    # Check if file already exists",
-      "    if tool_file.exists():",
-      "        return {",
-      "            'success': False,",
-      "            'error': f'Tool file already exists: {tool_file}',",
-      "            'existing_file': str(tool_file)",
-      "        }",
-      "    ",
-      "    # Write the tool definition",
-      "    with open(tool_file, 'w') as f:",
-      "        json.dump(tool_definition, f, indent=2)",
-      "    ",
-      "    return {",
-      "        'success': True,",
-      "        'message': f'Generated Force tool: {tool_name}',",
-      "        'tool_id': tool_id,",
-      "        'tool_file': str(tool_file),",
-      "        'category': category,",
-      "        'implementation_type': impl_type,",
-      "        'tool_definition': tool_definition",
-      "    }"
-    ]
+    ],
+    "optional": []
   },
   "requirements": {
-    "permissions": ["filesystem_write", "filesystem_read"],
+    "permissions": [
+      "filesystem_write",
+      "filesystem_read"
+    ],
     "dependencies": [],
     "runtime": "python3"
   },
@@ -214,5 +55,19 @@
         }
       }
     ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      {
+        "action": "placeholder_action",
+        "description": "Placeholder command"
+      }
+    ],
+    "validation": {
+      "pre_conditions": [],
+      "post_conditions": [],
+      "error_handling": []
+    }
   }
 }

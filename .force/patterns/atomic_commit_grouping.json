@@ -1,5 +1,4 @@
 {
-  "$schema": "../schemas/force-schema.json",
   "id": "atomic_commit_grouping",
   "name": "Atomic Commit Grouping",
   "description": "Pattern for intelligently grouping related changes into atomic, logical commits with proper semantic versioning and meaningful commit messages.",
@@ -78,5 +77,10 @@
         "template": "#!/bin/bash\\n# Atomic Commit Grouping\\n\\n# Analyze changes\\nchanges=$(git status --porcelain)\\n\\n# Group by change type\\nfor group in $(analyze-change-groups); do\\n  git add $group\\n  git commit -m \"$(generate-commit-message $group)\"\\ndone\\n\\n# Tag version if needed\\nif [ \"$version_increment\" != \"none\" ]; then\\n  git tag -a v$(calculate-next-version) -m \"Release $(calculate-next-version)\"\\nfi"
       }
     ]
+  },
+  "metadata": {
+    "created": "2025-07-09T00:54:29.451686Z",
+    "updated": "2025-07-09T00:54:29.451688Z",
+    "version": "1.0.0"
   }
 }
