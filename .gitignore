@@ -54,3 +54,6 @@ coverage.xml
 import/
 import/recovery/
 import/recovery/copilot_chat/
+
+# Force backup directories
+.force_backup_*/
