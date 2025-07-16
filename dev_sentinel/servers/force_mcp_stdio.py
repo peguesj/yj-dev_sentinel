@@ -18,6 +18,7 @@ from integration.fast_agent.force_mcp_server import main as force_mcp_main
 
 
 import logging
+logger = logging.getLogger("force_mcp_stdio")
 import colorama
 from colorama import Fore, Style
 
@@ -66,17 +67,25 @@ def main():
     """Entry point for force-mcp-stdio CLI command."""
     import asyncio
     try:
-        # Set logging to debug level
+        # ANCHOR: Docu-Commentary - Logging Setup
         logging.basicConfig(level=logging.DEBUG)
         # Run the main MCP server function and get validation report
         validation_report = asyncio.run(force_mcp_main())
-        # Format and print the validation report with full paths and project/system info
-        print(format_validation_report(validation_report))
+        # ANCHOR: Docu-Commentary - Validation Report Output
+        logger.info("Validation report follows:")
+        logger.info(format_validation_report(validation_report))
+        # ANCHOR: Docu-Commentary - Validation Summary
+        if validation_report:
+            valid_tools = validation_report.get('valid_tools', [])
+            invalid_tools = validation_report.get('invalid_tools', [])
+            logger.info(f"Loaded {len(valid_tools)} valid tools, {len(invalid_tools)} invalid tools.")
     except KeyboardInterrupt:
-        print("\n🛑 Force MCP server stopped by user")
+        # ANCHOR: Docu-Commentary - Server Stop
+        logger.info("Force MCP server stopped by user")
         sys.exit(0)
     except Exception as e:
-        print(f"❌ Force MCP server error: {e}")
+        # ANCHOR: Error Handling - Unhandled Exception
+        logger.error(f"Force MCP server error: {e}", exc_info=True)
         sys.exit(1)
 
 
