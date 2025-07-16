@@ -1,5 +1,18 @@
 # FORCE Tools Reference
 
+| Version | Date       | Author   | Description                                  |
+|---------|------------|----------|----------------------------------------------|
+| v0.5.0  | 2025-07-16 | peguesj  | Release: Variant support, schema, docs update |
+
+![Build Status](https://img.shields.io/github/actions/workflow/status/peguesj/yj-dev_sentinel/ci.yml?branch=main)
+![Release](https://img.shields.io/github/v/release/peguesj/yj-dev_sentinel)
+
+## New in v0.5.0
+
+- **Variant Tooling**: Session orchestration, prompt engineering, and agentic workflows
+- **Learning Tool**: Ad hoc learning records and analytics
+- **Execution Analytics**: Track and analyze tool execution
+
 This document provides comprehensive reference documentation for all tools available in the FORCE (Framework for Organized and Robust Code Evolution) system. These tools enhance software development workflows by providing automation for common tasks related to code organization, documentation, and project management.
 
 ## Tools Structure

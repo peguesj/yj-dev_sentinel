@@ -1,5 +1,7 @@
 # Force Tools Reference - v0.3.0
 
+> **Note:** For v0.5.0, see new tools and schema updates in the main documentation. Variant, learning, and analytics tools are now available.
+
 ## Overview
 
 This reference provides a comprehensive guide to all Force tools available in v0.3.0. Tools are organized by category and include both primary implementation tools and extended JSON-defined tools.

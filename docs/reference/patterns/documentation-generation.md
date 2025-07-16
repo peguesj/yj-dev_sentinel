@@ -1,5 +1,14 @@
 # Documentation Generation Pattern
 
+| Version | Date       | Author   | Description                                  |
+|---------|------------|----------|----------------------------------------------|
+| v0.5.0  | 2025-07-16 | peguesj  | Release: Variant, schema, docs update         |
+
+![Build Status](https://img.shields.io/github/actions/workflow/status/peguesj/yj-dev_sentinel/ci.yml?branch=main)
+![Release](https://img.shields.io/github/v/release/peguesj/yj-dev_sentinel)
+
+> **Note:** v0.5.0 expands documentation generation to cover Variant components and orchestration patterns.
+
 The Documentation Generation Pattern provides a standardized workflow for generating and updating documentation for code, APIs, and project components.
 
 ## Pattern Information

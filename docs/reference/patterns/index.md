@@ -1,5 +1,14 @@
 # FORCE Patterns Reference
 
+| Version | Date       | Author   | Description                                  |
+|---------|------------|----------|----------------------------------------------|
+| v0.5.0  | 2025-07-16 | peguesj  | Release: Variant, orchestration, new patterns |
+
+![Build Status](https://img.shields.io/github/actions/workflow/status/peguesj/yj-dev_sentinel/ci.yml?branch=main)
+![Release](https://img.shields.io/github/v/release/peguesj/yj-dev_sentinel)
+
+> **Note:** v0.5.0 introduces Variant, orchestration, and new pattern support in the FORCE engine.
+
 FORCE patterns define reusable workflows and execution templates that agents can leverage for common tasks. These patterns provide a standardized approach to implementing functionality across the Dev Sentinel ecosystem.
 
 ## What are FORCE Patterns?
