@@ -1,0 +1,28 @@
+{
+  "id": "drtw",
+  "name": "Don't Reinvent The Wheel",
+  "category": "quality",
+  "description": "Always research and use widely supported, popular, or industry standard open source solutions, libraries, frameworks, or packages before generating a custom implementation. Only create new solutions if no suitable, well-supported open source alternative exists.",
+  "validation": {
+    "rules": [
+      "Before implementing a new tool, feature, or function, search for existing open source solutions.",
+      "If a suitable, well-supported, and widely adopted solution exists, prefer using it over custom code.",
+      "Document the research process and rationale if a new solution is created.",
+      "Periodically review custom implementations for possible replacement with open source alternatives."
+    ],
+    "severity": "error",
+    "scope": ["tools", "patterns", "variants", "core"]
+  },
+  "enforcement": {
+    "auto_fix": false,
+    "require_approval": true,
+    "blocking": true
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "force-engine",
+    "tags": ["best_practice", "open_source", "quality"]
+  }
+}

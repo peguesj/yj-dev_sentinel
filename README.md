@@ -1,7 +1,7 @@
 # Dev Sentinel: Force-Enabled Development Assistant
 
 <div align="center">
-  <img src="docs/diagrams/dev_sentinel_logo.svg" alt="Dev Sentinel Logo" width="200"/>
+  <img src="./dev_sentinel.pmg.png" alt="Dev Sentinel Logo" width="45%"/>
   
   [![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-blue)](force/version.py)
   [![Built with: Python](https://img.shields.io/badge/Built%20with-Python-3776AB?logo=python&logoColor=white)](https://www.python.org/)
