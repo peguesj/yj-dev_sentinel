@@ -1,3 +1,4 @@
+
 # Documentation Generation Pattern
 
 | Version | Date       | Author   | Description                                  |
