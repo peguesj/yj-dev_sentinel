@@ -1,0 +1,34 @@
+{
+  "id": "add_learning",
+  "name": "Add Learning Record",
+  "category": "learning",
+  "description": "Tool to add an ad hoc learning record to the Force engine, capturing new insights, best practices, or lessons learned.",
+  "parameters": {
+    "required": [
+      { "name": "title", "type": "string", "description": "Title of the learning record" },
+      { "name": "description", "type": "string", "description": "Detailed description of the learning or insight" }
+    ],
+    "optional": [
+      { "name": "category", "type": "string", "description": "Category for the learning record (e.g., best_practice, lesson_learned, guideline)" },
+      { "name": "tags", "type": "array", "description": "Tags for categorization" }
+    ]
+  },
+  "execution": {
+    "strategy": "sequential",
+    "commands": [
+      { "action": "create_learning_record", "description": "Create a new learning record with the provided details." }
+    ],
+    "validation": {
+      "pre_conditions": ["title and description are provided"],
+      "post_conditions": ["learning record is created and stored"],
+      "error_handling": []
+    }
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "force-engine",
+    "tags": ["learning", "ad_hoc", "tool"]
+  }
+}
