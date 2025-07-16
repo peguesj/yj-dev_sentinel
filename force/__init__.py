@@ -710,10 +710,7 @@ class ForceEngine:
             if hasattr(tools, 'load_tool_definitions'):
                 loaded_tools = tools.load_tool_definitions(self.force_dir)
                 # ANCHOR: Docu-Commentary - Tool Loading Summary
-                if loaded_tools:
-                    logger.info(f"Loaded {len(loaded_tools)} unique tool definitions from .force directory")
-                else:
-                    logger.info("No tool definitions loaded from .force directory")
+                logger.info(f"Tool loading complete: {len(loaded_tools)} unique tool definitions loaded from .force directory.")
             else:
                 logger.warning("Tool definition loader not available")
 # ANCHOR: TODO - Future Variant Support
