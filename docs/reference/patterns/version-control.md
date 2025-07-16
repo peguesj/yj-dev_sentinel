@@ -1,4 +1,14 @@
+
 # Version Control Pattern
+
+| Version | Date       | Author   | Description                                  |
+|---------|------------|----------|----------------------------------------------|
+| v0.5.0  | 2025-07-16 | peguesj  | Release: atomic commit, branch end, git tasks |
+
+![Build Status](https://img.shields.io/github/actions/workflow/status/peguesj/yj-dev_sentinel/ci.yml?branch=main)
+![Release](https://img.shields.io/github/v/release/peguesj/yj-dev_sentinel)
+
+> **Note:** v0.5.0 introduces atomic commit, branch end, and git tasks patterns for robust version control workflows.
 
 The Version Control Pattern provides a standardized workflow for version control operations, including commits, branches, and merges.
 

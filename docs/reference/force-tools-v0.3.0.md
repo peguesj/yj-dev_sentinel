@@ -1,5 +1,7 @@
 # Force Tools Reference - v0.3.0
 
+> **Note:** For v0.5.0, see new tools and schema updates in the main documentation. Variant, learning, and analytics tools are now available.
+
 ## Overview
 
 This reference provides a comprehensive guide to all Force tools available in v0.3.0. Tools are organized by category and include both primary implementation tools and extended JSON-defined tools.
@@ -9,53 +11,24 @@ This reference provides a comprehensive guide to all Force tools available in v0
 ### Analysis Tools
 
 #### Code Change Analysis
-- **Tool ID**: `analyze-code-changes`
-- **Purpose**: Analyzes code changes to determine documentation impact
-- **Parameters**: `sinceCommit`, `focusAreas`
-- **Usage**: Impact assessment for code modifications
 
 #### Release Readiness Check
-- **Tool ID**: `check-release-readiness`
-- **Purpose**: Comprehensive validation for release preparation
-- **Usage**: Pre-release quality gates and validation
 
 #### Code Quality Assessment
-- **Tool ID**: `code-quality-check`
-- **Purpose**: Multi-dimensional code quality scoring
-- **Usage**: Continuous quality monitoring and improvement
 
 ### Git Workflow Tools
 
 #### Git Commit Tool
-- **Tool ID**: `git-commit`
-- **Purpose**: Intelligent commit message generation
-- **Usage**: Standardized commit practices
 
 #### Git Diff Analysis
-- **Tool ID**: `git-diff`
-- **Purpose**: Enhanced diff analysis and reporting
-- **Usage**: Change analysis and review
 
 #### Git Status Reporting
-- **Tool ID**: `git-status`
-- **Purpose**: Context-aware status reporting
-- **Usage**: Repository state analysis
 
 #### Branch Creation
-- **Tool ID**: `git_branch_create`
-- **Purpose**: Automated branch creation with conventions
-- **Usage**: Standardized branching workflows
 
 #### Workflow Commit
-- **Tool ID**: `git_workflow_commit`
-- **Purpose**: Semantic versioning and workflow integration
-- **Parameters**: `scope`, `semanticVersionIncrement`
-- **Usage**: Automated semantic commit workflows
 
 #### Grouped Commit Tool
-- **Module**: `force.tools.git.grouped_commit`
-- **Purpose**: Intelligent grouping of changes into atomic commits
-- **Features**:
   - Logical change analysis
   - Granular commit creation
   - Semantic version determination
@@ -64,29 +37,14 @@ This reference provides a comprehensive guide to all Force tools available in v0
 ### Documentation Tools
 
 #### Documentation Analysis
-- **Tool ID**: `docs-analysis`
-- **Purpose**: Quality and completeness assessment
-- **Usage**: Documentation quality monitoring
 
 #### Documentation Extraction
-- **Tool ID**: `docs-extraction`
-- **Purpose**: Automated extraction from code
-- **Usage**: API documentation generation
 
 #### Documentation Validation
-- **Tool ID**: `docs-validation`
-- **Purpose**: Structure and content validation
-- **Usage**: Quality assurance for documentation
 
 #### Documentation Update Summary
-- **Tool ID**: `generate-docs-update-summary`
-- **Purpose**: Change summary generation
-- **Usage**: Release notes and changelog automation
 
 #### Documentation Sync Tool
-- **Module**: `force.tools.documentation.doc_sync`
-- **Purpose**: Synchronize documentation with code changes
-- **Features**:
   - Change categorization
   - Cross-reference validation
   - Comprehensive commit creation
@@ -94,48 +52,24 @@ This reference provides a comprehensive guide to all Force tools available in v0
 ### Security & Compliance Tools
 
 #### Infrastructure Security Check
-- **Tool ID**: `infrastructure-security-check`
-- **Purpose**: Infrastructure security validation
-- **Usage**: Security compliance monitoring
 
 #### Secrets Scanner
-- **Tool ID**: `secrets-scan`
-- **Purpose**: Sensitive data detection
-- **Usage**: Security vulnerability prevention
 
 #### Compliance Checker
-- **Tool ID**: `compliance-check`
-- **Purpose**: Automated compliance validation
-- **Usage**: Regulatory and standards compliance
 
 ### Performance & System Tools
 
 #### Static Analysis
-- **Tool ID**: `static-analysis`
-- **Purpose**: Advanced static code analysis
-- **Usage**: Code quality and performance optimization
 
 #### Dependency Analysis
-- **Tool ID**: `dependency-analysis`
-- **Purpose**: Dependency tracking and vulnerability assessment
-- **Usage**: Security and maintenance planning
 
 #### Performance Analysis
-- **Tool ID**: `performance-analysis`
-- **Purpose**: Performance monitoring and optimization
-- **Usage**: Performance bottleneck identification
 
 #### Test Execution
-- **Tool ID**: `test-execution`
-- **Purpose**: Automated test execution and reporting
-- **Usage**: Continuous testing and quality assurance
 
 ### Project Management Tools
 
 #### Project Migration Tool
-- **Module**: `force.tools.project.migration`
-- **Purpose**: Comprehensive project structure migrations
-- **Features**:
   - Structure backup and migration
   - Reference updates
   - Symlink creation for compatibility
@@ -283,11 +217,14 @@ logging.basicConfig(level=logging.DEBUG)
 ### Tool Categories
 
 When adding tools, choose appropriate categories:
-- **Analysis**: Code and project analysis tools
-- **Git**: Version control and workflow tools
-- **Documentation**: Documentation generation and validation
-- **Security**: Security and compliance tools
-- **Performance**: Performance monitoring and optimization
-- **Project**: Project management and migration tools
 
 For more information, see the [Force Development Guide](../developer/force-development.md).
+
+| Version | Date       | Author   | Description                                  |
+|---------|------------|----------|----------------------------------------------|
+| v0.3.0  | 2024-12-01 | peguesj  | Reference for v0.3.0 tools                   |
+| v0.5.0  | 2025-07-16 | peguesj  | See new tools: Variant, learning, analytics   |
+
+![Build Status](https://img.shields.io/github/actions/workflow/status/peguesj/yj-dev_sentinel/ci.yml?branch=main)
+![Release](https://img.shields.io/github/v/release/peguesj/yj-dev_sentinel)
+## Best Practices

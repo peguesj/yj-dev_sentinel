@@ -93,6 +93,80 @@
               "description": "Sequence of commands to execute"
             },
             "validation": {
+    "Variant": {
+      "type": "object",
+      "description": "Defines a session orchestration variant for agentic systems, representing prompt instructions, rules, and context for orchestrating other components.",
+      "required": ["id", "name", "description", "category", "instructions", "rules", "context", "targets", "metadata"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*[a-z0-9]$",
+          "description": "Unique identifier for the variant in snake_case format"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100,
+          "description": "Human-readable name for the variant"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "Detailed description of the variant's purpose and orchestration logic"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category for variant organization (e.g., 'orchestration', 'prompt', 'session', 'agent', 'copilot', etc.)"
+        },
+        "instructions": {
+          "type": "string",
+          "minLength": 5,
+          "description": "Primary prompt instructions or system message for the session"
+        },
+        "rules": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of rules or behavioral constraints for the session"
+        },
+        "context": {
+          "type": "object",
+          "description": "Session context, including persona, goals, and environment",
+          "properties": {
+            "persona": { "type": "string", "description": "Persona or role for the session (e.g., 'coding assistant', 'reviewer', etc.)" },
+            "goals": { "type": "array", "items": { "type": "string" }, "description": "Session goals or objectives" },
+            "environment": { "type": "string", "description": "Target environment or platform (e.g., 'vscode', 'cursor', 'github', etc.)" },
+            "examples": { "type": "array", "items": { "type": "object" }, "description": "Example interactions or scenarios" }
+          }
+        },
+        "targets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target agent(s), tool(s), or platform(s) this variant is designed for (e.g., 'github_copilot', 'cursor', 'claude', 'continue', etc.)"
+        },
+        "anchors": {
+          "type": "object",
+          "description": "Anchors to constraints, governance, patterns, and learnings.",
+          "properties": {
+            "constraints": { "type": "array", "items": { "type": "string" }, "description": "Constraint IDs applied to this variant" },
+            "governance": { "type": "array", "items": { "type": "string" }, "description": "Governance policy IDs" },
+            "patterns": { "type": "array", "items": { "type": "string" }, "description": "Pattern IDs" },
+            "learnings": { "type": "array", "items": { "type": "string" }, "description": "Learning record IDs" }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "required": ["created", "updated", "version"],
+          "properties": {
+            "created": { "type": "string", "format": "date-time", "description": "ISO 8601 timestamp of creation" },
+            "updated": { "type": "string", "format": "date-time", "description": "ISO 8601 timestamp of last modification" },
+            "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Semantic version" },
+            "author": { "type": "string", "description": "Author of the variant" },
+            "tags": { "type": "array", "items": { "type": "string" }, "description": "Tags for categorization" }
+          }
+        }
+      }
+    },
               "type": "object",
               "description": "Validation rules for successful execution",
               "properties": {
@@ -466,6 +540,7 @@
     { "$ref": "#/definitions/ToolDefinition" },
     { "$ref": "#/definitions/Pattern" },
     { "$ref": "#/definitions/Constraint" },
-    { "$ref": "#/definitions/LearningRecord" }
+    { "$ref": "#/definitions/LearningRecord" },
+    { "$ref": "#/definitions/Variant" }
   ]
 }

@@ -1,8 +1,23 @@
+
 # Force Extended Schema System
+
+| Version | Date       | Author   | Description                                  |
+|---------|------------|----------|----------------------------------------------|
+| v0.5.0  | 2025-07-16 | peguesj  | Release: Variant support, schema, docs update |
+
+![Build Status](https://img.shields.io/github/actions/workflow/status/peguesj/yj-dev_sentinel/ci.yml?branch=main)
+![Release](https://img.shields.io/github/v/release/peguesj/yj-dev_sentinel)
 
 **Version:** 1.0.0  
 **Status:** ✅ Production Ready  
 **Updated:** July 2, 2025
+
+## v0.5.0 Schema Updates
+
+- Added `Variant` as a first-class Force component for session orchestration
+- Extended `oneOf` to include Variant
+- Added anchors for orchestration, prompt engineering, and learning
+- Schema now supports open enums and extensible categories
 
 ## Overview
 
