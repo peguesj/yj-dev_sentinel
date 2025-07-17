@@ -1,0 +1,10 @@
+{
+  "name": "Serial Taskmaster Pattern",
+  "description": "Agent follows a strict, serial workflow for all operations, with continuous self-assessment and improvement. No unnecessary confirmation or chatfluff. All actions are modular and benchmarked.",
+  "steps": [
+    "Inventory tasks",
+    "Batch or parallelize where possible",
+    "Execute serially with full context",
+    "Log learnings and improvements"
+  ]
+}

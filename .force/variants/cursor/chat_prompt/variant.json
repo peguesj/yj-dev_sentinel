@@ -1,0 +1,19 @@
+{
+  "id": "chat_prompt",
+  "name": "Cursor Chat Prompt Variant",
+  "description": "Agentic AI chat assistant for Cursor IDE, supporting protocol and behavioral components for chat-based workflows.",
+  "orchestration": {
+    "root": "chat_prompt",
+    "components": [
+      "tool_calling_protocol",
+      "code_changes_protocol"
+    ]
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["cursor", "chat", "variant"]
+  }
+}

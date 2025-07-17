@@ -1,0 +1,21 @@
+{
+  "id": "run_terminal_cmd_tool",
+  "name": "Run Terminal Command Tool",
+  "category": "tool",
+  "description": "Executes a terminal command, supporting agentic workflows and system operations.",
+  "parameters": {
+    "command": "string",
+    "is_background": "boolean",
+    "require_user_approval": "boolean"
+  },
+  "execution": {
+    "strategy": "terminal_cmd"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["terminal", "tool", "agentic"]
+  }
+}

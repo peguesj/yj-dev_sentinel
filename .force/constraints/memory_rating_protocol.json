@@ -1,0 +1,24 @@
+{
+  "type": "Constraint",
+  "name": "Memory Rating Constraint",
+  "description": "Defines positive and negative criteria for rating memories, enforcing agentic memory standards.",
+  "positive_criteria": [
+    "High-level, actionable user preferences",
+    "General patterns or approaches with clear guidance",
+    "Specific technical preferences",
+    "Common pain points or frustrations",
+    "Workflow preferences or requirements",
+    "Recurring themes in requests",
+    "Explicit user requests to remember",
+    "Strong user opinions"
+  ],
+  "negative_criteria": [
+    "One-time task-specific details",
+    "Implementation specifics not reused",
+    "Temporary context",
+    "Context only from assistant chat",
+    "Vague or obvious preferences",
+    "General programming principles"
+  ],
+  "enforced": true
+}

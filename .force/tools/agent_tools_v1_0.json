@@ -1,0 +1,30 @@
+[
+    {
+        "description": "Find snippets of code from the codebase most relevant to the search query.",
+        "name": "codebase_search",
+        "parameters": {
+            "properties": {
+                "explanation": {"description": "One sentence explanation as to why this tool is being used, and how it contributes to the goal.", "type": "string"},
+                "query": {"description": "The search query to find relevant code.", "type": "string"},
+                "target_directories": {"description": "Glob patterns for directories to search over", "items": {"type": "string"}, "type": "array"}
+            },
+            "required": ["query"],
+            "type": "object"
+        }
+    },
+    {
+        "description": "Read the contents of a file.",
+        "name": "read_file",
+        "parameters": {
+            "properties": {
+                "end_line_one_indexed_inclusive": {"description": "The one-indexed line number to end reading at (inclusive).", "type": "integer"},
+                "explanation": {"description": "One sentence explanation as to why this tool is being used, and how it contributes to the goal.", "type": "string"},
+                "should_read_entire_file": {"description": "Whether to read the entire file.", "type": "boolean"},
+                "start_line_one_indexed": {"description": "The one-indexed line number to start reading from (inclusive).", "type": "integer"},
+                "target_file": {"description": "The path of the file to read.", "type": "string"}
+            },
+            "required": ["target_file", "should_read_entire_file", "start_line_one_indexed", "end_line_one_indexed_inclusive"],
+            "type": "object"
+        }
+    }
+]

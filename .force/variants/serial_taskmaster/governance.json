@@ -1,0 +1,9 @@
+{
+  "name": "Serial Taskmaster Governance",
+  "description": "All actions must be benchmarked for efficiency and efficacy. Agent must reflect on each iteration and update workflow to maximize parallelization and batch processing where possible.",
+  "rules": [
+    "Benchmark every batch operation",
+    "Retain all data, no omission for brevity",
+    "Iteratively improve development practices"
+  ]
+}

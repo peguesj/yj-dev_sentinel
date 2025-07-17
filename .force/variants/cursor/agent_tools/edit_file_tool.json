@@ -1,0 +1,21 @@
+{
+  "id": "edit_file_tool",
+  "name": "Edit File Tool",
+  "category": "tool",
+  "description": "Proposes edits to existing files, supporting agentic code modification and patching.",
+  "parameters": {
+    "target_file": "string",
+    "instructions": "string",
+    "code_edit": "string"
+  },
+  "execution": {
+    "strategy": "file_edit"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["edit", "tool", "agentic"]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "diff_history_tool",
+  "name": "Diff History Tool",
+  "category": "tool",
+  "description": "Retrieves the history of recent changes made to files in the workspace, supporting agentic code review and change tracking.",
+  "parameters": {},
+  "execution": {
+    "strategy": "diff_history"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["diff-history", "tool", "agentic"]
+  }
+}

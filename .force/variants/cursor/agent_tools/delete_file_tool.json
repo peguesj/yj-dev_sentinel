@@ -1,0 +1,19 @@
+{
+  "id": "delete_file_tool",
+  "name": "Delete File Tool",
+  "category": "tool",
+  "description": "Deletes a file at the specified path, supporting agentic file management and cleanup.",
+  "parameters": {
+    "target_file": "string"
+  },
+  "execution": {
+    "strategy": "file_delete"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["delete", "tool", "agentic"]
+  }
+}

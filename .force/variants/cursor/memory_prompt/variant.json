@@ -1,0 +1,19 @@
+{
+  "id": "memory_prompt",
+  "name": "Cursor Memory Prompt Variant",
+  "description": "Agentic AI assistant for Cursor IDE, focused on evaluating and scoring the worthiness of conversational memories for future use.",
+  "orchestration": {
+    "root": "memory_prompt",
+    "components": [
+      "memory_scoring_protocol",
+      "memory_examples_protocol"
+    ]
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["cursor", "memory", "variant"]
+  }
+}

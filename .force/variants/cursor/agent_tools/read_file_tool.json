@@ -1,0 +1,22 @@
+{
+  "id": "read_file_tool",
+  "name": "Read File Tool",
+  "category": "tool",
+  "description": "Reads the contents of a file, supporting agentic context gathering and code analysis.",
+  "parameters": {
+    "target_file": "string",
+    "start_line_one_indexed": "integer",
+    "end_line_one_indexed_inclusive": "integer",
+    "should_read_entire_file": "boolean"
+  },
+  "execution": {
+    "strategy": "file_read"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["read", "tool", "agentic"]
+  }
+}

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dev-sentinel"
-version = "0.4.1"
+version = "0.4.2"
 description = "AI-powered development sentinel with Force framework and MCP integration"
 readme = "README.md"
 license = {file = "LICENSE-MIT.md"}
@@ -66,6 +66,7 @@ force-mcp-stdio = "dev_sentinel.servers.force_mcp_stdio:main"
 dev-sentinel-stdio = "dev_sentinel.servers.dev_sentinel_stdio:main"
 force-mcp-http = "dev_sentinel.servers.force_mcp_http:main"
 dev-sentinel-http = "dev_sentinel.servers.dev_sentinel_http:main"
+force = "force:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

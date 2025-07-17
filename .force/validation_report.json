@@ -1,11 +1,11 @@
 {
   "success": true,
-  "validation_timestamp": "2025-07-16T15:09:03.766664",
+  "validation_timestamp": "2025-07-16T23:43:03.039914",
   "schema_path": "schemas/force-extended-schema.json",
   "summary": {
-    "total_components": 68,
+    "total_components": 71,
     "valid_components": 53,
-    "invalid_components": 15,
+    "invalid_components": 18,
     "ready_for_loading": false
   },
   "tools": {
@@ -495,7 +495,7 @@
   },
   "patterns": {
     "type": "patterns",
-    "total": 8,
+    "total": 10,
     "valid": [
       {
         "file": "continuous_changelog_pattern.json",
@@ -567,6 +567,26 @@
         "tool_name": "Supabase Web Instance Deployment Pattern"
       },
       {
+        "file": "pattern.cluely.enterprise.json",
+        "path": "patterns/pattern.cluely.enterprise.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': 'name' is a required property"
+        ],
+        "tool_id": "pattern.cluely.enterprise"
+      },
+      {
+        "file": "pattern.cluely.default.json",
+        "path": "patterns/pattern.cluely.default.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': 'name' is a required property"
+        ],
+        "tool_id": "pattern.cluely.default"
+      },
+      {
         "file": "atomic_commit_workflow.json",
         "path": "patterns/atomic_commit_workflow.json",
         "valid": false,
@@ -582,7 +602,7 @@
   },
   "constraints": {
     "type": "constraints",
-    "total": 7,
+    "total": 8,
     "valid": [],
     "invalid": [
       {
@@ -639,6 +659,17 @@
         ],
         "tool_id": "supabase-project-access-constraint",
         "tool_name": "Generated name"
+      },
+      {
+        "file": "test_type_casting_best_practices.json",
+        "path": "constraints/test_type_casting_best_practices.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Invalid enforcement level: None"
+        ],
+        "tool_id": "test_type_casting_best_practices",
+        "tool_name": "Test Suite Type Casting Best Practices"
       },
       {
         "file": "supabase-deployment.json",

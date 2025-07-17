@@ -1,0 +1,15 @@
+{
+  "id": "code_changes_protocol",
+  "name": "Code Changes Protocol",
+  "category": "protocol",
+  "description": "Ensures code changes are grouped, runnable, and made using code edit tools, never outputting code to the user unless requested.",
+  "parameters": {},
+  "execution": {},
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["code-changes", "protocol", "agentic"]
+  }
+}

@@ -858,7 +858,7 @@ class ForceEngine:
                     result = await method(processed_params, execution_context)
                 else:
                     # Try to find a tool with this ID
-                    result = await self.execute_tool(action, processed_params, execution_context)
+                    result = self.execute_tool(action, processed_params, execution_context)
                 
                 # Store result in context for subsequent commands
                 results[f"command_{i+1}"] = result

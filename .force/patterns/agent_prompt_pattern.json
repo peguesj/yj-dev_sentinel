@@ -1,0 +1,13 @@
+{
+  "name": "Agent Prompt Pattern",
+  "description": "Agentic rules for tool calling, code changes, and searching/reading in Cursor.",
+  "steps": [
+    "Follow tool call schema and provide all parameters",
+    "Never refer to tool names in user messages",
+    "Explain tool usage before calling",
+    "Group edits to the same file in a single call",
+    "Read sufficient context before editing",
+    "Fix linter errors if clear how to fix",
+    "Prefer semantic search for codebase queries"
+  ]
+}

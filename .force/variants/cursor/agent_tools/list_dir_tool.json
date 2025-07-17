@@ -1,0 +1,19 @@
+{
+  "id": "list_dir_tool",
+  "name": "List Directory Tool",
+  "category": "tool",
+  "description": "Lists the contents of a directory, supporting agentic exploration and file discovery.",
+  "parameters": {
+    "relative_workspace_path": "string"
+  },
+  "execution": {
+    "strategy": "directory_listing"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["directory", "tool", "agentic"]
+  }
+}

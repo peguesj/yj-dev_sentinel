@@ -428,6 +428,61 @@
               "description": "Development insights"
             }
           }
+  ,
+  "VariantComponent": {
+    "type": "object",
+    "required": ["id", "name", "description", "orchestration", "metadata"],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*[a-z0-9]$",
+        "description": "Unique identifier for the variant component (snake_case)"
+      },
+      "name": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 100,
+        "description": "Human-readable variant name"
+      },
+      "description": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 500,
+        "description": "Detailed variant description"
+      },
+      "orchestration": {
+        "type": "object",
+        "required": ["root", "components"],
+        "properties": {
+          "root": {
+            "type": "string",
+            "description": "ID of the root component for orchestration"
+          },
+          "components": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "IDs of all components included in the variant"
+          }
+        }
+      },
+      "metadata": {
+        "type": "object",
+        "required": ["created", "updated", "version"],
+        "properties": {
+          "created": { "type": "string", "format": "date-time" },
+          "updated": { "type": "string", "format": "date-time" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+          "author": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  },
+  "variants": {
+    "type": "array",
+    "items": { "$ref": "#/definitions/VariantComponent" },
+    "description": "Array of variant components for orchestration"
+  }
         },
         "metadata": {
           "type": "object",
@@ -466,6 +521,7 @@
     { "$ref": "#/definitions/ToolDefinition" },
     { "$ref": "#/definitions/Pattern" },
     { "$ref": "#/definitions/Constraint" },
-    { "$ref": "#/definitions/LearningRecord" }
+    { "$ref": "#/definitions/LearningRecord" },
+    { "$ref": "#/definitions/VariantComponent" }
   ]
 }

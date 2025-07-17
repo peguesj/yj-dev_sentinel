@@ -1,0 +1,21 @@
+{
+  "id": "agent_prompt",
+  "name": "Cursor Agent Prompt Variant",
+  "description": "Agentic AI coding assistant for Cursor IDE, supporting multiple protocol and behavioral components.",
+  "orchestration": {
+    "root": "agent_prompt",
+    "components": [
+      "tool_calling_protocol",
+      "parallelization_protocol",
+      "search_and_reading_protocol",
+      "code_changes_protocol"
+    ]
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["cursor", "agentic", "variant"]
+  }
+}
