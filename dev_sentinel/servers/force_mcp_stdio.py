@@ -18,6 +18,7 @@ from integration.fast_agent.force_mcp_server import main as force_mcp_main
 
 
 import logging
+logger = logging.getLogger("force_mcp_stdio")
 import colorama
 from colorama import Fore, Style
 
@@ -40,43 +41,78 @@ def format_validation_report(report):
     ready_text = "YES" if ready_for_loading else "NO"
     lines.append(f"Ready for Loading: {ready_color}{ready_text}")
     lines.append("")
+    # ANCHOR: Docu-Commentary - Valid Tools
+    lines.append(Fore.GREEN + "✅ Valid Tools:")
+    for tool in report.get('valid_tools', []):
+        lines.append(Fore.GREEN + f"  • {tool.get('name', tool.get('id', 'Unknown'))}")
+    lines.append("")
     lines.append(Fore.YELLOW + "🔧 TOOLS")
     lines.append("-" * 40)
     for tool in report.get('invalid_tools', []):
         lines.append(Fore.RED + f"❌ Invalid tool: {tool.get('full_path', tool.get('path', 'Unknown'))} (Project: {tool.get('is_project', 'Unknown')}) - {tool.get('error', 'No error info')}")
+    lines.append("")
+    # ANCHOR: Docu-Commentary - Valid Patterns
+    lines.append(Fore.GREEN + "✅ Valid Patterns:")
+    for pattern in report.get('valid_patterns', []):
+        lines.append(Fore.GREEN + f"  • {pattern.get('name', pattern.get('id', 'Unknown'))}")
     lines.append("")
     lines.append(Fore.YELLOW + "🔧 PATTERNS")
     lines.append("-" * 40)
     for pattern in report.get('invalid_patterns', []):
         lines.append(Fore.RED + f"❌ Invalid pattern: {pattern.get('full_path', pattern.get('path', 'Unknown'))} (Project: {pattern.get('is_project', 'Unknown')}) - {pattern.get('error', 'No error info')}")
     lines.append("")
+    # ANCHOR: Docu-Commentary - Valid Constraints
+    lines.append(Fore.GREEN + "✅ Valid Constraints:")
+    for constraint in report.get('valid_constraints', []):
+        lines.append(Fore.GREEN + f"  • {constraint.get('name', constraint.get('id', 'Unknown'))}")
+    lines.append("")
     lines.append(Fore.YELLOW + "🔧 CONSTRAINTS")
     lines.append("-" * 40)
     for constraint in report.get('invalid_constraints', []):
         lines.append(Fore.RED + f"❌ Invalid constraint: {constraint.get('full_path', constraint.get('path', 'Unknown'))} (Project: {constraint.get('is_project', 'Unknown')}) - {constraint.get('error', 'No error info')}")
+    if report.get('invalid_constraints', []) and not report.get('valid_constraints', []):
+        lines.append(Fore.RED + "⚠️  All constraints failed validation. Please review schema and update constraints.")
+        # Show first few errors for actionable debugging
+        for constraint in report.get('invalid_constraints', [])[:3]:
+            lines.append(Fore.RED + f"  • {constraint.get('error', 'No error info')}")
+    lines.append("")
+    # ANCHOR: Docu-Commentary - Valid Governance
+    lines.append(Fore.GREEN + "✅ Valid Governance:")
+    for governance in report.get('valid_governance', []):
+        lines.append(Fore.GREEN + f"  • {governance.get('name', governance.get('id', 'Unknown'))}")
     lines.append("")
     lines.append(Fore.YELLOW + "🔧 GOVERNANCE")
     lines.append("-" * 40)
     for governance in report.get('invalid_governance', []):
         lines.append(Fore.RED + f"❌ Invalid governance: {governance.get('full_path', governance.get('path', 'Unknown'))} (Project: {governance.get('is_project', 'Unknown')}) - {governance.get('error', 'No error info')}")
     lines.append("")
+    # ANCHOR: TODO - Future Variant Support
+    lines.append(Fore.CYAN + "[TODO] Variant support not yet implemented.")
     return "\n".join(lines)
 
 def main():
     """Entry point for force-mcp-stdio CLI command."""
     import asyncio
     try:
-        # Set logging to debug level
+        # ANCHOR: Docu-Commentary - Logging Setup
         logging.basicConfig(level=logging.DEBUG)
         # Run the main MCP server function and get validation report
         validation_report = asyncio.run(force_mcp_main())
-        # Format and print the validation report with full paths and project/system info
-        print(format_validation_report(validation_report))
+        # ANCHOR: Docu-Commentary - Validation Report Output
+        logger.info("Validation report follows:")
+        logger.info(format_validation_report(validation_report))
+        # ANCHOR: Docu-Commentary - Validation Summary
+        if validation_report:
+            valid_tools = validation_report.get('valid_tools', [])
+            invalid_tools = validation_report.get('invalid_tools', [])
+            logger.info(f"Loaded {len(valid_tools)} valid tools, {len(invalid_tools)} invalid tools.")
     except KeyboardInterrupt:
-        print("\n🛑 Force MCP server stopped by user")
+        # ANCHOR: Docu-Commentary - Server Stop
+        logger.info("Force MCP server stopped by user")
         sys.exit(0)
     except Exception as e:
-        print(f"❌ Force MCP server error: {e}")
+        # ANCHOR: Error Handling - Unhandled Exception
+        logger.error(f"Force MCP server error: {e}", exc_info=True)
         sys.exit(1)
 
 

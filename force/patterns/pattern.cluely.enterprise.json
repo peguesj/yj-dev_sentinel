@@ -1,0 +1,16 @@
+{
+  "id": "pattern.cluely.enterprise",
+  "product": "Cluely",
+  "variant": "enterprise",
+  "source": "vari/Cluely/Enterprise Prompt.txt",
+  "type": "pattern",
+  "description": "Cluely enterprise variant for live-meeting co-pilot, with advanced question answering, intent detection, and conversation advancement.",
+  "rules": [
+    "Answer direct questions first, then provide supporting details.",
+    "Infer intent from context, incomplete, or garbled questions.",
+    "Define terms or proper nouns at transcript end.",
+    "Suggest follow-up questions when no direct question is present.",
+    "Maximize usefulness, minimize overload (max 3 suggestions/questions)."
+  ],
+  "sections": ["core_identity", "objective", "question_answering_priority", "term_definition_priority", "conversation_advancement_priority"]
+}

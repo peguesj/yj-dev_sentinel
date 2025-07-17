@@ -1,0 +1,20 @@
+{
+  "id": "codebase_search_tool",
+  "name": "Codebase Search Tool",
+  "category": "tool",
+  "description": "Finds code snippets most relevant to a semantic search query, supporting agentic exploration and context gathering.",
+  "parameters": {
+    "query": "string",
+    "target_directories": "array"
+  },
+  "execution": {
+    "strategy": "semantic_search"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["search", "tool", "agentic"]
+  }
+}

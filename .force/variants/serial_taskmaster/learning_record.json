@@ -1,0 +1,9 @@
+{
+  "name": "Serial Taskmaster Learning Record",
+  "description": "Reflects on efficiency guidance and agentic performance. Documents learnings from each batch and iteration, updating best practices for future operations.",
+  "entries": [
+    "Prefer batch and parallel operations for setup",
+    "Retain all context and data",
+    "Continuously benchmark and improve agentic workflow"
+  ]
+}

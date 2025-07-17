@@ -499,6 +499,79 @@
           "description": "When this learning event occurred"
         }
       }
+    },
+    "VariantComponent": {
+      "type": "object",
+      "required": [
+        "id", "name", "description", "category", "instructions", "rules",
+        "context", "targets", "anchors", "metadata"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*[a-z0-9]$",
+          "description": "Unique identifier for the variant in snake_case"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100,
+          "description": "Human-readable name for the variant"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "Expansive description of the variant's orchestration and purpose"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the variant (e.g., orchestration, agent, variant)"
+        },
+        "instructions": {
+          "type": "string",
+          "description": "System prompt and operational instructions for the agent"
+        },
+        "rules": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Explicit operational rules for the agent"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "persona": { "type": "string" },
+            "goals": { "type": "array", "items": { "type": "string" } },
+            "environment": { "type": "string" },
+            "examples": { "type": "array", "items": { "type": "object" } }
+          }
+        },
+        "targets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Agentic targets (e.g., copilot, product name)"
+        },
+        "anchors": {
+          "type": "object",
+          "properties": {
+            "constraints": { "type": "array", "items": { "type": "string" } },
+            "governance": { "type": "array", "items": { "type": "string" } },
+            "patterns": { "type": "array", "items": { "type": "string" } },
+            "learnings": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "required": ["created", "updated", "version", "author"],
+          "properties": {
+            "created": { "type": "string", "format": "date-time" },
+            "updated": { "type": "string", "format": "date-time" },
+            "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+            "author": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
     }
   },
   "properties": {
@@ -521,6 +594,11 @@
       "type": "array",
       "items": { "$ref": "#/definitions/LearningRecord" },
       "description": "Historical learning data for continuous improvement"
+    },
+    "variants": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/VariantComponent" },
+      "description": "Collection of agentic variant components to emulate different AI behaviors and orchestration styles"
     }
   }
 }

@@ -1,0 +1,19 @@
+{
+  "id": "file_search_tool",
+  "name": "File Search Tool",
+  "category": "tool",
+  "description": "Performs fast file search based on fuzzy matching against file path, supporting agentic file discovery and analysis.",
+  "parameters": {
+    "query": "string"
+  },
+  "execution": {
+    "strategy": "file_search"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["file-search", "tool", "agentic"]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Branch End Tasks Workflow",
+  "description": "Defines the agentic process for completing and merging branches. Ensures all branch end tasks are performed before merge or deletion.",
+  "steps": [
+    "Review branch for completeness",
+    "Run all tests and validations",
+    "Document changes and learnings",
+    "Merge branch or delete if obsolete",
+    "Benchmark branch end for agentic standards"
+  ]
+}

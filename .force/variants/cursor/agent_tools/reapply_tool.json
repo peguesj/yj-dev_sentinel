@@ -1,0 +1,19 @@
+{
+  "id": "reapply_tool",
+  "name": "Reapply Tool",
+  "category": "tool",
+  "description": "Calls a smarter model to apply the last edit to the specified file, supporting agentic code correction and patching.",
+  "parameters": {
+    "target_file": "string"
+  },
+  "execution": {
+    "strategy": "reapply_edit"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["reapply", "tool", "agentic"]
+  }
+}

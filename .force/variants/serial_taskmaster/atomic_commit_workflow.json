@@ -1,0 +1,10 @@
+{
+  "name": "Atomic Commit Workflow",
+  "description": "Ensures every commit is atomic, descriptive, and benchmarked for agentic performance. No partial or ambiguous commits allowed.",
+  "steps": [
+    "Review staged changes",
+    "Write clear, descriptive commit message",
+    "Commit all changes atomically",
+    "Benchmark commit for completeness and clarity"
+  ]
+}

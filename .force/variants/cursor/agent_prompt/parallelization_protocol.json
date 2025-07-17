@@ -1,0 +1,15 @@
+{
+  "id": "parallelization_protocol",
+  "name": "Parallelization Protocol",
+  "category": "protocol",
+  "description": "Maximizes parallel tool calls for efficiency, always defaulting to parallel unless sequential execution is strictly required.",
+  "parameters": {},
+  "execution": {},
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["parallelization", "protocol", "agentic"]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "grep_search_tool",
+  "name": "Grep Search Tool",
+  "category": "tool",
+  "description": "Performs fast text-based regex search within files or directories, supporting agentic code analysis and pattern matching.",
+  "parameters": {
+    "query": "string",
+    "include_pattern": "string",
+    "exclude_pattern": "string",
+    "case_sensitive": "boolean"
+  },
+  "execution": {
+    "strategy": "grep_search"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["grep", "tool", "agentic"]
+  }
+}

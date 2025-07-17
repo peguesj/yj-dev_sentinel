@@ -1,0 +1,15 @@
+{
+  "id": "memory_examples_protocol",
+  "name": "Memory Examples Protocol",
+  "category": "protocol",
+  "description": "Provides examples of memories that should and should not be remembered, supporting robust memory evaluation.",
+  "parameters": {},
+  "execution": {},
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["memory", "examples", "protocol", "agentic"]
+  }
+}

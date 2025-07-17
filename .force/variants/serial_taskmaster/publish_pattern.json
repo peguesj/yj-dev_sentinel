@@ -1,0 +1,10 @@
+{
+  "name": "Publish Pattern",
+  "description": "Agentic process for publishing code, documentation, and learnings. Ensures all outputs are validated, documented, and benchmarked for agentic performance.",
+  "steps": [
+    "Validate outputs",
+    "Document changes and learnings",
+    "Publish to target (repo, docs, etc.)",
+    "Benchmark publishing for completeness and clarity"
+  ]
+}

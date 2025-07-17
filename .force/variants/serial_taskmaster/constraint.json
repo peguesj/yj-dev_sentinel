@@ -1,0 +1,5 @@
+{
+  "name": "No Chatfluff Constraint",
+  "description": "Agent must not produce unnecessary conversational output. All communication is technical, intentional, and relevant to the task.",
+  "enforced": true
+}

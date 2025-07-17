@@ -1,0 +1,28 @@
+{
+  "id": "test_type_casting_best_practices",
+  "name": "Test Suite Type Casting Best Practices",
+  "category": "quality",
+  "description": "All test suites must strictly adhere to TypeScript or Pytest type casting best practices. All code must be verbosely documented with comments that follow the same standards of excellence in quality control and documentation. Anchor phrases must be included in descriptions and comments for easy reference.",
+  "validation": {
+    "rules": [
+      "All test code must use explicit type casting and type annotations where applicable (TypeScript: types/interfaces, Pytest: type hints).",
+      "All test code must include verbose comments explaining type usage, casting, and rationale.",
+      "Anchor phrases (e.g., 'ANCHOR: Type Safety', 'ANCHOR: Test Documentation') must be present in comments and descriptions for reference.",
+      "Tests must fail if type casting or documentation standards are not met."
+    ],
+    "severity": "error",
+    "scope": ["tests", "test_suites", "quality_control"]
+  },
+  "enforcement": {
+    "auto_fix": false,
+    "require_approval": true,
+    "blocking": true
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "force-engine",
+    "tags": ["best_practice", "type_casting", "quality", "documentation", "anchor_phrase"]
+  }
+}

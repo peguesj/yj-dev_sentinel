@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/refs/heads/main/schema/2025-06-18/schema.json",
-      "servers": {
-        "force_mcp_stdio": {
+  "servers": {
+    "force_mcp_stdio": {
       "command": "force-mcp-stdio",
       "args": [],
       "cwd": "${workspaceFolder}",
@@ -15,7 +15,10 @@
     },
     "dev_sentinel_stdio": {
       "command": "dev-sentinel-stdio",
-      "args": ["--mcp-port", "8090"],
+      "args": [
+        "--mcp-port",
+        "8090"
+      ],
       "cwd": "${workspaceFolder}",
       "env": {
         "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
@@ -25,21 +28,29 @@
       "transport": "stdio",
       "timeout": 30000
     },
-    "force_mcp_http": {
-      "command": "force-mcp-http",
-      "args": ["--port", "8080"],
-      "cwd": "${workspaceFolder}",
-      "env": {
-        "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
-        "PYTHONUNBUFFERED": "1"
-      },
-      "pattern": ".*(?:Force MCP|HTTP server).*",
-      "transport": "http",
-      "timeout": 30000
-    },
+    // "force_mcp_http": {
+    //   "command": "force-mcp-http",
+    //   "args": [
+    //     "--port",
+    //     "8080"
+    //   ],
+    //   "cwd": "${workspaceFolder}",
+    //   "env": {
+    //     "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
+    //     "PYTHONUNBUFFERED": "1"
+    //   },
+    //   "pattern": ".*(?:Force MCP|HTTP server).*",
+    //   "transport": "http",
+    //   "timeout": 30000
+    // },
     "dev_sentinel_http": {
       "command": "dev-sentinel-http",
-      "args": ["--http-port", "8000", "--mcp-port", "8090"],
+      "args": [
+        "--http-port",
+        "8000",
+        "--mcp-port",
+        "8090"
+      ],
       "cwd": "${workspaceFolder}",
       "env": {
         "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
@@ -48,7 +59,14 @@
       "pattern": ".*(?:Dev Sentinel|HTTP API).*",
       "transport": "http",
       "timeout": 30000
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ]
     }
   }
 }
-

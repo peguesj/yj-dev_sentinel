@@ -1,0 +1,13 @@
+{
+  "type": "Constraint",
+  "name": "Memory Worthiness Constraint",
+  "description": "Determines if a memory meets agentic worthiness criteria for retention.",
+  "criteria": [
+    "Relevant to programming and software engineering",
+    "General and applicable to future interactions",
+    "Specific and actionable",
+    "Not tied only to specific files or code snippets",
+    "Capture user frustration or corrections"
+  ],
+  "enforced": true
+}

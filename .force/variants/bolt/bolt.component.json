@@ -1,0 +1,11 @@
+{
+  "component_id": "bolt-variant-component",
+  "type": "variant",
+  "namespace": "bolt",
+  "description": "Bolt variant component for agentic development in browser-native environments.",
+  "files": [
+    "bolt.variant.json",
+    "bolt.prompt.txt"
+  ],
+  "schema_compliance": "Strict Force schema, product-namespaced, modular."
+}

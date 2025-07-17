@@ -1,0 +1,15 @@
+{
+  "id": "memory_scoring_protocol",
+  "name": "Memory Scoring Protocol",
+  "category": "protocol",
+  "description": "Evaluates and scores conversational memories for future use, applying actionable, domain-relevant criteria.",
+  "parameters": {},
+  "execution": {},
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["memory", "scoring", "protocol", "agentic"]
+  }
+}

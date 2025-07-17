@@ -1,0 +1,15 @@
+{
+  "id": "tool_calling_protocol",
+  "name": "Tool Calling Protocol",
+  "category": "protocol",
+  "description": "Strict adherence to tool call schema, never referring to tool names in user messages, and always reflecting on tool results before next actions.",
+  "parameters": {},
+  "execution": {},
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["tool-calling", "protocol", "agentic"]
+  }
+}

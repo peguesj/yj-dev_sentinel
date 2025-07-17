@@ -1,0 +1,15 @@
+{
+  "id": "search_and_reading_protocol",
+  "name": "Search and Reading Protocol",
+  "category": "protocol",
+  "description": "Biases toward gathering more information via tool calls rather than asking the user, ensuring complete context before ending a turn.",
+  "parameters": {},
+  "execution": {},
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["search", "reading", "protocol", "agentic"]
+  }
+}

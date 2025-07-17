@@ -1,0 +1,10 @@
+{
+    "chat.mcp.serverSampling": {
+        "yj-dev_sentinel/.vscode/mcp.json: force_mcp_http": {
+            "allowedModels": [
+                "github.copilot-chat/gpt-4.1",
+                "github.copilot-chat/Azure-azureml://registries/azure-openai/models/codex-mini/versions/2025-05-16"
+            ]
+        }
+    }
+}

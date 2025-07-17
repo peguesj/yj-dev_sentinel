@@ -1,0 +1,19 @@
+{
+  "id": "web_search_tool",
+  "name": "Web Search Tool",
+  "category": "tool",
+  "description": "Searches the web for real-time information about any topic, supporting agentic context gathering and up-to-date knowledge.",
+  "parameters": {
+    "search_term": "string"
+  },
+  "execution": {
+    "strategy": "web_search"
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["web-search", "tool", "agentic"]
+  }
+}

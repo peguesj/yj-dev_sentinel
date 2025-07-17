@@ -332,143 +332,133 @@ class ForceEngine:
         
         return components
     
-    async def execute_tool(self, tool_id: str, parameters: Dict[str, Any], 
-                          context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def execute_tool(self, tool_id: str, parameters: Dict[str, Any], 
+                    context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
-        Execute a Force tool with validation and monitoring.
+        Execute a Force tool with validation and monitoring (synchronous).
         
         Args:
             tool_id: ID of the tool to execute
             parameters: Parameters for tool execution
             context: Execution context information
-            
         Returns:
             Execution result with metrics and status
         """
         start_time = datetime.now(timezone.utc)
         execution_id = f"{tool_id}_{start_time.strftime('%Y%m%d_%H%M%S_%f')}"
         
-        try:
-            # Load tool definition
-            tools = self.load_tools()
-            if tool_id not in tools:
-                raise ToolExecutionError(f"Tool not found: {tool_id}")
-            
-            tool = tools[tool_id]
-            
-            # Validate parameters against tool schema
-            if "parameters" in tool and "schema" in tool["parameters"]:
+        # Load tool definition
+        tools = self.load_tools()
+        if tool_id not in tools:
+            raise ToolExecutionError(f"Tool not found: {tool_id}")
+
+        tool = tools[tool_id]
+
+        # Validate parameters against tool schema
+        if "parameters" in tool:
+            schema = tool["parameters"].get("schema")
+            required_params = tool["parameters"].get("required", [])
+            if schema:
                 try:
-                    validate(instance=parameters, schema=tool["parameters"]["schema"])
+                    validate(instance=parameters, schema=schema)
                 except ValidationError as e:
+                    # ANCHOR: Type Safety - Raise strict error for type mismatch
                     raise ToolExecutionError(f"Parameter validation failed: {getattr(e, 'message', str(e))}")
-            
-            # Check governance policies
-            await self._check_governance_policies(tool_id, parameters, context)
-            
-            # Execute pre-conditions
-            if "validation" in tool and "preConditions" in tool["validation"]:
-                await self._validate_conditions(tool["validation"]["preConditions"], context)
-            
-            # Execute the tool
-            logger.info(f"Executing tool {tool_id} with execution ID {execution_id}")
-            
-            result = await self.tool_executor.execute_tool_command(tool, parameters, context)
-            
-            # Execute post-conditions
-            if "validation" in tool and "postConditions" in tool["validation"]:
-                await self._validate_conditions(tool["validation"]["postConditions"], context)
-            
-            # Record successful execution
-            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
-            
-            learning_record = {
-                "id": execution_id,
-                "timestamp": start_time.isoformat(),
-                "context": context or {},
-                "toolId": tool_id,
-                "outcome": {
-                    "success": True,
-                    "executionTime": execution_time,
-                    "metrics": {
-                        "executionTimeMs": execution_time * 1000,
-                        "memoryUsageMB": 0,  # TODO: Implement memory tracking
-                        "successRate": 1.0,
-                        "errorCount": 0,
-                        "lastExecuted": datetime.now(timezone.utc).isoformat()
-                    }
-                },
-                "insights": []
-            }
-            
-            await self._record_learning_data(learning_record)
-            
-            return {
+            # Fallback: strict type safety for required parameters
+            for param in required_params:
+                param_name = param.get("name")
+                param_type = param.get("type")
+                value = parameters.get(param_name)
+                if param_type == "array":
+                    if not isinstance(value, list):
+                        raise ToolExecutionError(f"Parameter '{param_name}' must be a list.")
+                    item_type = param.get("items", {}).get("type")
+                    if item_type == "string":
+                        for item in value:
+                            if not isinstance(item, str):
+                                raise ToolExecutionError(f"Items in parameter '{param_name}' must be strings.")
+                elif param_type == "string":
+                    if not isinstance(value, str):
+                        raise ToolExecutionError(f"Parameter '{param_name}' must be a string.")
+                elif param_type == "integer":
+                    if not isinstance(value, int):
+                        raise ToolExecutionError(f"Parameter '{param_name}' must be an integer.")
+                elif param_type == "boolean":
+                    if not isinstance(value, bool):
+                        raise ToolExecutionError(f"Parameter '{param_name}' must be a boolean.")
+                # Add more types as needed
+        else:
+            # Enforce strict type safety: parameters must be a dict
+            if not isinstance(parameters, dict):
+                raise ToolExecutionError("Parameters must be a dictionary.")
+            for key, value in parameters.items():
+                if not isinstance(value, (str, int, float, bool, dict, list, type(None))):
+                    raise ToolExecutionError(f"Parameter '{key}' has invalid type: {type(value).__name__}")
+
+        # TODO: Add support for new component type in force module and classes
+        # TODO: Implement generator to convert JSON tool definitions into Python classes
+        # TODO: Use Pydantic for strict typing and functional programming practices
+
+        # Check governance policies
+        self._check_governance_policies(tool_id, parameters, context)
+
+        # Execute pre-conditions
+        if "validation" in tool and "preConditions" in tool["validation"]:
+            self._validate_conditions(tool["validation"]["preConditions"], context)
+
+        # Execute the tool
+        logger.info(f"Executing tool {tool_id} with execution ID {execution_id}")
+
+        result = self.tool_executor.execute_tool_command(tool, parameters, context)
+
+        # Execute post-conditions
+        if "validation" in tool and "postConditions" in tool["validation"]:
+            self._validate_conditions(tool["validation"]["postConditions"], context)
+
+        # Record successful execution
+        execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
+
+        learning_record = {
+            "id": execution_id,
+            "timestamp": start_time.isoformat(),
+            "context": context or {},
+            "toolId": tool_id,
+            "outcome": {
                 "success": True,
-                "executionId": execution_id,
-                "result": result,
                 "executionTime": execution_time,
-                "timestamp": start_time.isoformat()
-            }
-            
-        except Exception as e:
-            # Record failed execution
-            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
-            
-            learning_record = {
-                "id": execution_id,
-                "timestamp": start_time.isoformat(),
-                "context": context or {},
-                "toolId": tool_id,
-                "outcome": {
-                    "success": False,
-                    "executionTime": execution_time,
-                    "errorMessage": str(e)
-                },
-                "insights": [{
-                    "type": "error-pattern",
-                    "description": f"Tool execution failed: {str(e)}",
-                    "confidence": 1.0
-                }]
-            }
-            
-            await self._record_learning_data(learning_record)
-            
-            logger.error(f"Tool execution failed for {tool_id}: {e}")
-            return {
-                "success": False,
-                "executionId": execution_id,
-                "error": str(e),
-                "executionTime": execution_time,
-                "timestamp": start_time.isoformat()
-            }
+                "metrics": {
+                    "executionTimeMs": execution_time * 1000,
+                    "memoryUsageMB": 0,  # TODO: Implement memory tracking
+                    "successRate": 1.0,
+                    "errorCount": 0,
+                    "lastExecuted": datetime.now(timezone.utc).isoformat()
+                }
+            },
+            "insights": []
+        }
+
+        self._record_learning_data(learning_record)
+
+        return {
+            "success": True,
+            "executionId": execution_id,
+            "result": result,
+            "executionTime": execution_time,
+            "timestamp": start_time.isoformat()
+        }
     
     def execute_tool_sync(self, tool_id: str, parameters: Dict[str, Any], 
                          context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Synchronous wrapper for execute_tool.
-        
         Args:
             tool_id: ID of the tool to execute
             parameters: Parameters for tool execution
             context: Execution context information
-            
         Returns:
             Execution result with metrics and status
         """
-        import asyncio
-        
-        # Check if we're already in an event loop
-        try:
-            loop = asyncio.get_running_loop()
-            # If we're in a loop, we need to create a new one in a thread
-            import concurrent.futures
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                future = executor.submit(asyncio.run, self.execute_tool(tool_id, parameters, context))
-                return future.result()
-        except RuntimeError:
-            # No event loop running, we can use asyncio.run
-            return asyncio.run(self.execute_tool(tool_id, parameters, context))
+        return self.execute_tool(tool_id, parameters, context)
 
     async def _check_governance_policies(self, tool_id: str, parameters: Dict[str, Any], 
                                        context: Optional[Dict[str, Any]]) -> None:
@@ -486,21 +476,20 @@ class ForceEngine:
             # TODO: Implement condition validation logic
             logger.debug(f"Validating condition: {condition.get('rule', 'unknown')}")
     
-    async def _record_learning_data(self, learning_record: Dict[str, Any]) -> None:
+    def _record_learning_data(self, learning_record: Dict[str, Any]) -> None:
         """Record learning data for system improvement."""
         self._learning_records.append(learning_record)
-        
         # Periodically persist learning data
         if len(self._learning_records) >= 100:
-            await self._persist_learning_data()
+            self._persist_learning_data()
     
-    async def _persist_learning_data(self) -> None:
+    def _persist_learning_data(self) -> None:
         """Persist accumulated learning data to files."""
         if not self._learning_records:
             return
-        
+
         learning_file = self.learning_dir / "execution-analytics.json"
-        
+
         # Load existing data
         existing_data = []
         if learning_file.exists():
@@ -719,10 +708,13 @@ class ForceEngine:
             
             # Load tool definitions from the .force directory
             if hasattr(tools, 'load_tool_definitions'):
-                tools.load_tool_definitions(self.force_dir)
-                logger.info("Loaded tool definitions from .force directory")
+                loaded_tools = tools.load_tool_definitions(self.force_dir)
+                # ANCHOR: Docu-Commentary - Tool Loading Summary
+                logger.info(f"Tool loading complete: {len(loaded_tools)} unique tool definitions loaded from .force directory.")
             else:
                 logger.warning("Tool definition loader not available")
+# ANCHOR: TODO - Future Variant Support
+# TODO: Add logic to support tool variants in registry and logs
             
             # Load pattern definitions
             if hasattr(patterns, 'load_json_patterns'):
@@ -866,7 +858,7 @@ class ForceEngine:
                     result = await method(processed_params, execution_context)
                 else:
                     # Try to find a tool with this ID
-                    result = await self.execute_tool(action, processed_params, execution_context)
+                    result = self.execute_tool(action, processed_params, execution_context)
                 
                 # Store result in context for subsequent commands
                 results[f"command_{i+1}"] = result
@@ -924,16 +916,14 @@ class ForceEngine:
         Execute a system command.
         
         Args:
-            cmd_parts: Command parts (e.g. ["git", "status"])
+                    result = self._execute_system_command(cmd_parts, processed_params)
             params: Additional parameters
             
         Returns:
-            Command execution result
+                    result = method(processed_params, execution_context)
         """
         try:
-            # Build final command
             cmd = list(cmd_parts)
-            
             # Add parameters as command arguments
             for key, value in params.items():
                 if isinstance(value, bool):
@@ -941,7 +931,6 @@ class ForceEngine:
                         cmd.append(f"--{key}")
                 elif value is not None:
                     cmd.append(f"--{key}={value}")
-            
             logger.info(f"Executing system command: {' '.join(cmd)}")
             result = subprocess.run(
                 cmd,
@@ -949,14 +938,12 @@ class ForceEngine:
                 text=True,
                 check=True
             )
-            
             return {
                 "success": True,
                 "output": result.stdout,
                 "stderr": result.stderr,
                 "returncode": result.returncode
             }
-            
         except subprocess.CalledProcessError as e:
             logger.error(f"System command failed: {e}")
             return {

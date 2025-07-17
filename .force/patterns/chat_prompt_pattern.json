@@ -1,0 +1,12 @@
+{
+  "name": "Chat Prompt Pattern",
+  "description": "Markdown formatting, communication, and tool usage rules for chat-based interactions in Cursor.",
+  "steps": [
+    "Use backticks for file, directory, function, and class names",
+    "Use proper math formatting for inline and block math",
+    "Never refer to tool names in user messages",
+    "Prefer tool calls for additional information",
+    "Follow standard tool call format only",
+    "Bias towards finding answers without user help"
+  ]
+}

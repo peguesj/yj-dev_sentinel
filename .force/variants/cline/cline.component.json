@@ -1,0 +1,11 @@
+{
+  "component_id": "cline-variant-component",
+  "type": "variant",
+  "namespace": "cline",
+  "description": "Cline variant component for agentic, tool-driven development workflows.",
+  "files": [
+    "cline.variant.json",
+    "cline.prompt.txt"
+  ],
+  "schema_compliance": "Strict Force schema, product-namespaced, modular."
+}

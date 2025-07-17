@@ -1,0 +1,11 @@
+{
+  "component_id": "codex-cli-variant-component",
+  "type": "variant",
+  "namespace": "codex_cli",
+  "description": "Codex CLI variant component for terminal-based agentic coding workflows.",
+  "files": [
+    "codex_cli.variant.json",
+    "codex_cli.prompt.txt"
+  ],
+  "schema_compliance": "Strict Force schema, product-namespaced, modular."
+}

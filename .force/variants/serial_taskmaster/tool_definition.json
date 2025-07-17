@@ -1,0 +1,6 @@
+{
+  "name": "Serial Task Execution Tool",
+  "description": "Executes tasks in strict serial order, maximizing throughput and minimizing idle time. Supports batch and parallelization when possible, but always retains full data and context.",
+  "protocol": "sequential_batch_or_parallel",
+  "agentic_features": ["deterministic execution", "context retention", "efficiency benchmarking"]
+}

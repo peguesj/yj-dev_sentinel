@@ -1,0 +1,11 @@
+{
+  "component_id": "roo-variant-component",
+  "type": "variant",
+  "namespace": "roo",
+  "description": "Roo variant component for maintainable, minimal-change agentic coding workflows.",
+  "files": [
+    "roo.variant.json",
+    "roo.prompt.txt"
+  ],
+  "schema_compliance": "Strict Force schema, product-namespaced, modular."
+}

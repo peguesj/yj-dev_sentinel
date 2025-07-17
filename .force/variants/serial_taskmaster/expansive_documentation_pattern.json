@@ -1,0 +1,10 @@
+{
+  "name": "Expansive Documentation Pattern",
+  "description": "Ensures all documentation is comprehensive, cross-referenced, and visually enhanced. Follows governance and quality constraints for agentic output.",
+  "steps": [
+    "Cross-reference all components",
+    "Include visual aids and diagrams",
+    "Iteratively improve documentation",
+    "Benchmark for clarity, accessibility, and technical depth"
+  ]
+}
