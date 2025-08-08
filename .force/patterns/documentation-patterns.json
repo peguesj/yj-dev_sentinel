@@ -1,7 +1,23 @@
 {
-  "title": "Development Patterns for Agentic Workflows",
+  "id": "documentation_patterns",
+  "name": "Development Patterns for Agentic Workflows",
+  "category": "documentation",
   "description": "Proven patterns for efficient agentic development workflows, documentation management, and project structure organization",
-  "version": "1.0.0",
+  "context": {
+    "when_to_use": "When managing documentation and workflows in agentic projects.",
+    "benefits": ["Efficient documentation", "Scalable organization"],
+    "trade_offs": [],
+    "anti_patterns": []
+  },
+  "implementation": {
+    "steps": [],
+    "examples": []
+  },
+  "metadata": {
+    "created": "2025-07-27T00:00:00Z",
+    "updated": "2025-07-27T00:00:00Z",
+    "version": "1.0.0"
+  },
   "patterns": [
     {
       "id": "modular_documentation_structure",

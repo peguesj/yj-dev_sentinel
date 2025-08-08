@@ -22,12 +22,7 @@
       "Follow standard tool call format only",
       "Bias towards finding answers without user help"
     ],
-    "examples": [
-      {
-        "input": "User: How do I create a new branch?",
-        "output": "To create a new branch, use the `git branch <branch-name>` command."
-      }
-    ]
+    "examples": []
   },
   "metadata": {
     "created": "2025-07-27T00:00:00Z",

@@ -70,46 +70,11 @@
       }
     ],
     "examples": []
-  },
-  "examples": [
-    {
-      "scenario": "Documentation update with multiple components",
-      "bad_approach": "git add . && git commit -m 'update docs'",
-      "good_approach": [
-        "git add README.md && git commit -m 'docs: enhance README with MCP integration guide'",
-        "git add .force/schemas/ && git commit -m 'feat: implement extended schema system'",
-        "git add force/tools/system/ && git commit -m 'feat: add Force component generators'",
-        "git add docs/integration/ && git commit -m 'docs: add comprehensive integration guides'"
-      ]
-    }
-  ],
-  "validation": {
-    "commit_quality_checks": [
-      "Each commit has single logical purpose",
-      "Commit messages follow conventional commit format",
-      "No mixed unrelated changes in single commit",
-      "Each commit is self-contained and buildable"
-    ],
-    "git_history_checks": [
-      "git log --oneline shows clear progression",
-      "Each commit can be understood in isolation",
-      "Commit sequence tells coherent story"
-    ]
-  },
-  "metadata": {
-    "created": "2025-07-02T16:15:00Z",
-    "updated": "2025-07-02T16:15:00Z",
-    "version": "1.0.0",
-    "complexity": "medium",
-    "tags": [
-      "git",
-      "workflow",
-      "commits",
-      "atomic",
-      "best-practices"
-    ],
-    "author": "Force Learning System",
-    "learning_source": "Real-world Force MCP stdio documentation workflow",
-    "effectiveness_rating": "high"
   }
+},
+"metadata": {
+  "created": "2025-07-02T16:15:00Z",
+  "updated": "2025-07-27T00:00:00Z",
+  "version": "1.0.0"
+}
 }
