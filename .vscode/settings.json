@@ -6,5 +6,8 @@
                 "github.copilot-chat/Azure-azureml://registries/azure-openai/models/codex-mini/versions/2025-05-16"
             ]
         }
+    },
+    "github.copilot.chat.agent.terminal.allowList": {
+        "git": true
     }
 }
