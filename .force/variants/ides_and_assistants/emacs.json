@@ -1,0 +1,5 @@
+{
+  "name": "Emacs",
+  "description": "An extensible, customizable text editor with an ecosystem for writing code, mail, and more.",
+  "usage": "Supports Lisp extensions, powerful editing, and integrated development features."
+}

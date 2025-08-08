@@ -1,0 +1,5 @@
+{
+  "name": "Codex",
+  "description": "OpenAI's AI system powering GitHub Copilot, capable of generating code from natural language.",
+  "usage": "Converts text prompts into code snippets, supporting many languages and tasks."
+}

@@ -1,0 +1,5 @@
+{
+  "name": "ChatGPT",
+  "description": "OpenAI's conversational language model assisting with code generation and problem solving.",
+  "usage": "Supports natural language prompts to generate code and explanations interactively."
+}

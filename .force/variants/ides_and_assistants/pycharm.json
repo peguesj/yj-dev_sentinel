@@ -1,0 +1,5 @@
+{
+  "name": "PyCharm",
+  "description": "An IDE specifically tailored for Python development by JetBrains.",
+  "usage": "Supports intelligent code editing, debugging, testing, and web development with Django and Flask."
+}

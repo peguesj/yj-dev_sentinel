@@ -1,0 +1,20 @@
+{
+  "id": "cursor_prompts_memory_rating_prompt",
+  "name": "Cursor Memory Rating Prompt",
+  "description": "Agentic AI assistant for Cursor IDE, focused on rating and filtering conversational memories for future use. Applies positive and negative criteria to determine actionable, domain-relevant memories and avoid one-off or vague details.",
+  "orchestration": {
+    "root": "cursor_prompts_memory_rating_prompt",
+    "components": [
+      "cursor_prompts_memory_rating_prompt_positive_criteria",
+      "cursor_prompts_memory_rating_prompt_negative_criteria",
+      "cursor_prompts_memory_rating_prompt_examples"
+    ]
+  },
+  "metadata": {
+    "created": "2025-07-16T00:00:00Z",
+    "updated": "2025-07-16T00:00:00Z",
+    "version": "1.0.0",
+    "author": "ETL Agent",
+    "tags": ["cursor", "agentic", "memory", "rating"]
+  }
+}

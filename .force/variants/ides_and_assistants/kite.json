@@ -1,0 +1,5 @@
+{
+  "name": "Kite",
+  "description": "An AI-powered programming assistant with code completions and documentation lookup.",
+  "usage": "Integrates with many editors to provide real-time completions and code examples."
+}

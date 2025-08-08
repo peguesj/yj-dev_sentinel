@@ -1,0 +1,6 @@
+{
+  
+  "name": "GitHub Copilot",
+  "description": "An AI pair programmer that helps write code faster based on OpenAI technology.",
+  "usage": "Provides AI-driven code completions inline within supported IDEs and editors."
+}
