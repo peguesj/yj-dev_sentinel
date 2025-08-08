@@ -540,14 +540,5 @@
         "priority": "medium"
       }
     }
-  ],
-  "id": "Generated id",
-  "timestamp": "2025-07-09T00:54:29.457225Z",
-  "event_type": "policy_update",
-  "data": {},
-  "metadata": {
-    "created": "2025-07-09T00:54:29.457228Z",
-    "updated": "2025-07-09T00:54:29.457229Z",
-    "version": "1.0.0"
-  }
+  ]
 }
