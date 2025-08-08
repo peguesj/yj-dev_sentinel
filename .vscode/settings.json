@@ -8,6 +8,26 @@
         }
     },
     "github.copilot.chat.agent.terminal.allowList": {
-        "git": true
+        "git": true,
+        "echo": true,
+        "ls": true,
+        "cat": true,
+        "pwd": true,
+        "cd": true,
+        "rm": true,
+        "mkdir": true,
+        "touch": true,
+        "cp": true,
+        "mv": true,
+        "chmod": true,
+        "chown": true,
+        "find": true,
+        "grep": true,
+        "head": true,
+        "tail": true,
+        "diff": true,
+        "ps": true,
+
+
     }
 }
