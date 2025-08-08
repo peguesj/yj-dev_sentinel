@@ -1,9 +1,8 @@
 {
   "id": "force_init_system",
   "name": "Force System Initializer",
-  "description": "Initializes a complete FORCE directory structure in a project, setting up all required directories, configuration files, and default schemas for agentic development.",
   "category": "implementation",
-  "version": "1.0.0",
+  "description": "Initializes a complete FORCE directory structure in a project, setting up all required directories, configuration files, and default schemas for agentic development.",
   "parameters": {
     "required": [],
     "optional": [
@@ -60,7 +59,7 @@
         },
         {
           "error_type": "permission_denied",
-          "strategy": "abort", 
+          "strategy": "abort",
           "action": "Stop execution if insufficient permissions",
           "escalation": true
         }
@@ -69,7 +68,7 @@
   },
   "metadata": {
     "created": "2025-07-02T00:00:00Z",
-    "updated": "2025-07-02T00:00:00Z",
+    "updated": "2025-07-27T00:00:00Z",
     "version": "1.0.0",
     "complexity": "medium",
     "tags": ["initialization", "setup", "system"],
