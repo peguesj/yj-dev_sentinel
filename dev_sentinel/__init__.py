@@ -5,7 +5,7 @@ This package provides AI agents, Force framework integration, and MCP servers
 for intelligent development automation and assistance.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.5.0"
 __author__ = "Dev Sentinel Team"
 __email__ = "dev@devsentinel.ai"
 
