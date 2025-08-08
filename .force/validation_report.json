@@ -1,16 +1,16 @@
 {
   "success": true,
-  "validation_timestamp": "2025-07-16T23:43:03.039914",
+  "validation_timestamp": "2025-07-27T20:58:36.571741",
   "schema_path": "schemas/force-extended-schema.json",
   "summary": {
-    "total_components": 71,
+    "total_components": 77,
     "valid_components": 53,
-    "invalid_components": 18,
+    "invalid_components": 24,
     "ready_for_loading": false
   },
   "tools": {
     "type": "tools",
-    "total": 52,
+    "total": 53,
     "valid": [
       {
         "file": "documentation_analysis.json",
@@ -447,6 +447,15 @@
     ],
     "invalid": [
       {
+        "file": "agent_tools_v1_0.json",
+        "path": "tools/agent_tools_v1_0.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': [{'id': 'codebase_search', 'name': 'Codebase Search', 'category': 'analysis', 'description': 'Find snippets of code from the codebase most relevant to the search query.', 'parameters': {'required': [{'name': 'query', 'type': 'string', 'description': 'The search query to find relevant code.'}], 'optional': [{'name': 'explanation', 'type': 'string', 'description': 'One sentence explanation as to why this tool is being used, and how it contributes to the goal.'}, {'name': 'target_directories', 'type': 'array', 'description': 'Glob patterns for directories to search over.'}]}, 'execution': {'strategy': 'sequential', 'commands': [{'action': 'search_codebase', 'description': 'Search the codebase for relevant code snippets.'}], 'validation': {'pre_conditions': ['Codebase is accessible'], 'post_conditions': ['Relevant code snippets are found and returned'], 'error_handling': [{'error_type': 'search_failed', 'strategy': 'retry', 'action': 'Retry the search with adjusted parameters.', 'escalation': False}]}}, 'metadata': {'created': '2025-07-27T00:00:00Z', 'updated': '2025-07-27T00:00:00Z', 'version': '1.0.0', 'complexity': 'low', 'tags': ['search', 'codebase'], 'author': 'system'}}, {'id': 'read_file', 'name': 'Read File', 'category': 'analysis', 'description': 'Read the contents of a file.', 'parameters': {'required': [{'name': 'target_file', 'type': 'string', 'description': 'The path of the file to read.'}, {'name': 'should_read_entire_file', 'type': 'boolean', 'description': 'Whether to read the entire file.'}, {'name': 'start_line_one_indexed', 'type': 'number', 'description': 'The one-indexed line number to start reading from (inclusive).'}, {'name': 'end_line_one_indexed_inclusive', 'type': 'number', 'description': 'The one-indexed line number to end reading at (inclusive).'}], 'optional': [{'name': 'explanation', 'type': 'string', 'description': 'One sentence explanation as to why this tool is being used, and how it contributes to the goal.'}]}, 'execution': {'strategy': 'sequential', 'commands': [{'action': 'read_file', 'description': 'Read the file contents.'}], 'validation': {'pre_conditions': ['File exists and is readable'], 'post_conditions': ['File contents are returned'], 'error_handling': [{'error_type': 'file_not_found', 'strategy': 'abort', 'action': 'Abort if file does not exist.', 'escalation': False}]}}, 'metadata': {'created': '2025-07-27T00:00:00Z', 'updated': '2025-07-27T00:00:00Z', 'version': '1.0.0', 'complexity': 'low', 'tags': ['file', 'read'], 'author': 'system'}}] is not of type 'object'"
+        ]
+      },
+      {
         "file": "force_init_system.json",
         "path": "tools/system/force_init_system.json",
         "valid": false,
@@ -495,7 +504,7 @@
   },
   "patterns": {
     "type": "patterns",
-    "total": 10,
+    "total": 13,
     "valid": [
       {
         "file": "continuous_changelog_pattern.json",
@@ -545,6 +554,17 @@
     ],
     "invalid": [
       {
+        "file": "chat_prompt_pattern.json",
+        "path": "patterns/chat_prompt_pattern.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Pattern implementation should include examples"
+        ],
+        "tool_id": "chat_prompt_pattern",
+        "tool_name": "Chat Prompt Pattern"
+      },
+      {
         "file": "documentation-patterns.json",
         "path": "patterns/documentation-patterns.json",
         "valid": false,
@@ -556,15 +576,24 @@
         "tool_name": "Generated name"
       },
       {
-        "file": "supabase-web-deployment.json",
-        "path": "patterns/supabase-web-deployment.json",
+        "file": "git_tasks_workflow.json",
+        "path": "patterns/git_tasks_workflow.json",
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
-          "Path 'id': 'supabase-web-deployment-pattern' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'"
+          "Pattern implementation should include examples"
         ],
-        "tool_id": "supabase-web-deployment-pattern",
-        "tool_name": "Supabase Web Instance Deployment Pattern"
+        "tool_id": "git_tasks_workflow",
+        "tool_name": "Git Tasks Workflow"
+      },
+      {
+        "file": "supabase-web-deployment.json",
+        "path": "patterns/supabase-web-deployment.json",
+        "valid": false,
+        "error": "Failed to load JSON file",
+        "detailed_errors": [
+          "Failed to load JSON file"
+        ]
       },
       {
         "file": "pattern.cluely.enterprise.json",
@@ -572,9 +601,10 @@
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
-          "Path 'root': 'name' is a required property"
+          "Pattern implementation should include examples"
         ],
-        "tool_id": "pattern.cluely.enterprise"
+        "tool_id": "pattern_cluely_enterprise",
+        "tool_name": "Cluely Enterprise Pattern"
       },
       {
         "file": "pattern.cluely.default.json",
@@ -582,36 +612,57 @@
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
-          "Path 'root': 'name' is a required property"
+          "Pattern implementation should include examples"
         ],
-        "tool_id": "pattern.cluely.default"
+        "tool_id": "pattern_cluely_default",
+        "tool_name": "Cluely Default Pattern"
       },
       {
-        "file": "atomic_commit_workflow.json",
-        "path": "patterns/atomic_commit_workflow.json",
+        "file": "agent_prompt_pattern.json",
+        "path": "patterns/agent_prompt_pattern.json",
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
           "Pattern implementation should include examples"
         ],
-        "tool_id": "atomic_commit_workflow",
-        "tool_name": "Atomic Commit Workflow Pattern"
+        "tool_id": "agent_prompt_pattern",
+        "tool_name": "Agent Prompt Pattern"
+      },
+      {
+        "file": "atomic_commit_workflow.json",
+        "path": "patterns/atomic_commit_workflow.json",
+        "valid": false,
+        "error": "Failed to load JSON file",
+        "detailed_errors": [
+          "Failed to load JSON file"
+        ]
       }
     ],
     "enabled": true
   },
   "constraints": {
     "type": "constraints",
-    "total": 8,
+    "total": 10,
     "valid": [],
     "invalid": [
+      {
+        "file": "memory_rating_protocol.json",
+        "path": "constraints/memory_rating_protocol.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': 'category' is a required property"
+        ],
+        "tool_id": "memory_rating_protocol",
+        "tool_name": "Memory Rating Constraint"
+      },
       {
         "file": "atomic_commit_constraint.json",
         "path": "constraints/atomic_commit_constraint.json",
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
-          "Invalid enforcement level: None"
+          "Path 'root': 'category' is a required property"
         ],
         "tool_id": "atomic_commit_constraint",
         "tool_name": "Atomic Commit Quality Constraint"
@@ -622,10 +673,8 @@
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
-          "Path 'root': 'category' is a required property"
-        ],
-        "tool_id": "Generated id",
-        "tool_name": "Generated name"
+          "Path 'root': 'id' is a required property"
+        ]
       },
       {
         "file": "docker-requirement-for-functions.json",
@@ -636,7 +685,7 @@
           "Path 'root': 'category' is a required property"
         ],
         "tool_id": "docker-requirement-for-functions",
-        "tool_name": "Generated name"
+        "tool_name": "Docker Required for Supabase Edge Function Deployment"
       },
       {
         "file": "drtw.json",
@@ -644,10 +693,21 @@
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
-          "Invalid enforcement level: None"
+          "Path 'root': 'category' is a required property"
         ],
         "tool_id": "drtw",
         "tool_name": "Don't Reinvent The Wheel"
+      },
+      {
+        "file": "memory_prompt_protocol.json",
+        "path": "constraints/memory_prompt_protocol.json",
+        "valid": false,
+        "error": "Validation failed with 1 errors",
+        "detailed_errors": [
+          "Path 'root': 'category' is a required property"
+        ],
+        "tool_id": "memory_prompt_protocol",
+        "tool_name": "Memory Worthiness Constraint"
       },
       {
         "file": "supabase-project-access-constraint.json",
@@ -658,7 +718,7 @@
           "Path 'root': 'category' is a required property"
         ],
         "tool_id": "supabase-project-access-constraint",
-        "tool_name": "Generated name"
+        "tool_name": "Supabase Account Environment Mismatch"
       },
       {
         "file": "test_type_casting_best_practices.json",
@@ -677,7 +737,7 @@
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
-          "Path 'id': 'supabase-deployment-constraint' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'"
+          "Path 'root': 'category' is a required property"
         ],
         "tool_id": "supabase-deployment-constraint",
         "tool_name": "Supabase Web Instance Deployment Constraint"
@@ -691,7 +751,7 @@
           "Path 'root': 'category' is a required property"
         ],
         "tool_id": "supabase-cli-linked-constraint",
-        "tool_name": "Generated name"
+        "tool_name": "Supabase CLI --linked Flag Limitation"
       }
     ],
     "enabled": true
@@ -707,9 +767,8 @@
         "valid": false,
         "error": "Validation failed with 1 errors",
         "detailed_errors": [
-          "Path 'id': 'Generated id' does not match '^[a-z][a-z0-9_]*[a-z0-9]$'"
-        ],
-        "tool_id": "Generated id"
+          "Path 'root': 'id' is a required property"
+        ]
       }
     ],
     "enabled": true
