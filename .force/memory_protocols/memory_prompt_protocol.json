@@ -1,0 +1,11 @@
+{
+  "name": "Memory Prompt Protocol",
+  "description": "Criteria for memory worthiness, including actionable, general, and domain-relevant memories.",
+  "criteria": [
+    "Relevant to programming and software engineering",
+    "General and applicable to future interactions",
+    "Specific and actionable",
+    "Not tied only to specific files or code snippets",
+    "Capture user frustration or corrections"
+  ]
+}
