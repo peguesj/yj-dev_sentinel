@@ -4,4 +4,4 @@ Dev Sentinel MCP Server Modules.
 This package contains the MCP server entry points for Dev Sentinel.
 """
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
