@@ -1,0 +1,80 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" style="background:#000;">
+  <style>
+    .title {
+      fill: #918f8f7e;
+      text-anchor: middle;
+      font-family: 'Segoe UI', Helvetica Neue Bold, sans-serif;
+      font-size: 6.4rem;
+      font-weight: bold;
+    filter: drop-shadow(0 4px .3px rgba(128, 14, 169, 0.71)) drop-shadow(0 -2px 2.1px rgba(84, 75, 162, 1));
+    /* Embossed effect with sharp radial gradient */
+    paint-order: stroke fill;
+    stroke: url(#emboss-gradient);
+    stroke-width: 6px;
+      text-shadow: 2px 2px .4px rgba(18, 0, 216, 0.49);
+    }
+    .subtitle {
+      fill: #ccc;
+      font-family: 'Segoe UI', sans-serif;
+        font-style: italic;
+      letter-spacing: 3em;
+      font-size: 16px;
+      font-weight: 200;
+      left: 50% !important;
+      position: fixed !important;
+      text-anchor: center;
+      x: 60% !important;
+      y: 55%;
+      text-transform: uppercase;
+      box-shadow: inset 10px 10px 10px rgba(152, 0, 207, 0.5);
+      text-shadow: 2px 2px 4px rgba(178, 167, 167, 0.5);
+    }
+    /* Centered text block */
+    text {
+      dominant-baseline: middle;
+      text-anchor: middle;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      fill: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    /* Background gradient */
+    rect {
+      fill: url(#bg-gradient);
+    }
+    /* Background gradient definition */
+    <defs>
+      <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#22162e" />
+        <stop offset="100%" stop-color="#4a1f50" />
+      </linearGradient>
+    </defs>
+    /* Embossed effect radial gradient */
+    <defs>
+      <radialGradient id="emboss-gradient" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#e0e0e0ff" stop-opacity="0.8" />
+        <stop offset="100%" stop-color="#000000" stop-opacity="0.55" />
+      </radialGradient>
+    </defs>
+    <emboss-gradient id="emboss-gradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2913a7ff" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#9d9c9c4d" stop-opacity="1" />
+      </emboss-gradient>
+    /* Version text styling */
+    .version {
+      fill: #888;
+      font-family: 'Lucida Sans Unicode','Mono Sans','Roboto', 'Courier New', monospace;
+      font-size: 12px;
+    }
+  </style>
+
+  <!-- Background padding (20% around edges) -->
+  <rect x="0" y="0" width="600" height="600" fill="#22162e33" />
+
+  <!-- Centered text block -->
+  <text class="title" x="50%" y="40%" text-anchor="middle">FORCE</text>
+<text class="subtitle" x="55%" y="55%" text-anchor="cwnrwe">   engine</text>
+  <text class="version" x="50%" y="70%" text-anchor="middle">Powered by Dev Sentinel and Fast Agent</text>
+  <text class="version" x="50%" y="80%" text-anchor="middle">v.0.4.3</text>
+</svg>

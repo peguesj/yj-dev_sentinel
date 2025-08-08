@@ -57,3 +57,8 @@ import/recovery/copilot_chat/
 
 # Force backup directories
 .force_backup_*/
+.force 2/
+
+# Archives and backups
+*.tar.gz
+force_backup_*
