@@ -1,7 +1,6 @@
 {
   "id": "memory_prompt_protocol",
   "name": "Memory Worthiness Constraint",
-  "category": "quality",
   "type": "quality",
   "description": "Determines if a memory meets agentic worthiness criteria for retention.",
   "rules": [

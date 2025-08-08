@@ -1,7 +1,6 @@
 {
   "id": "memory_rating_protocol",
   "name": "Memory Rating Constraint",
-  "category": "quality",
   "type": "quality",
   "description": "Defines positive and negative criteria for rating memories, enforcing agentic memory standards.",
   "rules": [
