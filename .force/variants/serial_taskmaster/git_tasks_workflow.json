@@ -1,0 +1,28 @@
+{
+  "name": "Git Tasks Workflow",
+  "version": "1.1.0",
+  "description": "Defines the agentic process for handling git operations: add, commit, push, pull, branch, and merge. Ensures atomic commits, clear branch management, and granular logical grouping.",
+  "steps": [
+    "Determine logical file groupings for staging",
+    "Stage changes (git add) per logical group",
+    "Review staged changes for each group",
+    "Atomic commit (git commit -m) with multiline, referential messages",
+    "Include PM/initiative/project/issue/task/subtask references in commit messages",
+    "Push to remote (git push)",
+    "Branch management (create, switch, merge)",
+    "Pull updates (git pull)",
+    "Log and benchmark each operation",
+    "Run date command to confirm date/time",
+    "Get latest tag version (git describe --tags)",
+    "Algorithmically determine version increment (major/minor/patch/release)",
+    "Apply semantic versioning and/or datestamp tags, namespaced as needed",
+    "Update version and document control tables in all updated docs",
+    "Update package files with new version",
+    "Adhere to agile/scrum documentation and communication best practices",
+    "Ensure acceptance criteria are met before marking complete",
+    "Maintain high referential integrity for integrations (git, github, jira, slack)",
+    "Progressively increase batch size and review telemetry/insights",
+    "Update risk tolerance and batch strategy based on performance metrics"
+  ],
+  "patterns": ["atomic_commit_workflow", "branch_end_tasks_workflow"]
+}
