@@ -303,8 +303,6 @@
       }
     }
   ],
-  "id": "Generated id",
-  "name": "Generated name",
   "context": {
     "when_to_use": "Describe when to use this pattern",
     "benefits": [

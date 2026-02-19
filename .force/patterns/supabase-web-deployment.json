@@ -1,5 +1,5 @@
 {
-  "id": "supabase-web-deployment-pattern",
+  "id": "supabase_web_deployment_pattern",
   "name": "Supabase Web Instance Deployment Pattern",
   "version": "1.0.0",
   "category": "deployment",

@@ -1,0 +1,95 @@
+{
+  "id": "mcp_integration_pattern",
+  "name": "MCP Integration Pattern",
+  "version": "1.0.0", 
+  "description": "Comprehensive approach to integrating systems with Model Context Protocol, derived from successful Force MCP server implementation",
+  "category": "integration",
+  "complexity": "high",
+  "applicability": [
+    "mcp_integration",
+    "protocol_implementation",
+    "tool_discovery",
+    "client_server_architecture"
+  ],
+  "constraints": [
+    "mcp_protocol_compliance",
+    "error_handling_robustness",
+    "documentation_completeness"
+  ],
+  "steps": [
+    {
+      "id": "design_tool_interface",
+      "type": "descriptive",
+      "description": "Design MCP tool interface and protocol handlers",
+      "guidance": "Implement standard MCP methods (tools/list, tools/call). Ensure proper JSON-RPC 2.0 compliance and error handling."
+    },
+    {
+      "id": "implement_tool_discovery",
+      "type": "executable", 
+      "description": "Implement comprehensive tool discovery mechanism",
+      "action": "force_execute_tool",
+      "parameters": {
+        "toolId": "force_list_tools"
+      }
+    },
+    {
+      "id": "add_error_handling",
+      "type": "descriptive",
+      "description": "Add comprehensive error handling and validation",
+      "guidance": "Handle tool not found, parameter validation, execution errors. Provide meaningful error messages and recovery suggestions."
+    },
+    {
+      "id": "create_client_configs",
+      "type": "descriptive",
+      "description": "Create client configuration examples and templates",
+      "guidance": "Provide configurations for VS Code, Claude Desktop, and other MCP clients. Include environment variables and path setup."
+    },
+    {
+      "id": "test_integration",
+      "type": "executable",
+      "description": "Test MCP server integration and functionality", 
+      "action": "force_execute_tool",
+      "parameters": {
+        "toolId": "force_mcp_integration"
+      }
+    },
+    {
+      "id": "create_documentation",
+      "type": "executable",
+      "description": "Create comprehensive integration and troubleshooting documentation",
+      "action": "force_execute_tool",
+      "parameters": {
+        "toolId": "documentation_analysis"
+      }
+    },
+    {
+      "id": "performance_optimization",
+      "type": "descriptive",
+      "description": "Optimize server performance and resource usage",
+      "guidance": "Implement caching, async execution, connection pooling. Monitor memory usage and execution times."
+    }
+  ],
+  "expectedOutcomes": [
+    "Fully functional MCP server implementation",
+    "Seamless client integration experience",
+    "Comprehensive error handling and recovery",
+    "Performance optimized for production use",
+    "Complete documentation and troubleshooting guides"
+  ],
+  "validationCriteria": [
+    "MCP protocol compliance verified",
+    "All tools discoverable and executable via MCP",
+    "Error handling covers all failure scenarios",
+    "Client configurations work out-of-the-box",
+    "Performance meets production requirements"
+  ],
+  "metadata": {
+    "created": "2025-07-02T17:15:00.000Z",
+    "derivedFrom": "force_mcp_server_implementation",
+    "successMetrics": {
+      "tool_accessibility": "38+ tools available via MCP",
+      "client_compatibility": "VS Code, Claude Desktop"
+    },
+    "tags": ["mcp", "integration", "protocol", "server", "client"]
+  }
+}

@@ -2,14 +2,14 @@
   "id": "compliance_check",
   "name": "Compliance Check",
   "description": "Checks compliance with security standards.",
-  "category": "security",
+  "category": "validation",
   "version": "1.0.0",
   "parameters": {
     "required": [],
     "optional": []
   },
   "execution": {
-    "strategy": "sequential",
+    "strategy": "parallel",
     "commands": [
       {
         "action": "placeholder_action",

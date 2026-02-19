@@ -2,14 +2,14 @@
   "id": "infrastructure_security_check",
   "name": "Infrastructure Security Check",
   "description": "Checks infrastructure-as-code for security issues.",
-  "category": "security",
+  "category": "validation",
   "version": "1.0.0",
   "parameters": {
     "required": [],
     "optional": []
   },
   "execution": {
-    "strategy": "sequential",
+    "strategy": "parallel",
     "commands": [
       {
         "action": "placeholder_action",

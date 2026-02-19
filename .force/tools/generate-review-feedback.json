@@ -2,14 +2,14 @@
   "id": "generate_review_feedback",
   "name": "Generate Review Feedback",
   "description": "Generates feedback for code reviews.",
-  "category": "review",
+  "category": "analysis",
   "version": "1.0.0",
   "parameters": {
     "required": [],
     "optional": []
   },
   "execution": {
-    "strategy": "sequential",
+    "strategy": "parallel",
     "commands": [
       {
         "action": "placeholder_action",

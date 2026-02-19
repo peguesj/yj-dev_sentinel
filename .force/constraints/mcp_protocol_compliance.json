@@ -1,0 +1,55 @@
+{
+  "id": "mcp_protocol_compliance",
+  "name": "MCP Protocol Compliance",
+  "version": "1.0.0",
+  "description": "Ensures MCP server implementations comply with Model Context Protocol standards",
+  "category": "integration_quality",
+  "severity": "high",
+  "applicability": [
+    "mcp_integration",
+    "protocol_implementation",
+    "server_development"
+  ],
+  "validationCriteria": [
+    {
+      "id": "jsonrpc_compliance",
+      "description": "Server implements JSON-RPC 2.0 protocol correctly",
+      "check": "Verify request/response format, error handling, and method dispatch",
+      "errorMessage": "JSON-RPC 2.0 protocol implementation is non-compliant"
+    },
+    {
+      "id": "required_methods",
+      "description": "All required MCP methods are implemented",
+      "check": "Verify tools/list and tools/call methods are implemented and functional",
+      "errorMessage": "Required MCP methods are missing or non-functional"
+    },
+    {
+      "id": "tool_schema_validity",
+      "description": "Tool schemas follow MCP specification",
+      "check": "Validate tool definitions match MCP tool schema requirements",
+      "errorMessage": "Tool schemas do not conform to MCP specification"
+    },
+    {
+      "id": "error_response_format",
+      "description": "Error responses follow MCP error format",
+      "check": "Verify error responses include proper error codes and messages",
+      "errorMessage": "Error responses do not follow MCP error format"
+    },
+    {
+      "id": "transport_compatibility",
+      "description": "Server works with standard MCP transports",
+      "check": "Test server with stdio and other supported transports",
+      "errorMessage": "Server is not compatible with standard MCP transports"
+    }
+  ],
+  "errorHandling": {
+    "onViolation": "prevent_deployment",
+    "reportingLevel": "error", 
+    "autoFix": false
+  },
+  "metadata": {
+    "created": "2025-07-02T17:25:00.000Z",
+    "derivedFrom": "force_mcp_server_implementation",
+    "tags": ["mcp", "protocol", "compliance", "integration", "server"]
+  }
+}

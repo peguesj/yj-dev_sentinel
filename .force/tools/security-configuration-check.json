@@ -2,7 +2,7 @@
   "id": "security_configuration_check",
   "name": "Security Configuration Check",
   "description": "Checks security configuration and settings.",
-  "category": "security",
+  "category": "validation",
   "version": "1.0.0",
   "parameters": {
     "configFiles": {
@@ -24,7 +24,7 @@
     }
   },
   "execution": {
-    "strategy": "sequential",
+    "strategy": "parallel",
     "commands": [
       {
         "action": "placeholder_action",

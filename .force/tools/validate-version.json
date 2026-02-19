@@ -2,14 +2,14 @@
   "id": "validate_version",
   "name": "Validate Version",
   "description": "Validates release version format and uniqueness.",
-  "category": "release_management",
+  "category": "validation",
   "version": "1.0.0",
   "parameters": {
     "required": [],
     "optional": []
   },
   "execution": {
-    "strategy": "sequential",
+    "strategy": "parallel",
     "commands": [
       {
         "action": "placeholder_action",

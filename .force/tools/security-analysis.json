@@ -2,14 +2,14 @@
   "id": "security_analysis",
   "name": "Security Analysis",
   "description": "Performs security analysis on the codebase.",
-  "category": "security",
+  "category": "analysis",
   "version": "1.0.0",
   "parameters": {
     "required": [],
     "optional": []
   },
   "execution": {
-    "strategy": "sequential",
+    "strategy": "parallel",
     "commands": [
       {
         "action": "placeholder_action",

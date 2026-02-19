@@ -1,6 +1,6 @@
 {
-  "id": "supabase-cli-linked-constraint",
-  "type": "technical-constraint",
+  "id": "supabase_cli_linked_constraint",
+  "type": "architecture",
   "title": "Supabase CLI --linked Flag Limitation",
   "description": "The --linked flag in Supabase CLI can only be used with 'supabase db' subcommands, not with other commands like functions deployment or project management.",
   "discovery_context": "During Phase 2 implementation when setting up proper Supabase CLI usage",

@@ -43,7 +43,7 @@
       "description": "Governance policy for reviewing pattern effectiveness based on usage data and outcomes",
       "policy_type": "recommended",
       "enforcement": {
-        "level": "advisory",
+        "level": "info",
         "automated": false,
         "validation_rules": [
           "Pattern must have documented implementation examples",
@@ -75,7 +75,7 @@
       "description": "Governance policy for auditing system compliance with defined development constraints",
       "policy_type": "mandatory",
       "enforcement": {
-        "level": "monitoring",
+        "level": "info",
         "automated": true,
         "validation_rules": [
           "All error-level constraints must have 100% compliance",
@@ -107,7 +107,7 @@
       "description": "Governance policy defining what data is collected for machine learning and continuous improvement",
       "policy_type": "mandatory",
       "enforcement": {
-        "level": "strict",
+        "level": "blocking",
         "automated": true,
         "validation_rules": [
           "Only approved data types may be collected",
@@ -186,7 +186,7 @@
       "description": "Governance policy for selecting appropriate tools for development tasks",
       "policy_type": "recommended",
       "enforcement": {
-        "level": "advisory",
+        "level": "info",
         "automated": false,
         "validation_rules": [
           "Select tools based on proven effectiveness for similar tasks",
@@ -229,7 +229,7 @@
       "description": "Governance policy for applying development patterns effectively",
       "policy_type": "recommended",
       "enforcement": {
-        "level": "advisory",
+        "level": "info",
         "automated": false,
         "validation_rules": [
           "Apply patterns consistently across similar contexts",
@@ -306,7 +306,7 @@
       "description": "Governance policy for managing tools from creation to deprecation",
       "policy_type": "mandatory",
       "enforcement": {
-        "level": "monitoring",
+        "level": "info",
         "automated": true,
         "validation_rules": [
           "Tools must progress through defined lifecycle stages",
@@ -358,7 +358,7 @@
       "description": "Governance policy for regular system performance and health reporting",
       "policy_type": "mandatory",
       "enforcement": {
-        "level": "monitoring",
+        "level": "info",
         "automated": true,
         "validation_rules": [
           "Reports must be generated weekly",
@@ -396,7 +396,7 @@
       "description": "Governance policy for monthly analysis of learning data and improvement opportunities",
       "policy_type": "recommended",
       "enforcement": {
-        "level": "advisory",
+        "level": "info",
         "automated": false,
         "validation_rules": [
           "Monthly analysis must be comprehensive",

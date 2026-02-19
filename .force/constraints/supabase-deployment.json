@@ -1,8 +1,8 @@
 {
-  "id": "supabase-deployment-constraint",
+  "id": "supabase_deployment_constraint",
   "name": "Supabase Web Instance Deployment Constraint",
   "version": "1.0.0",
-  "type": "deployment_constraint",
+  "type": "architecture",
   "category": "analysis",
   "priority": "critical",
   "created": "2025-06-24T23:47:00Z",

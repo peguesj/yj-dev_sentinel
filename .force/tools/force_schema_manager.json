@@ -2,7 +2,7 @@
   "id": "force_schema_manager",
   "name": "Force Schema Manager",
   "description": "Manages Force schema validation modes, switches between standard and extended schemas, and provides schema validation reports.",
-  "category": "system",
+  "category": "validation",
   "version": "1.0.0",
   "parameters": {
     "required": [],

@@ -1,0 +1,12 @@
+{
+  "checkpoint_id": "cp-wave1-1771528429",
+  "wave": 1,
+  "stories": [
+    "US-001"
+  ],
+  "files": {
+    "/Users/jeremiah/Developer/dev_sentinel/.force/force.config.json": "3f3a77505b92"
+  },
+  "created_at": "2026-02-19T19:13:49.209071",
+  "status": "created"
+}

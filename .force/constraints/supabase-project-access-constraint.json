@@ -1,6 +1,6 @@
 {
-  "id": "supabase-project-access-constraint",
-  "type": "technical-constraint",
+  "id": "supabase_project_access_constraint",
+  "type": "architecture",
   "title": "Supabase Account Environment Mismatch",
   "description": "The authenticated Supabase CLI account doesn't have access to project 'iqivodptfhiatllakuap' which is configured in the application code. Currently logged into wrong Supabase account. Available project is 'vantagepoint' (zavhkarubghowkkdswye) but we need access to 'iqivodptfhiatllakuap'.",
   "discovery_context": "While attempting to link the Supabase CLI to the correct project for Phase 2 implementation",
